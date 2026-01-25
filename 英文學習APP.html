@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>全螢幕滾動版</title>
+<title>英文學習APP</title>
 
 <style>
 html, body {
@@ -13,10 +13,11 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: Inter, sans-serif;
-  background-color: #AED7FF; /* 與內容背景一致，不會露黑色 */
+  background-color: #AED7FF;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-/* 全螢幕容器 */
 .phone-frame {
   position: relative;
   width: 100%;
@@ -24,7 +25,6 @@ html, body {
   overflow: hidden;
 }
 
-/* 滾動區域 */
 .scroll-content {
   position: relative;
   width: 100%;
@@ -39,69 +39,60 @@ html, body {
   display: none;
 }
 
-/* 內部內容高度 */
 .inner-content {
   position: relative;
-  width: 100%;
-  max-width: 440px; /* 保持原本設計比例 */
-  margin: 0 auto; /* 置中 */
-  height: 1231px; /* 真實內容高度 */
+  width: 440px;
+  height: 1231px;
   background-color: #AED7FF;
-  padding-bottom: 120px; /* 預留底部固定矩形空間 */
+  margin: 0 auto;
+  padding-bottom: 120px;
 }
 
-/* Rectangle 2 */
 .rectangle2 {
   position: absolute;
   width: 420px;
   height: 100px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 10px;
   top: 110px;
   background-color: #FFFFFF;
   border-radius: 30px;
 }
 
-/* Rectangle 3 */
 .rectangle3 {
   position: absolute;
   width: 420px;
   height: 400px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 10px;
   top: 251px;
   background-color: #FFFFFF;
   border-radius: 30px;
 }
 
-/* Rectangle 5 */
 .rectangle5 {
   position: absolute;
   width: 420px;
   height: 400px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 10px;
   top: 690px;
   background-color: #FFFFFF;
   border-radius: 30px;
 }
 
-/* 連續學習 0 天 */
 .text1 {
   position: absolute;
   width: 93px;
   height: 18px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 80px;
   top: 130px;
-  font-weight: 900; /* 粗體 */
+  font-weight: 900;
   font-size: 15px;
   line-height: 18px;
   color: #000000;
   white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-/* Ellipse 1-7 */
 .ellipse1, .ellipse2, .ellipse3, .ellipse4, .ellipse5, .ellipse6, .ellipse7 {
   position: absolute;
   width: 30px;
@@ -117,38 +108,34 @@ html, body {
 .ellipse6 { left: 280px; top: 155px; }
 .ellipse7 { left: 320px; top: 155px; }
 
-/* Rectangle 4 */
 .rectangle4 {
   position: absolute;
   width: 380px;
   height: 85px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 30px;
   top: 530px;
   background-color: #51A8FF;
   border-radius: 30px;
 }
 
-/* 今日單字 */
 .text2 {
   position: absolute;
   width: 120px;
   height: 36px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 160px;
   top: 555px;
-  font-weight: 900; /* 粗體 */
+  font-weight: 900;
   font-size: 30px;
   line-height: 36px;
   color: #FFFFFF;
   text-align: center;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-/* 底部固定矩形 1 */
 .rectangle1-fixed {
   position: fixed;
   width: 420px;
-  max-width: 440px;
   height: 110px;
   left: 50%;
   transform: translateX(-50%);
@@ -163,16 +150,12 @@ html, body {
 <body>
 
 <div class="phone-frame">
-
-  <!-- 滾動內容 -->
   <div class="scroll-content">
     <div class="inner-content">
       <div class="rectangle2"></div>
       <div class="rectangle3"></div>
       <div class="rectangle5"></div>
-
       <div class="text1">連續學習 0 天</div>
-
       <div class="ellipse1"></div>
       <div class="ellipse2"></div>
       <div class="ellipse3"></div>
@@ -180,15 +163,11 @@ html, body {
       <div class="ellipse5"></div>
       <div class="ellipse6"></div>
       <div class="ellipse7"></div>
-
       <div class="rectangle4"></div>
       <div class="text2">今日單字</div>
     </div>
   </div>
-
-  <!-- 底部固定矩形 1 -->
   <div class="rectangle1-fixed"></div>
-
 </div>
 
 </body>
