@@ -4,12 +4,19 @@
 <meta charset="UTF-8">
 <title>英文學習APP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <style>
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #AED7FF; /* 全螢幕藍色背景 */
+  background: #AED7FF;
+  overflow-x: hidden;
+  touch-action: pan-y;
+}
+
+body {
+  overscroll-behavior-x: none;
 }
 
 .container {
@@ -19,6 +26,7 @@ html, body {
   background: #AED7FF;
   margin: 0 auto;
   top: 0;
+  overflow: hidden;
 }
 
 .rect2 {
@@ -53,16 +61,10 @@ html, body {
 
 .learning {
   position: absolute;
-  width: 93px;
-  height: 18px;
   left: 80px;
   top: 130px;
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
   font-weight: 800;
   font-size: 15px;
-  line-height: 18px;
-  color: #000000;
   white-space: nowrap;
 }
 
@@ -86,15 +88,10 @@ html, body {
 
 .today-word {
   position: absolute;
-  width: 120px;
-  height: 36px;
   left: 160px;
   top: 555px;
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
   font-weight: 900;
   font-size: 30px;
-  line-height: 36px;
   color: #FFFFFF;
 }
 
@@ -109,12 +106,14 @@ html, body {
 }
 </style>
 </head>
+
 <body>
   <div class="container">
     <div class="rect2"></div>
     <div class="rect3"></div>
     <div class="rect5"></div>
     <div class="learning">連續學習 0 天</div>
+
     <div class="ellipse" style="left:80px; top:155px;"></div>
     <div class="ellipse" style="left:120px; top:155px;"></div>
     <div class="ellipse" style="left:160px; top:155px;"></div>
@@ -122,6 +121,7 @@ html, body {
     <div class="ellipse" style="left:240px; top:155px;"></div>
     <div class="ellipse" style="left:280px; top:155px;"></div>
     <div class="ellipse" style="left:320px; top:155px;"></div>
+
     <div class="rect4"></div>
     <div class="today-word">今日單字</div>
     <div class="rect1"></div>
