@@ -8,10 +8,11 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: #AED7FF;
-  touch-action: pan-x pan-y;
   overflow-x: hidden;
+  touch-action: pan-x pan-y;
 }
 
 .container {
@@ -21,6 +22,8 @@ html, body {
   background: #AED7FF;
   margin: 0 auto;
   top: 0;
+  transform-origin: top left;
+  transform: scale(calc(100vw / 440));
 }
 
 .rect2 {
@@ -105,7 +108,6 @@ html, body {
 }
 </style>
 </head>
-
 <body>
   <div class="container">
     <div class="rect2"></div>
@@ -128,14 +130,9 @@ html, body {
   </div>
 
   <script>
-    document.addEventListener('gesturestart', function(e) {
-      e.preventDefault();
-    });
-
+    document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
     document.addEventListener('touchmove', function(e) {
-      if (e.scale !== undefined && e.scale !== 1) {
-        e.preventDefault();
-      }
+      if (e.scale !== undefined && e.scale !== 1) { e.preventDefault(); }
     }, { passive: false });
   </script>
 </body>
