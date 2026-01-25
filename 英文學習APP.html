@@ -2,38 +2,36 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<title>iPhone 16 Pro Max - 滾動版</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>全螢幕滾動版</title>
 
 <style>
-body {
+html, body {
   margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #F0F0F0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Inter, sans-serif;
+  background-color: #AED7FF; /* 與內容背景一致，不會露黑色 */
 }
 
-/* 手機框 */
+/* 全螢幕容器 */
 .phone-frame {
   position: relative;
-  width: 440px;
-  height: 956px;
-  background-color: #000;
-  border-radius: 40px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 /* 滾動區域 */
 .scroll-content {
   position: relative;
-  width: 440px;
-  height: 956px;
+  width: 100%;
+  height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -41,13 +39,15 @@ body {
   display: none;
 }
 
-/* 內部內容 */
+/* 內部內容高度 */
 .inner-content {
   position: relative;
-  width: 440px;
-  height: 1231px;
+  width: 100%;
+  max-width: 440px; /* 保持原本設計比例 */
+  margin: 0 auto; /* 置中 */
+  height: 1231px; /* 真實內容高度 */
   background-color: #AED7FF;
-  padding-bottom: 120px; /* 預留底部矩形空間 */
+  padding-bottom: 120px; /* 預留底部固定矩形空間 */
 }
 
 /* Rectangle 2 */
@@ -55,7 +55,8 @@ body {
   position: absolute;
   width: 420px;
   height: 100px;
-  left: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   top: 110px;
   background-color: #FFFFFF;
   border-radius: 30px;
@@ -66,7 +67,8 @@ body {
   position: absolute;
   width: 420px;
   height: 400px;
-  left: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   top: 251px;
   background-color: #FFFFFF;
   border-radius: 30px;
@@ -77,7 +79,8 @@ body {
   position: absolute;
   width: 420px;
   height: 400px;
-  left: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   top: 690px;
   background-color: #FFFFFF;
   border-radius: 30px;
@@ -88,10 +91,10 @@ body {
   position: absolute;
   width: 93px;
   height: 18px;
-  left: 80px;
+  left: 50%;
+  transform: translateX(-50%);
   top: 130px;
-  font-family: Inter;
-  font-weight: 900; /* 文字粗體 */
+  font-weight: 900; /* 粗體 */
   font-size: 15px;
   line-height: 18px;
   color: #000000;
@@ -119,7 +122,8 @@ body {
   position: absolute;
   width: 380px;
   height: 85px;
-  left: 30px;
+  left: 50%;
+  transform: translateX(-50%);
   top: 530px;
   background-color: #51A8FF;
   border-radius: 30px;
@@ -130,21 +134,24 @@ body {
   position: absolute;
   width: 120px;
   height: 36px;
-  left: 160px;
+  left: 50%;
+  transform: translateX(-50%);
   top: 555px;
-  font-family: Inter;
-  font-weight: 900; /* 文字粗體 */
+  font-weight: 900; /* 粗體 */
   font-size: 30px;
   line-height: 36px;
   color: #FFFFFF;
+  text-align: center;
 }
 
 /* 底部固定矩形 1 */
 .rectangle1-fixed {
-  position: absolute;
+  position: fixed;
   width: 420px;
+  max-width: 440px;
   height: 110px;
-  left: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   bottom: 10px;
   background-color: #FFFFFF;
   border-radius: 42px;
