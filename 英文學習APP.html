@@ -11,12 +11,8 @@ html, body {
   padding: 0;
   height: 100%;
   background: #AED7FF;
-  overflow-x: hidden;
-  touch-action: pan-y;
-}
-
-body {
-  overscroll-behavior-x: none;
+  overscroll-behavior: none;
+  touch-action: manipulation; /* 禁止縮放手勢 */
 }
 
 .container {
@@ -26,7 +22,6 @@ body {
   background: #AED7FF;
   margin: 0 auto;
   top: 0;
-  overflow: hidden;
 }
 
 .rect2 {
@@ -112,6 +107,7 @@ body {
     <div class="rect2"></div>
     <div class="rect3"></div>
     <div class="rect5"></div>
+
     <div class="learning">連續學習 0 天</div>
 
     <div class="ellipse" style="left:80px; top:155px;"></div>
