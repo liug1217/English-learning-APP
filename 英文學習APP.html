@@ -20,8 +20,26 @@ html, body {
   position: relative;
   width: 440px;
   height: 956px;
-  transform: scale(1.29); /* 1231/956 ≈ 1.29 放大到原本CSS高度比例 */
+  transform: scale(1.29); /* 桌面放大比例 */
   transform-origin: top center;
+}
+
+/* 電腦端樣式：放大到原本 CSS 高度 1231px */
+@media (min-width: 768px) {
+  .container {
+    width: 440px;
+    height: 956px;
+    transform: scale(1.29);
+  }
+}
+
+/* 手機端樣式：完全原始尺寸 */
+@media (max-width: 767px) {
+  .container {
+    width: 440px;
+    height: 956px;
+    transform: scale(1);
+  }
 }
 
 .rectangle2 {
