@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>英文學習APP</title>
+<title>水平置中全螢幕</title>
 <style>
 html, body {
   margin: 0;
@@ -22,7 +22,7 @@ html, body {
   height: 100%;
   overflow: hidden;
   display: flex;
-  justify-content: center;
+  justify-content: center; /* 水平置中 */
 }
 .scroll-content {
   position: relative;
@@ -38,13 +38,14 @@ html, body {
 }
 .inner-content {
   position: relative;
-  width: 440px;
+  width: 440px; /* 固定寬度 */
   height: 1231px;
   background-color: #AED7FF;
   padding-bottom: 120px;
+  margin: 0 auto; /* 水平置中 */
 }
 
-/* 矩形水平置中（除了矩形1） */
+/* 矩形水平置中 */
 .rectangle2, .rectangle3, .rectangle4, .rectangle5 {
   position: absolute;
   left: 50%;
