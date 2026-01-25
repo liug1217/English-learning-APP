@@ -44,8 +44,8 @@ html, body {
   padding-bottom: 120px;
 }
 
-/* 矩形水平置中 */
-.rectangle2, .rectangle3, .rectangle4, .rectangle5, .text2 {
+/* 所有矩形水平置中（除矩形1） */
+.rectangle2, .rectangle3, .rectangle4, .rectangle5, .text2, .ellipses {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -96,12 +96,11 @@ html, body {
 
 /* 圓點水平置中 */
 .ellipses {
-  position: absolute;
   top: 155px;
-  width: 100%;
   display: flex;
   justify-content: center;
   gap: 10px;
+  width: 100%;
   z-index: 10;
 }
 .ellipses div {
