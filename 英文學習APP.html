@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>英文學習APP</title>
-
 <style>
 html, body {
   margin: 0;
@@ -17,7 +16,6 @@ html, body {
   -webkit-user-select: none;
   user-select: none;
 }
-
 .phone-frame {
   position: relative;
   width: 100%;
@@ -26,7 +24,6 @@ html, body {
   display: flex;
   justify-content: center;
 }
-
 .scroll-content {
   position: relative;
   height: 100%;
@@ -39,7 +36,6 @@ html, body {
 .scroll-content::-webkit-scrollbar {
   display: none;
 }
-
 .inner-content {
   position: relative;
   width: 440px;
@@ -47,15 +43,11 @@ html, body {
   background-color: #AED7FF;
   padding-bottom: 120px;
 }
-
-/* 水平置中矩形和文字 */
-.rectangle2, .rectangle3, .rectangle5, .rectangle4, .text2, .text1 {
+.rectangle2, .rectangle3, .rectangle5, .rectangle4, .text2, .ellipses {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
 }
-
-/* Rectangle 2 */
 .rectangle2 {
   width: 420px;
   height: 100px;
@@ -63,8 +55,6 @@ html, body {
   background-color: #FFFFFF;
   border-radius: 30px;
 }
-
-/* Rectangle 3 */
 .rectangle3 {
   width: 420px;
   height: 400px;
@@ -72,8 +62,6 @@ html, body {
   background-color: #FFFFFF;
   border-radius: 30px;
 }
-
-/* Rectangle 5 */
 .rectangle5 {
   width: 420px;
   height: 400px;
@@ -81,11 +69,11 @@ html, body {
   background-color: #FFFFFF;
   border-radius: 30px;
 }
-
-/* 連續學習 0 天 */
 .text1 {
+  position: absolute;
   width: 93px;
   height: 18px;
+  left: 80px;
   top: 130px;
   font-weight: 900;
   font-size: 15px;
@@ -93,25 +81,22 @@ html, body {
   color: #000000;
   white-space: nowrap;
   user-select: none;
+  z-index: 20;
 }
-
-/* Ellipse 1-7 */
-.ellipse1, .ellipse2, .ellipse3, .ellipse4, .ellipse5, .ellipse6, .ellipse7 {
-  position: absolute;
+.ellipses {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  top: 155px;
+  width: 100%;
+  z-index: 10;
+}
+.ellipses div {
   width: 30px;
   height: 30px;
   background-color: #D9D9D9;
   border-radius: 50%;
 }
-.ellipse1 { left: 80px; top: 155px; }
-.ellipse2 { left: 120px; top: 155px; }
-.ellipse3 { left: 160px; top: 155px; }
-.ellipse4 { left: 200px; top: 155px; }
-.ellipse5 { left: 240px; top: 155px; }
-.ellipse6 { left: 280px; top: 155px; }
-.ellipse7 { left: 320px; top: 155px; }
-
-/* Rectangle 4 */
 .rectangle4 {
   width: 380px;
   height: 85px;
@@ -119,8 +104,6 @@ html, body {
   background-color: #51A8FF;
   border-radius: 30px;
 }
-
-/* 今日單字 */
 .text2 {
   width: 120px;
   height: 36px;
@@ -132,8 +115,6 @@ html, body {
   text-align: center;
   user-select: none;
 }
-
-/* 底部固定矩形 1 */
 .rectangle1-fixed {
   position: fixed;
   width: 420px;
@@ -147,29 +128,22 @@ html, body {
 }
 </style>
 </head>
-
 <body>
-
 <div class="phone-frame">
   <div class="scroll-content">
     <div class="inner-content">
+      <div class="text1">連續學習 0 天</div>
       <div class="rectangle2"></div>
       <div class="rectangle3"></div>
       <div class="rectangle5"></div>
-      <div class="text1">連續學習 0 天</div>
-      <div class="ellipse1"></div>
-      <div class="ellipse2"></div>
-      <div class="ellipse3"></div>
-      <div class="ellipse4"></div>
-      <div class="ellipse5"></div>
-      <div class="ellipse6"></div>
-      <div class="ellipse7"></div>
+      <div class="ellipses">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
       <div class="rectangle4"></div>
       <div class="text2">今日單字</div>
     </div>
   </div>
   <div class="rectangle1-fixed"></div>
 </div>
-
 </body>
 </html>
