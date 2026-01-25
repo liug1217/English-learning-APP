@@ -4,15 +4,13 @@
 <meta charset="UTF-8">
 <title>英文學習APP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <style>
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   background: #AED7FF;
-  overscroll-behavior: none;
-  touch-action: manipulation; /* 禁止縮放手勢 */
+  touch-action: pan-x pan-y;
 }
 
 .container {
@@ -58,8 +56,11 @@ html, body {
   position: absolute;
   left: 80px;
   top: 130px;
+  font-family: 'Inter', sans-serif;
   font-weight: 800;
   font-size: 15px;
+  line-height: 18px;
+  color: #000000;
   white-space: nowrap;
 }
 
@@ -85,8 +86,10 @@ html, body {
   position: absolute;
   left: 160px;
   top: 555px;
+  font-family: 'Inter', sans-serif;
   font-weight: 900;
   font-size: 30px;
+  line-height: 36px;
   color: #FFFFFF;
 }
 
@@ -122,5 +125,17 @@ html, body {
     <div class="today-word">今日單字</div>
     <div class="rect1"></div>
   </div>
+
+  <script>
+    document.addEventListener('gesturestart', function(e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener('touchmove', function(e) {
+      if (e.scale !== undefined && e.scale !== 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+  </script>
 </body>
 </html>
