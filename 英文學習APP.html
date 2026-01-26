@@ -36,7 +36,7 @@
     .outer-container {
       width: 440px;
       position: relative;
-      top: -40px; /* 保留之前向上偏移 */
+      top: -40px; /* 保留向上偏移 */
     }
 
     .rectangle-six {
@@ -47,7 +47,7 @@
       left: 50%;
       transform: translateX(-50%) translateY(-110px);
       top: 0px;
-      background-color: rgb(174, 215, 255); /* 初始顏色與底層藍色一致 */
+      background-color: rgb(174, 215, 255); /* 初始藍色 */
       border-top-width: 0px;
       border-right-width: 0px;
       border-bottom-width: 1px;
@@ -55,7 +55,7 @@
       border-style: solid;
       border-color: rgb(217, 217, 217);
       z-index: 1000;
-      transition-property: transform, opacity, background-color;
+      transition-property: transform, opacity;
       transition-duration: 0.1s;
       transition-timing-function: linear;
       opacity: 0;
@@ -288,11 +288,11 @@
       header.style.transform = "translateX(-50%) translateY(" + (-110 + revealDistance) + "px)";
       header.style.opacity = Math.min(scrollAmount / maximumRevealDistance, 1);
 
-      // 安全區背景顏色：一開始藍色，滾動後變白
+      // 安全區背景顏色：一開始藍色，滑動向下變白，回到頂部保持藍色
       if(scrollAmount > 0){
         header.style.backgroundColor = "rgb(255, 255, 255)";
       } else {
-        header.style.backgroundColor = "rgb(174, 215, 255)";
+        header.style.backgroundColor = "rgb(174, 215, 255)"; // 回頂部純藍
       }
     });
   </script>
