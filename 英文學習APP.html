@@ -1,248 +1,225 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>英文學習APP</title>
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #eeeeee;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=440, height=956, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>英文學習APP</title>
+  <style>
+    html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
 
-.container {
-  width: 100vw;
-  height: 100vh;
-  overflow-y: scroll;
-  position: relative;
-  background-color: #AED7FF;
-}
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow: hidden;
+    }
 
-.container::-webkit-scrollbar {
-  display: none;
-}
+    .outer-container {
+      width: 440px;
+      height: 956px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
 
-.矩形頂部欄 {
-  box-sizing: border-box;
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 110px;
-  background-color: #FFFFFF;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: #D9D9D9;
-  z-index: 10;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
+    .phone {
+      position: relative;
+      width: 440px;
+      height: 1231px;
+      background: #AED7FF;
+    }
 
-.矩形頂部欄.visible {
-  opacity: 1;
-}
+    .rectangle-six {
+      box-sizing: border-box;
+      position: absolute;
+      width: 440px;
+      height: 110px;
+      left: 0px;
+      top: 0px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #D9D9D9;
+    }
 
-.矩形底部固定 {
-  position: sticky;
-  bottom: 10px;
-  width: calc(100% - 20px);
-  height: 110px;
-  left: 10px;
-  background-color: #FFFFFF;
-  border-radius: 42px;
-  z-index: 10;
-}
+    .rectangle-two {
+      position: absolute;
+      width: 420px;
+      height: 100px;
+      left: 10px;
+      top: 110px;
+      background: #FFFFFF;
+      border-radius: 30px;
+    }
 
-.內容區域 {
-  position: relative;
-  width: 100%;
-  max-width: 440px;
-  height: 1231px;
-}
+    .learning-days {
+      position: absolute;
+      width: 93px;
+      height: 18px;
+      left: 80px;
+      top: 130px;
+      font-family: Inter, sans-serif;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 18px;
+      color: #000000;
+      white-space: nowrap;
+    }
 
-.矩形主頂部 {
-  position: absolute;
-  width: calc(100% - 20px);
-  max-width: 420px;
-  height: 100px;
-  left: 10px;
-  top: 110px;
-  background-color: #FFFFFF;
-  border-radius: 30px;
-}
+    .circle-one {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      left: 80px;
+      top: 155px;
+      background: #D9D9D9;
+      border-radius: 50%;
+    }
 
-.矩形中間1 {
-  position: absolute;
-  width: calc(100% - 20px);
-  max-width: 420px;
-  height: 400px;
-  left: 10px;
-  top: 251px;
-  background-color: #FFFFFF;
-  border-radius: 30px;
-}
+    .circle-two {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      left: 120px;
+      top: 155px;
+      background: #D9D9D9;
+      border-radius: 50%;
+    }
 
-.矩形中間2 {
-  position: absolute;
-  width: calc(100% - 20px);
-  max-width: 420px;
-  height: 400px;
-  left: 10px;
-  top: 690px;
-  background-color: #FFFFFF;
-  border-radius: 30px;
-}
+    .circle-three {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      left: 160px;
+      top: 155px;
+      background: #D9D9D9;
+      border-radius: 50%;
+    }
 
-.矩形藍色按鈕 {
-  position: absolute;
-  width: calc(100% - 60px);
-  max-width: 380px;
-  height: 85px;
-  left: 30px;
-  top: 530px;
-  background-color: #51A8FF;
-  border-radius: 30px;
-}
+    .circle-four {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      left: 200px;
+      top: 155px;
+      background: #D9D9D9;
+      border-radius: 50%;
+    }
 
-.文字連續學習 {
-  position: absolute;
-  width: 93px;
-  height: 18px;
-  left: 80px;
-  top: 130px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-size: 15px;
-  line-height: 18px;
-  color: #000000;
-}
+    .circle-five {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      left: 240px;
+      top: 155px;
+      background: #D9D9D9;
+      border-radius: 50%;
+    }
 
-.圓點1 {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  left: 80px;
-  top: 155px;
-  background-color: #D9D9D9;
-  border-radius: 50%;
-}
+    .circle-six {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      left: 280px;
+      top: 155px;
+      background: #D9D9D9;
+      border-radius: 50%;
+    }
 
-.圓點2 {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  left: 120px;
-  top: 155px;
-  background-color: #D9D9D9;
-  border-radius: 50%;
-}
+    .circle-seven {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      left: 320px;
+      top: 155px;
+      background: #D9D9D9;
+      border-radius: 50%;
+    }
 
-.圓點3 {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  left: 160px;
-  top: 155px;
-  background-color: #D9D9D9;
-  border-radius: 50%;
-}
+    .rectangle-three {
+      position: absolute;
+      width: 420px;
+      height: 400px;
+      left: 10px;
+      top: 251px;
+      background: #FFFFFF;
+      border-radius: 30px;
+    }
 
-.圓點4 {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  left: 200px;
-  top: 155px;
-  background-color: #D9D9D9;
-  border-radius: 50%;
-}
+    .rectangle-four {
+      position: absolute;
+      width: 380px;
+      height: 85px;
+      left: 30px;
+      top: 530px;
+      background: #51A8FF;
+      border-radius: 30px;
+    }
 
-.圓點5 {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  left: 240px;
-  top: 155px;
-  background-color: #D9D9D9;
-  border-radius: 50%;
-}
+    .today-word {
+      position: absolute;
+      width: 120px;
+      height: 36px;
+      left: 160px;
+      top: 555px;
+      font-family: Inter, sans-serif;
+      font-style: normal;
+      font-weight: 900;
+      font-size: 30px;
+      line-height: 36px;
+      color: #FFFFFF;
+      white-space: nowrap;
+    }
 
-.圓點6 {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  left: 280px;
-  top: 155px;
-  background-color: #D9D9D9;
-  border-radius: 50%;
-}
+    .rectangle-five {
+      position: absolute;
+      width: 420px;
+      height: 400px;
+      left: 10px;
+      top: 690px;
+      background: #FFFFFF;
+      border-radius: 30px;
+    }
 
-.圓點7 {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  left: 320px;
-  top: 155px;
-  background-color: #D9D9D9;
-  border-radius: 50%;
-}
-
-.文字今日單字 {
-  position: absolute;
-  width: 120px;
-  height: 36px;
-  left: 160px;
-  top: 555px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 900;
-  font-size: 30px;
-  line-height: 36px;
-  color: #FFFFFF;
-}
-</style>
+    .rectangle-one {
+      position: absolute;
+      width: 420px;
+      height: 110px;
+      left: 10px;
+      top: 835px;
+      background: #FFFFFF;
+      border-radius: 42px;
+    }
+  </style>
 </head>
 <body>
-<div class="container" id="scrollContainer">
-  <div class="矩形頂部欄" id="矩形頂部欄"></div>
-  <div class="內容區域">
-    <div class="矩形主頂部"></div>
-    <div class="矩形中間1"></div>
-    <div class="矩形中間2"></div>
-    <div class="矩形藍色按鈕"></div>
-    <div class="文字連續學習">連續學習 0 天</div>
-    <div class="圓點1"></div>
-    <div class="圓點2"></div>
-    <div class="圓點3"></div>
-    <div class="圓點4"></div>
-    <div class="圓點5"></div>
-    <div class="圓點6"></div>
-    <div class="圓點7"></div>
-    <div class="文字今日單字">今日單字</div>
+  <div class="outer-container">
+    <div class="phone">
+      <div class="rectangle-six"></div>
+      <div class="rectangle-two"></div>
+      <div class="learning-days">連續學習 0 天</div>
+      <div class="circle-one"></div>
+      <div class="circle-two"></div>
+      <div class="circle-three"></div>
+      <div class="circle-four"></div>
+      <div class="circle-five"></div>
+      <div class="circle-six"></div>
+      <div class="circle-seven"></div>
+      <div class="rectangle-three"></div>
+      <div class="rectangle-four"></div>
+      <div class="today-word">今日單字</div>
+      <div class="rectangle-five"></div>
+      <div class="rectangle-one"></div>
+    </div>
   </div>
-  <div class="矩形底部固定"></div>
-</div>
-<script>
-const scrollContainer = document.getElementById('scrollContainer');
-const topBar = document.getElementById('矩形頂部欄');
-let ticking = false;
-scrollContainer.addEventListener('scroll', function() {
-  if (!ticking) {
-    window.requestAnimationFrame(function() {
-      if (scrollContainer.scrollTop > 0) {
-        topBar.classList.add('visible');
-      } else {
-        topBar.classList.remove('visible');
-      }
-      ticking = false;
-    });
-    ticking = true;
-  }
-});
-</script>
 </body>
 </html>
