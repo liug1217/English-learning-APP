@@ -8,14 +8,16 @@
 body, html {
   margin: 0;
   padding: 0;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   background: #eeeeee;
-  height: 100vh;
 }
 .container {
-  width: 440px;
-  height: 956px;
+  width: 100%;
+  max-width: 440px;
+  height: 100vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -29,7 +31,7 @@ body, html {
   box-sizing: border-box;
   position: sticky;
   top: 0;
-  width: 440px;
+  width: 100%;
   height: 110px;
   left: 0px;
   background: #FFFFFF;
@@ -43,8 +45,8 @@ body, html {
 }
 .rectangle_bottom_fixed {
   position: sticky;
-  bottom: 10px; /* 往上偏移10px */
-  width: 420px;
+  bottom: 10px;
+  width: calc(100% - 20px); /* 左右各留10px */
   height: 110px;
   left: 10px;
   background: #FFFFFF;
@@ -53,13 +55,15 @@ body, html {
 }
 .content_area {
   position: relative;
-  width: 440px;
+  width: 100%;
+  max-width: 440px;
   height: 1231px;
   margin-top: 0px;
 }
 .rectangle_main_top {
   position: absolute;
-  width: 420px;
+  width: calc(100% - 20px);
+  max-width: 420px;
   height: 100px;
   left: 10px;
   top: 110px;
@@ -68,7 +72,8 @@ body, html {
 }
 .rectangle_middle_1 {
   position: absolute;
-  width: 420px;
+  width: calc(100% - 20px);
+  max-width: 420px;
   height: 400px;
   left: 10px;
   top: 251px;
@@ -77,7 +82,8 @@ body, html {
 }
 .rectangle_middle_2 {
   position: absolute;
-  width: 420px;
+  width: calc(100% - 20px);
+  max-width: 420px;
   height: 400px;
   left: 10px;
   top: 690px;
@@ -86,7 +92,8 @@ body, html {
 }
 .rectangle_button_area {
   position: absolute;
-  width: 380px;
+  width: calc(100% - 60px);
+  max-width: 380px;
   height: 85px;
   left: 30px;
   top: 530px;
