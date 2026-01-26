@@ -1,177 +1,228 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=440, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>英文學習APP</title>
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #AED7FF;
-    display: flex;
-    justify-content: center;
-    font-family: 'Inter', sans-serif;
+body, html {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  background: #eeeeee;
+  height: 100vh;
 }
-
-.iphone-container {
-    position: relative;
-    width: 440px;
-    height: 1231px;
-    margin: 0;
-    top: 0;
-    background-color: #AED7FF;
+.container {
+  width: 440px;
+  height: 956px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  position: relative;
+  background: #AED7FF;
 }
-
-.rectangle6 {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 440px;
-    height: 110px;
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #D9D9D9;
+.container::-webkit-scrollbar {
+  display: none;
 }
-
-.rectangle2 {
-    position: absolute;
-    width: 420px;
-    height: 100px;
-    left: 10px;
-    top: 100px;
-    background-color: #FFFFFF;
-    border-radius: 30px;
+.rectangle_top_bar {
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  width: 440px;
+  height: 110px;
+  left: 0px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #D9D9D9;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-
-.rectangle3 {
-    position: absolute;
-    width: 420px;
-    height: 400px;
-    left: 10px;
-    top: 241px;
-    background-color: #FFFFFF;
-    border-radius: 30px;
+.rectangle_top_bar.visible {
+  opacity: 1;
 }
-
-.rectangle5 {
-    position: absolute;
-    width: 420px;
-    height: 400px;
-    left: 10px;
-    top: 680px;
-    background-color: #FFFFFF;
-    border-radius: 30px;
+.rectangle_bottom_fixed {
+  position: sticky;
+  bottom: 10px; /* 往上偏移10px */
+  width: 420px;
+  height: 110px;
+  left: 10px;
+  background: #FFFFFF;
+  border-radius: 42px;
+  z-index: 10;
 }
-
-.rectangle1 {
-    position: absolute;
-    width: 420px;
-    height: 110px;
-    left: 10px;
-    top: 825px;
-    background-color: #FFFFFF;
-    border-radius: 42px;
+.content_area {
+  position: relative;
+  width: 440px;
+  height: 1231px;
+  margin-top: 0px;
 }
-
-.rectangle4 {
-    position: absolute;
-    width: 380px;
-    height: 85px;
-    left: 30px;
-    top: 520px;
-    background-color: #51A8FF;
-    border-radius: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.rectangle_main_top {
+  position: absolute;
+  width: 420px;
+  height: 100px;
+  left: 10px;
+  top: 110px;
+  background: #FFFFFF;
+  border-radius: 30px;
 }
-
-.todayWord {
-    position: absolute;
-    width: 120px;
-    height: 36px;
-    left: 160px;
-    top: 545px;
-    font-weight: 900;
-    font-size: 30px;
-    line-height: 36px;
-    color: #FFFFFF;
+.rectangle_middle_1 {
+  position: absolute;
+  width: 420px;
+  height: 400px;
+  left: 10px;
+  top: 251px;
+  background: #FFFFFF;
+  border-radius: 30px;
 }
-
-.text {
-    position: absolute;
-    left: 80px;
-    top: 120px;
-    font-weight: 800;
-    font-size: 15px;
-    line-height: 18px;
-    color: #000000;
-    white-space: nowrap;
+.rectangle_middle_2 {
+  position: absolute;
+  width: 420px;
+  height: 400px;
+  left: 10px;
+  top: 690px;
+  background: #FFFFFF;
+  border-radius: 30px;
 }
-
-.ellipse {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background-color: #D9D9D9;
-    border-radius: 50%;
+.rectangle_button_area {
+  position: absolute;
+  width: 380px;
+  height: 85px;
+  left: 30px;
+  top: 530px;
+  background: #51A8FF;
+  border-radius: 30px;
 }
-
-.ellipse1 {
-    left: 80px;
-    top: 145px;
+.text_learning_days {
+  position: absolute;
+  width: 93px;
+  height: 18px;
+  left: 80px;
+  top: 130px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 18px;
+  color: #000000;
 }
-
-.ellipse2 {
-    left: 120px;
-    top: 145px;
+.ellipse_day_1 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 80px;
+  top: 155px;
+  background: #D9D9D9;
+  border-radius: 50%;
 }
-
-.ellipse3 {
-    left: 160px;
-    top: 145px;
+.ellipse_day_2 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 120px;
+  top: 155px;
+  background: #D9D9D9;
+  border-radius: 50%;
 }
-
-.ellipse4 {
-    left: 200px;
-    top: 145px;
+.ellipse_day_3 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 160px;
+  top: 155px;
+  background: #D9D9D9;
+  border-radius: 50%;
 }
-
-.ellipse5 {
-    left: 240px;
-    top: 145px;
+.ellipse_day_4 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 200px;
+  top: 155px;
+  background: #D9D9D9;
+  border-radius: 50%;
 }
-
-.ellipse6 {
-    left: 280px;
-    top: 145px;
+.ellipse_day_5 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 240px;
+  top: 155px;
+  background: #D9D9D9;
+  border-radius: 50%;
 }
-
-.ellipse7 {
-    left: 320px;
-    top: 145px;
+.ellipse_day_6 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 280px;
+  top: 155px;
+  background: #D9D9D9;
+  border-radius: 50%;
+}
+.ellipse_day_7 {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 320px;
+  top: 155px;
+  background: #D9D9D9;
+  border-radius: 50%;
+}
+.text_today_word {
+  position: absolute;
+  width: 120px;
+  height: 36px;
+  left: 160px;
+  top: 555px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 36px;
+  color: #FFFFFF;
 }
 </style>
 </head>
 <body>
-<div class="iphone-container">
-    <div class="rectangle6"></div>
-    <div class="rectangle2"></div>
-    <div class="rectangle3"></div>
-    <div class="rectangle5"></div>
-    <div class="rectangle1"></div>
-    <div class="rectangle4"></div>
-    <div class="todayWord">今日單字</div>
-    <div class="text">連續學習 0 天</div>
-    <div class="ellipse ellipse1"></div>
-    <div class="ellipse ellipse2"></div>
-    <div class="ellipse ellipse3"></div>
-    <div class="ellipse ellipse4"></div>
-    <div class="ellipse ellipse5"></div>
-    <div class="ellipse ellipse6"></div>
-    <div class="ellipse ellipse7"></div>
+<div class="container" id="scrollContainer">
+  <div class="rectangle_top_bar" id="topBar"></div>
+  <div class="content_area">
+    <div class="rectangle_main_top"></div>
+    <div class="rectangle_middle_1"></div>
+    <div class="rectangle_middle_2"></div>
+    <div class="rectangle_button_area"></div>
+    <div class="text_learning_days">連續學習 0 天</div>
+    <div class="ellipse_day_1"></div>
+    <div class="ellipse_day_2"></div>
+    <div class="ellipse_day_3"></div>
+    <div class="ellipse_day_4"></div>
+    <div class="ellipse_day_5"></div>
+    <div class="ellipse_day_6"></div>
+    <div class="ellipse_day_7"></div>
+    <div class="text_today_word">今日單字</div>
+  </div>
+  <div class="rectangle_bottom_fixed"></div>
 </div>
+
+<script>
+const scrollContainer = document.getElementById('scrollContainer');
+const topBar = document.getElementById('topBar');
+let ticking = false;
+
+scrollContainer.addEventListener('scroll', function() {
+  if (!ticking) {
+    window.requestAnimationFrame(function() {
+      if (scrollContainer.scrollTop > 0) {
+        topBar.classList.add('visible');
+      } else {
+        topBar.classList.remove('visible');
+      }
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+</script>
 </body>
 </html>
