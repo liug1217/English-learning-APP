@@ -5,23 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>英文學習APP</title>
 <style>
-  :root {
-    --main-bg: #AED7FF;
-    --card-bg: #FFFFFF;
-    --primary-color: #51A8FF;
-    --text-black: #000000;
-    --text-white: #FFFFFF;
-  }
-
   body, html {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
-    background: var(--main-bg);
+    background: #AED7FF;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
     font-family: 'Inter', sans-serif;
   }
 
@@ -29,108 +19,136 @@
     position: relative;
     width: 440px;
     height: 1231px;
-    background: var(--main-bg);
+    background: #AED7FF;
+    top: 0;
   }
 
-  .top-border {
+  .rectangle6 {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 440px;
     height: 110px;
-    background: var(--card-bg);
+    left: 0;
+    top: 0;
+    background: #FFFFFF;
     border-bottom: 1px solid #D9D9D9;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    z-index: 1;
   }
 
-  .card {
+  .rectangle2 {
     position: absolute;
     width: 420px;
+    height: 100px;
     left: 10px;
-    background: var(--card-bg);
+    top: 110px;
+    background: #FFFFFF;
     border-radius: 30px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    z-index: 2;
   }
 
-  .card.large {
+  .rectangle3 {
+    position: absolute;
+    width: 420px;
+    height: 400px;
+    left: 10px;
+    top: 251px;
+    background: #FFFFFF;
+    border-radius: 30px;
+  }
+
+  .rectangle5 {
+    position: absolute;
+    width: 420px;
+    height: 400px;
+    left: 10px;
+    top: 690px;
+    background: #FFFFFF;
+    border-radius: 30px;
+  }
+
+  .rectangle1 {
+    position: absolute;
+    width: 420px;
     height: 110px;
+    left: 10px;
+    top: 835px;
+    background: #FFFFFF;
     border-radius: 42px;
-    top: 0;
   }
 
-  .card.small { height: 100px; }
-  .card.medium { height: 400px; }
-
-  .button-card {
+  .rectangle4 {
     position: absolute;
     width: 380px;
     height: 85px;
     left: 30px;
     top: 530px;
-    background: var(--primary-color);
+    background: #51A8FF;
     border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    z-index: 2;
   }
 
-  .button-card span {
+  .today-word {
+    position: absolute;
+    width: 120px;
+    height: 36px;
+    left: 160px;
+    top: 555px;
     font-weight: 900;
     font-size: 30px;
     line-height: 36px;
-    color: var(--text-white);
+    color: #FFFFFF;
   }
 
   .text {
     position: absolute;
+    left: 80px;
+    top: 130px;
     font-weight: 800;
     font-size: 15px;
     line-height: 18px;
-    color: var(--text-black);
+    color: #000000;
+    white-space: nowrap; /* 不換行 */
   }
 
-  .progress {
+  .ellipse {
     position: absolute;
-    display: flex;
-    gap: 10px;
-    top: 155px;
-    left: 80px;
-  }
-
-  .progress div {
     width: 30px;
     height: 30px;
     background: #D9D9D9;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
+
+  .ellipse1 { left: 80px; top: 155px; }
+  .ellipse2 { left: 120px; top: 155px; }
+  .ellipse3 { left: 160px; top: 155px; }
+  .ellipse4 { left: 200px; top: 155px; }
+  .ellipse5 { left: 240px; top: 155px; }
+  .ellipse6 { left: 280px; top: 155px; }
+  .ellipse7 { left: 320px; top: 155px; }
 
 </style>
 </head>
 <body>
   <div class="iphone-container">
-    <div class="card large"></div>
-    <div class="top-border"></div>
-    <div class="card small" style="top:110px;"></div>
-    <div class="card medium" style="top:251px;"></div>
-    <div class="card medium" style="top:690px;"></div>
-    <div class="button-card">
-      <span>今日單字</span>
-    </div>
-    <div class="text" style="top:130px; left:80px;">連續學習 0 天</div>
-    <div class="progress">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+
+    <div class="rectangle6"></div>
+
+    <div class="rectangle2"></div>
+    <div class="rectangle3"></div>
+    <div class="rectangle5"></div>
+    <div class="rectangle1"></div>
+    <div class="rectangle4"></div>
+
+    <div class="today-word">今日單字</div>
+    <div class="text">連續學習 0 天</div>
+
+    <div class="ellipse ellipse1"></div>
+    <div class="ellipse ellipse2"></div>
+    <div class="ellipse ellipse3"></div>
+    <div class="ellipse ellipse4"></div>
+    <div class="ellipse ellipse5"></div>
+    <div class="ellipse ellipse6"></div>
+    <div class="ellipse ellipse7"></div>
+
   </div>
 </body>
 </html>
