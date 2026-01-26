@@ -36,7 +36,7 @@
     .outer-container {
       width: 440px;
       position: relative;
-      top: -40px;
+      top: -40px; /* 保留之前向上偏移 */
     }
 
     .rectangle-six {
@@ -47,7 +47,7 @@
       left: 50%;
       transform: translateX(-50%) translateY(-110px);
       top: 0px;
-      background-color: transparent;
+      background-color: rgb(174, 215, 255); /* 初始顏色與底層藍色一致 */
       border-top-width: 0px;
       border-right-width: 0px;
       border-bottom-width: 1px;
@@ -288,11 +288,11 @@
       header.style.transform = "translateX(-50%) translateY(" + (-110 + revealDistance) + "px)";
       header.style.opacity = Math.min(scrollAmount / maximumRevealDistance, 1);
 
-      // 安全區背景顏色變白
+      // 安全區背景顏色：一開始藍色，滾動後變白
       if(scrollAmount > 0){
         header.style.backgroundColor = "rgb(255, 255, 255)";
       } else {
-        header.style.backgroundColor = "transparent";
+        header.style.backgroundColor = "rgb(174, 215, 255)";
       }
     });
   </script>
