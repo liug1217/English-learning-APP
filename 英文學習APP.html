@@ -1,267 +1,178 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=440, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>英文學習APP</title>
-  <style>
-    html {
-      margin-top: 0px;
-      margin-right: 0px;
-      margin-bottom: 0px;
-      margin-left: 0px;
-      padding-top: 0px;
-      padding-right: 0px;
-      padding-bottom: 0px;
-      padding-left: 0px;
-    }
-
-    body {
-      margin-top: 0px;
-      margin-right: 0px;
-      margin-bottom: 0px;
-      margin-left: 0px;
-      padding-top: 0px;
-      padding-right: 0px;
-      padding-bottom: 0px;
-      padding-left: 0px;
-      display: flex;
-      justify-content: center;
-      overflow-x: hidden;
-      overflow-y: auto;
-      background-color: rgb(174, 215, 255);
-      position: relative;
-    }
-
-    .outer-container {
-      width: 440px;
-      position: relative;
-      top: -40px; /* 矩形六向上偏移 */
-    }
-
-    .rectangle-six {
-      box-sizing: border-box;
-      position: fixed;
-      width: 440px;
-      height: 110px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-110px);
-      top: 0px;
-      background-color: rgb(174, 215, 255); /* 初始藍色 */
-      border-top-width: 0px;
-      border-right-width: 0px;
-      border-bottom-width: 1px;
-      border-left-width: 0px;
-      border-style: solid;
-      border-color: rgb(217, 217, 217);
-      z-index: 1000;
-      transition-property: transform, opacity;
-      transition-duration: 0.1s;
-      transition-timing-function: linear;
-      opacity: 0;
-    }
-
-    .phone {
-      position: relative;
-      width: 440px;
-      height: 1231px;
-      background-color: transparent;
-    }
-
-    .rectangle-two {
-      position: absolute;
-      width: 420px;
-      height: 100px;
-      left: 10px;
-      top: 110px;
-      background-color: rgb(255, 255, 255);
-      border-top-left-radius: 30px;
-      border-top-right-radius: 30px;
-      border-bottom-right-radius: 30px;
-      border-bottom-left-radius: 30px;
-    }
-
-    .learning-days {
-      position: absolute;
-      width: 93px;
-      height: 18px;
-      left: 80px;
-      top: 130px;
-      font-family: 'Inter', sans-serif;
-      font-style: normal;
-      font-weight: 800;
-      font-size: 15px;
-      line-height: 18px;
-      color: rgb(0, 0, 0);
-      white-space: nowrap;
-    }
-
-    .circle-one {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      left: 80px;
-      top: 155px;
-      background-color: rgb(217, 217, 217);
-      border-radius: 50%;
-    }
-
-    .circle-two {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      left: 120px;
-      top: 155px;
-      background-color: rgb(217, 217, 217);
-      border-radius: 50%;
-    }
-
-    .circle-three {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      left: 160px;
-      top: 155px;
-      background-color: rgb(217, 217, 217);
-      border-radius: 50%;
-    }
-
-    .circle-four {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      left: 200px;
-      top: 155px;
-      background-color: rgb(217, 217, 217);
-      border-radius: 50%;
-    }
-
-    .circle-five {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      left: 240px;
-      top: 155px;
-      background-color: rgb(217, 217, 217);
-      border-radius: 50%;
-    }
-
-    .circle-six {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      left: 280px;
-      top: 155px;
-      background-color: rgb(217, 217, 217);
-      border-radius: 50%;
-    }
-
-    .circle-seven {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      left: 320px;
-      top: 155px;
-      background-color: rgb(217, 217, 217);
-      border-radius: 50%;
-    }
-
-    .rectangle-three {
-      position: absolute;
-      width: 420px;
-      height: 400px;
-      left: 10px;
-      top: 251px;
-      background-color: rgb(255, 255, 255);
-      border-radius: 30px;
-    }
-
-    .rectangle-four {
-      position: absolute;
-      width: 380px;
-      height: 85px;
-      left: 30px;
-      top: 530px;
-      background-color: rgb(81, 168, 255);
-      border-radius: 30px;
-    }
-
-    .today-word {
-      position: absolute;
-      width: 120px;
-      height: 36px;
-      left: 160px;
-      top: 555px;
-      font-family: 'Inter', sans-serif;
-      font-style: normal;
-      font-weight: 900;
-      font-size: 30px;
-      line-height: 36px;
-      color: rgb(255, 255, 255);
-      white-space: nowrap;
-    }
-
-    .rectangle-five {
-      position: absolute;
-      width: 420px;
-      height: 400px;
-      left: 10px;
-      top: 690px;
-      background-color: rgb(255, 255, 255);
-      border-radius: 30px;
-    }
-
-    .rectangle-one {
-      position: absolute;
-      width: 420px;
-      height: 110px;
-      left: 10px;
-      top: 835px;
-      background-color: rgb(255, 255, 255);
-      border-radius: 42px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=440, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>英文學習APP</title>
+<style>
+html, body {
+margin-top: 0px;
+margin-right: 0px;
+margin-bottom: 0px;
+margin-left: 0px;
+padding-top: 0px;
+padding-right: 0px;
+padding-bottom: 0px;
+padding-left: 0px;
+overflow-x: hidden;
+overflow-y: auto;
+display: flex;
+justify-content: center;
+background-color: rgb(174, 215, 255);
+position: relative;
+}
+.outer-container {
+width: 440px;
+position: relative;
+top: -40px;
+}
+.rectangle-six {
+box-sizing: border-box;
+position: fixed;
+width: 440px;
+height: 110px;
+left: 50%;
+transform: translateX(-50%) translateY(-110px);
+top: 0px;
+background-color: rgb(174, 215, 255);
+border-bottom: 1px solid rgb(217, 217, 217);
+z-index: 1000;
+transition-property: transform, opacity;
+transition-duration: 0.1s;
+transition-timing-function: linear;
+opacity: 0;
+}
+.phone {
+position: relative;
+width: 440px;
+height: 1231px;
+background-color: transparent;
+}
+.rectangle-two {
+position: absolute;
+width: 420px;
+height: 100px;
+left: 10px;
+top: 110px;
+background-color: rgb(255, 255, 255);
+border-radius: 30px;
+}
+.learning-days {
+position: absolute;
+width: 93px;
+height: 18px;
+left: 80px;
+top: 130px;
+font-family: 'Inter', sans-serif;
+font-style: normal;
+font-weight: 800;
+font-size: 15px;
+line-height: 18px;
+color: rgb(0, 0, 0);
+white-space: nowrap;
+}
+.circle-one, .circle-two, .circle-three, .circle-four, .circle-five, .circle-six, .circle-seven {
+position: absolute;
+width: 30px;
+height: 30px;
+background-color: rgb(217, 217, 217);
+border-radius: 50%;
+top: 155px;
+}
+.circle-one { left: 80px; }
+.circle-two { left: 120px; }
+.circle-three { left: 160px; }
+.circle-four { left: 200px; }
+.circle-five { left: 240px; }
+.circle-six { left: 280px; }
+.circle-seven { left: 320px; }
+.rectangle-three {
+position: absolute;
+width: 420px;
+height: 400px;
+left: 10px;
+top: 251px;
+background-color: rgb(255, 255, 255);
+border-radius: 30px;
+}
+.rectangle-four {
+position: absolute;
+width: 380px;
+height: 85px;
+left: 30px;
+top: 530px;
+background-color: rgb(81, 168, 255);
+border-radius: 30px;
+}
+.today-word {
+position: absolute;
+width: 120px;
+height: 36px;
+left: 160px;
+top: 555px;
+font-family: 'Inter', sans-serif;
+font-style: normal;
+font-weight: 900;
+font-size: 30px;
+line-height: 36px;
+color: rgb(255, 255, 255);
+white-space: nowrap;
+}
+.rectangle-five {
+position: absolute;
+width: 420px;
+height: 400px;
+left: 10px;
+top: 690px;
+background-color: rgb(255, 255, 255);
+border-radius: 30px;
+}
+.rectangle-one {
+position: absolute;
+width: 420px;
+height: 110px;
+left: 10px;
+top: 835px;
+background-color: rgb(255, 255, 255);
+border-radius: 42px;
+}
+</style>
 </head>
 <body>
-  <div class="outer-container">
-    <div class="rectangle-six"></div>
-    <div class="phone">
-      <div class="rectangle-two"></div>
-      <div class="learning-days">連續學習 0 天</div>
-      <div class="circle-one"></div>
-      <div class="circle-two"></div>
-      <div class="circle-three"></div>
-      <div class="circle-four"></div>
-      <div class="circle-five"></div>
-      <div class="circle-six"></div>
-      <div class="circle-seven"></div>
-      <div class="rectangle-three"></div>
-      <div class="rectangle-four"></div>
-      <div class="today-word">今日單字</div>
-      <div class="rectangle-five"></div>
-      <div class="rectangle-one"></div>
-    </div>
-  </div>
-
-  <script>
-    const header = document.querySelector(".rectangle-six");
-    const maximumRevealDistance = 110;
-
-    window.addEventListener("scroll", function() {
-      const scrollAmount = window.scrollY;
-      const revealDistance = Math.min(scrollAmount, maximumRevealDistance);
-
-      // 矩形六滑出
-      header.style.transform = "translateX(-50%) translateY(" + (-110 + revealDistance) + "px)";
-      header.style.opacity = Math.min(scrollAmount / maximumRevealDistance, 1);
-
-      // 安全區背景顏色判斷
-      if(scrollAmount === 0){
-        header.style.backgroundColor = "rgb(174, 215, 255)"; // 完全藍色
-      } else {
-        header.style.backgroundColor = "rgb(255, 255, 255)"; // 滾動任何量變白
-      }
-    });
-  </script>
+<div class="outer-container">
+<div class="rectangle-six"></div>
+<div class="phone">
+<div class="rectangle-two"></div>
+<div class="learning-days">連續學習 0 天</div>
+<div class="circle-one"></div>
+<div class="circle-two"></div>
+<div class="circle-three"></div>
+<div class="circle-four"></div>
+<div class="circle-five"></div>
+<div class="circle-six"></div>
+<div class="circle-seven"></div>
+<div class="rectangle-three"></div>
+<div class="rectangle-four"></div>
+<div class="today-word">今日單字</div>
+<div class="rectangle-five"></div>
+<div class="rectangle-one"></div>
+</div>
+</div>
+<script>
+const header=document.querySelector(".rectangle-six")
+const maximumRevealDistance=110
+const tolerance=1
+window.addEventListener("scroll",function(){
+const scrollAmount=window.scrollY
+const revealDistance=Math.min(scrollAmount,maximumRevealDistance)
+header.style.transform="translateX(-50%) translateY("+(-110+revealDistance)+"px)"
+header.style.opacity=Math.min(scrollAmount/maximumRevealDistance,1)
+if(scrollAmount<=tolerance){
+header.style.backgroundColor="rgb(174, 215, 255)"
+}else{
+header.style.backgroundColor="rgb(255, 255, 255)"
+}
+})
+</script>
 </body>
 </html>
