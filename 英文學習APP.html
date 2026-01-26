@@ -20,19 +20,18 @@
     height: 100%;
     background: var(--main-bg);
     display: flex;
-    justify-content: center; /* 容器水平置中 */
+    justify-content: center;
     align-items: flex-start;
     font-family: 'Inter', sans-serif;
   }
 
   .iphone-container {
     position: relative;
-    width: 440px; /* 固定寬度 */
-    height: 1231px; /* 原本高度 */
+    width: 440px;
+    height: 1231px;
     background: var(--main-bg);
   }
 
-  /* 矩形6 - 頂部白色 + 底部邊框 */
   .top-border {
     position: absolute;
     top: 0;
@@ -42,22 +41,28 @@
     background: var(--card-bg);
     border-bottom: 1px solid #D9D9D9;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    z-index: 1;
   }
 
-  /* 白色卡片 */
   .card {
     position: absolute;
     width: 420px;
-    left: 10px; /* 置中留左右空白 */
+    left: 10px;
     background: var(--card-bg);
     border-radius: 30px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    z-index: 2;
   }
-  .card.small { height: 100px; }   /* Rectangle 2 */
-  .card.medium { height: 400px; }  /* Rectangle 3 & 5 */
-  .card.large { height: 110px; border-radius: 42px; } /* Rectangle 1 */
 
-  /* 藍色按鈕卡 */
+  .card.large {
+    height: 110px;
+    border-radius: 42px;
+    top: 0;
+  }
+
+  .card.small { height: 100px; }
+  .card.medium { height: 400px; }
+
   .button-card {
     position: absolute;
     width: 380px;
@@ -70,6 +75,7 @@
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 2;
   }
 
   .button-card span {
@@ -79,7 +85,6 @@
     color: var(--text-white);
   }
 
-  /* 標題文字 */
   .text {
     position: absolute;
     font-weight: 800;
@@ -88,7 +93,6 @@
     color: var(--text-black);
   }
 
-  /* 進度圓 */
   .progress {
     position: absolute;
     display: flex;
@@ -96,6 +100,7 @@
     top: 155px;
     left: 80px;
   }
+
   .progress div {
     width: 30px;
     height: 30px;
@@ -108,25 +113,15 @@
 </head>
 <body>
   <div class="iphone-container">
-
-    <!-- 矩形6 -->
+    <div class="card large"></div>
     <div class="top-border"></div>
-
-    <!-- 白色卡片 -->
-    <div class="card small" style="top:110px;"></div>   <!-- Rectangle 2 -->
-    <div class="card medium" style="top:251px;"></div>  <!-- Rectangle 3 -->
-    <div class="card medium" style="top:690px;"></div>  <!-- Rectangle 5 -->
-    <div class="card large" style="top:835px;"></div>   <!-- Rectangle 1 -->
-
-    <!-- 藍色按鈕卡 -->
+    <div class="card small" style="top:110px;"></div>
+    <div class="card medium" style="top:251px;"></div>
+    <div class="card medium" style="top:690px;"></div>
     <div class="button-card">
       <span>今日單字</span>
     </div>
-
-    <!-- 標題文字 -->
     <div class="text" style="top:130px; left:80px;">連續學習 0 天</div>
-
-    <!-- 進度圓 -->
     <div class="progress">
       <div></div>
       <div></div>
@@ -136,7 +131,6 @@
       <div></div>
       <div></div>
     </div>
-
   </div>
 </body>
 </html>
