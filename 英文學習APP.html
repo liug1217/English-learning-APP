@@ -6,44 +6,63 @@
   <title>英文學習APP</title>
   <style>
     html {
-      margin: 0;
-      padding: 0;
+      margin-top: 0px;
+      margin-right: 0px;
+      margin-bottom: 0px;
+      margin-left: 0px;
+      padding-top: 0px;
+      padding-right: 0px;
+      padding-bottom: 0px;
+      padding-left: 0px;
     }
 
     body {
-      margin: 0;
-      padding: 0;
+      margin-top: 0px;
+      margin-right: 0px;
+      margin-bottom: 0px;
+      margin-left: 0px;
+      padding-top: 0px;
+      padding-right: 0px;
+      padding-bottom: 0px;
+      padding-left: 0px;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
       overflow-x: hidden;
+      overflow-y: auto;
     }
 
     .outer-container {
       width: 440px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
       position: relative;
       top: -40px;
+    }
+
+    .rectangle-six {
+      box-sizing: border-box;
+      position: fixed;
+      width: 440px;
+      height: 110px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-110px);
+      top: 0px;
+      background-color: #FFFFFF;
+      border-top-width: 0px;
+      border-right-width: 0px;
+      border-bottom-width: 1px;
+      border-left-width: 0px;
+      border-style: solid;
+      border-color: #D9D9D9;
+      z-index: 1000;
+      transition-property: transform;
+      transition-duration: 0.1s;
+      transition-timing-function: linear;
     }
 
     .phone {
       position: relative;
       width: 440px;
       height: 1231px;
-      background: #AED7FF;
-    }
-
-    .rectangle-six {
-      box-sizing: border-box;
-      position: absolute;
-      width: 440px;
-      height: 110px;
-      left: 0px;
-      top: 0px;
-      background: #FFFFFF;
-      border-bottom: 1px solid #D9D9D9;
+      background-color: #AED7FF;
     }
 
     .rectangle-two {
@@ -52,8 +71,11 @@
       height: 100px;
       left: 10px;
       top: 110px;
-      background: #FFFFFF;
-      border-radius: 30px;
+      background-color: #FFFFFF;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+      border-bottom-left-radius: 30px;
     }
 
     .learning-days {
@@ -77,8 +99,11 @@
       height: 30px;
       left: 80px;
       top: 155px;
-      background: #D9D9D9;
-      border-radius: 50%;
+      background-color: #D9D9D9;
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+      border-bottom-left-radius: 50%;
     }
 
     .circle-two {
@@ -87,8 +112,11 @@
       height: 30px;
       left: 120px;
       top: 155px;
-      background: #D9D9D9;
-      border-radius: 50%;
+      background-color: #D9D9D9;
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+      border-bottom-left-radius: 50%;
     }
 
     .circle-three {
@@ -97,8 +125,11 @@
       height: 30px;
       left: 160px;
       top: 155px;
-      background: #D9D9D9;
-      border-radius: 50%;
+      background-color: #D9D9D9;
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+      border-bottom-left-radius: 50%;
     }
 
     .circle-four {
@@ -107,8 +138,11 @@
       height: 30px;
       left: 200px;
       top: 155px;
-      background: #D9D9D9;
-      border-radius: 50%;
+      background-color: #D9D9D9;
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+      border-bottom-left-radius: 50%;
     }
 
     .circle-five {
@@ -117,8 +151,11 @@
       height: 30px;
       left: 240px;
       top: 155px;
-      background: #D9D9D9;
-      border-radius: 50%;
+      background-color: #D9D9D9;
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+      border-bottom-left-radius: 50%;
     }
 
     .circle-six {
@@ -127,8 +164,11 @@
       height: 30px;
       left: 280px;
       top: 155px;
-      background: #D9D9D9;
-      border-radius: 50%;
+      background-color: #D9D9D9;
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+      border-bottom-left-radius: 50%;
     }
 
     .circle-seven {
@@ -137,8 +177,11 @@
       height: 30px;
       left: 320px;
       top: 155px;
-      background: #D9D9D9;
-      border-radius: 50%;
+      background-color: #D9D9D9;
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+      border-bottom-left-radius: 50%;
     }
 
     .rectangle-three {
@@ -147,8 +190,11 @@
       height: 400px;
       left: 10px;
       top: 251px;
-      background: #FFFFFF;
-      border-radius: 30px;
+      background-color: #FFFFFF;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+      border-bottom-left-radius: 30px;
     }
 
     .rectangle-four {
@@ -157,8 +203,11 @@
       height: 85px;
       left: 30px;
       top: 530px;
-      background: #51A8FF;
-      border-radius: 30px;
+      background-color: #51A8FF;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+      border-bottom-left-radius: 30px;
     }
 
     .today-word {
@@ -182,8 +231,11 @@
       height: 400px;
       left: 10px;
       top: 690px;
-      background: #FFFFFF;
-      border-radius: 30px;
+      background-color: #FFFFFF;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+      border-bottom-left-radius: 30px;
     }
 
     .rectangle-one {
@@ -192,15 +244,18 @@
       height: 110px;
       left: 10px;
       top: 835px;
-      background: #FFFFFF;
-      border-radius: 42px;
+      background-color: #FFFFFF;
+      border-top-left-radius: 42px;
+      border-top-right-radius: 42px;
+      border-bottom-right-radius: 42px;
+      border-bottom-left-radius: 42px;
     }
   </style>
 </head>
 <body>
   <div class="outer-container">
+    <div class="rectangle-six"></div>
     <div class="phone">
-      <div class="rectangle-six"></div>
       <div class="rectangle-two"></div>
       <div class="learning-days">連續學習 0 天</div>
       <div class="circle-one"></div>
@@ -217,5 +272,16 @@
       <div class="rectangle-one"></div>
     </div>
   </div>
+
+  <script>
+    const header = document.querySelector(".rectangle-six");
+    const maximumReveal = 110;
+
+    window.addEventListener("scroll", function() {
+      const scrollAmount = window.scrollY;
+      const revealDistance = Math.min(scrollAmount, maximumReveal);
+      header.style.transform = "translateX(-50%) translateY(" + (-110 + revealDistance) + "px)";
+    });
+  </script>
 </body>
 </html>
