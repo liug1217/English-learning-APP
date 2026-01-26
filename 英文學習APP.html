@@ -36,7 +36,7 @@
     .outer-container {
       width: 440px;
       position: relative;
-      top: -40px; /* 保留向上偏移 */
+      top: -40px; /* 矩形六向上偏移 */
     }
 
     .rectangle-six {
@@ -103,10 +103,7 @@
       left: 80px;
       top: 155px;
       background-color: rgb(217, 217, 217);
-      border-top-left-radius: 50%;
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
-      border-bottom-left-radius: 50%;
+      border-radius: 50%;
     }
 
     .circle-two {
@@ -116,10 +113,7 @@
       left: 120px;
       top: 155px;
       background-color: rgb(217, 217, 217);
-      border-top-left-radius: 50%;
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
-      border-bottom-left-radius: 50%;
+      border-radius: 50%;
     }
 
     .circle-three {
@@ -129,10 +123,7 @@
       left: 160px;
       top: 155px;
       background-color: rgb(217, 217, 217);
-      border-top-left-radius: 50%;
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
-      border-bottom-left-radius: 50%;
+      border-radius: 50%;
     }
 
     .circle-four {
@@ -142,10 +133,7 @@
       left: 200px;
       top: 155px;
       background-color: rgb(217, 217, 217);
-      border-top-left-radius: 50%;
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
-      border-bottom-left-radius: 50%;
+      border-radius: 50%;
     }
 
     .circle-five {
@@ -155,10 +143,7 @@
       left: 240px;
       top: 155px;
       background-color: rgb(217, 217, 217);
-      border-top-left-radius: 50%;
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
-      border-bottom-left-radius: 50%;
+      border-radius: 50%;
     }
 
     .circle-six {
@@ -168,10 +153,7 @@
       left: 280px;
       top: 155px;
       background-color: rgb(217, 217, 217);
-      border-top-left-radius: 50%;
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
-      border-bottom-left-radius: 50%;
+      border-radius: 50%;
     }
 
     .circle-seven {
@@ -181,10 +163,7 @@
       left: 320px;
       top: 155px;
       background-color: rgb(217, 217, 217);
-      border-top-left-radius: 50%;
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
-      border-bottom-left-radius: 50%;
+      border-radius: 50%;
     }
 
     .rectangle-three {
@@ -194,10 +173,7 @@
       left: 10px;
       top: 251px;
       background-color: rgb(255, 255, 255);
-      border-top-left-radius: 30px;
-      border-top-right-radius: 30px;
-      border-bottom-right-radius: 30px;
-      border-bottom-left-radius: 30px;
+      border-radius: 30px;
     }
 
     .rectangle-four {
@@ -207,10 +183,7 @@
       left: 30px;
       top: 530px;
       background-color: rgb(81, 168, 255);
-      border-top-left-radius: 30px;
-      border-top-right-radius: 30px;
-      border-bottom-right-radius: 30px;
-      border-bottom-left-radius: 30px;
+      border-radius: 30px;
     }
 
     .today-word {
@@ -235,10 +208,7 @@
       left: 10px;
       top: 690px;
       background-color: rgb(255, 255, 255);
-      border-top-left-radius: 30px;
-      border-top-right-radius: 30px;
-      border-bottom-right-radius: 30px;
-      border-bottom-left-radius: 30px;
+      border-radius: 30px;
     }
 
     .rectangle-one {
@@ -248,10 +218,7 @@
       left: 10px;
       top: 835px;
       background-color: rgb(255, 255, 255);
-      border-top-left-radius: 42px;
-      border-top-right-radius: 42px;
-      border-bottom-right-radius: 42px;
-      border-bottom-left-radius: 42px;
+      border-radius: 42px;
     }
   </style>
 </head>
@@ -288,11 +255,11 @@
       header.style.transform = "translateX(-50%) translateY(" + (-110 + revealDistance) + "px)";
       header.style.opacity = Math.min(scrollAmount / maximumRevealDistance, 1);
 
-      // 安全區背景顏色：一開始藍色，滑動向下變白，回到頂部保持藍色
-      if(scrollAmount > 0){
-        header.style.backgroundColor = "rgb(255, 255, 255)";
+      // 安全區背景顏色判斷
+      if(scrollAmount === 0){
+        header.style.backgroundColor = "rgb(174, 215, 255)"; // 完全藍色
       } else {
-        header.style.backgroundColor = "rgb(174, 215, 255)"; // 回頂部純藍
+        header.style.backgroundColor = "rgb(255, 255, 255)"; // 滾動任何量變白
       }
     });
   </script>
