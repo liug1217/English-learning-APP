@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>英文學習APP</title>
 <style>
 html, body {
@@ -10,54 +10,61 @@ html, body {
   padding: 0;
   height: 100%;
   width: 100%;
-  background: #eeeeee;
+  background-color: #eeeeee;
+  overflow: hidden;
 }
+
 .container {
-  width: 100%;
-  max-width: 440px;
+  width: 100vw;
   height: 100vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
   position: relative;
-  background: #AED7FF;
-  margin: 0;
-  padding: 0;
+  background-color: #AED7FF;
 }
+
 .container::-webkit-scrollbar {
   display: none;
 }
+
 .矩形頂部欄 {
   box-sizing: border-box;
   position: sticky;
   top: 0;
   width: 100%;
   height: 110px;
-  background: #FFFFFF;
-  border-bottom: 1px solid #D9D9D9;
+  background-color: #FFFFFF;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #D9D9D9;
   z-index: 10;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+
 .矩形頂部欄.visible {
   opacity: 1;
 }
+
 .矩形底部固定 {
   position: sticky;
   bottom: 10px;
   width: calc(100% - 20px);
   height: 110px;
   left: 10px;
-  background: #FFFFFF;
+  background-color: #FFFFFF;
   border-radius: 42px;
   z-index: 10;
 }
+
 .內容區域 {
   position: relative;
   width: 100%;
   max-width: 440px;
   height: 1231px;
 }
+
 .矩形主頂部 {
   position: absolute;
   width: calc(100% - 20px);
@@ -65,9 +72,10 @@ html, body {
   height: 100px;
   left: 10px;
   top: 110px;
-  background: #FFFFFF;
+  background-color: #FFFFFF;
   border-radius: 30px;
 }
+
 .矩形中間1 {
   position: absolute;
   width: calc(100% - 20px);
@@ -75,9 +83,10 @@ html, body {
   height: 400px;
   left: 10px;
   top: 251px;
-  background: #FFFFFF;
+  background-color: #FFFFFF;
   border-radius: 30px;
 }
+
 .矩形中間2 {
   position: absolute;
   width: calc(100% - 20px);
@@ -85,9 +94,10 @@ html, body {
   height: 400px;
   left: 10px;
   top: 690px;
-  background: #FFFFFF;
+  background-color: #FFFFFF;
   border-radius: 30px;
 }
+
 .矩形藍色按鈕 {
   position: absolute;
   width: calc(100% - 60px);
@@ -95,9 +105,10 @@ html, body {
   height: 85px;
   left: 30px;
   top: 530px;
-  background: #51A8FF;
+  background-color: #51A8FF;
   border-radius: 30px;
 }
+
 .文字連續學習 {
   position: absolute;
   width: 93px;
@@ -111,69 +122,77 @@ html, body {
   line-height: 18px;
   color: #000000;
 }
+
 .圓點1 {
   position: absolute;
   width: 30px;
   height: 30px;
   left: 80px;
   top: 155px;
-  background: #D9D9D9;
+  background-color: #D9D9D9;
   border-radius: 50%;
 }
+
 .圓點2 {
   position: absolute;
   width: 30px;
   height: 30px;
   left: 120px;
   top: 155px;
-  background: #D9D9D9;
+  background-color: #D9D9D9;
   border-radius: 50%;
 }
+
 .圓點3 {
   position: absolute;
   width: 30px;
   height: 30px;
   left: 160px;
   top: 155px;
-  background: #D9D9D9;
+  background-color: #D9D9D9;
   border-radius: 50%;
 }
+
 .圓點4 {
   position: absolute;
   width: 30px;
   height: 30px;
   left: 200px;
   top: 155px;
-  background: #D9D9D9;
+  background-color: #D9D9D9;
   border-radius: 50%;
 }
+
 .圓點5 {
   position: absolute;
   width: 30px;
   height: 30px;
   left: 240px;
   top: 155px;
-  background: #D9D9D9;
+  background-color: #D9D9D9;
   border-radius: 50%;
 }
+
 .圓點6 {
   position: absolute;
   width: 30px;
   height: 30px;
   left: 280px;
   top: 155px;
-  background: #D9D9D9;
+  background-color: #D9D9D9;
   border-radius: 50%;
 }
+
 .圓點7 {
   position: absolute;
   width: 30px;
   height: 30px;
   left: 320px;
   top: 155px;
-  background: #D9D9D9;
+  background-color: #D9D9D9;
   border-radius: 50%;
 }
+
 .文字今日單字 {
   position: absolute;
   width: 120px;
