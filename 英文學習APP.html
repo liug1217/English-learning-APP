@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>英文學習APP</title>
 <style>
-body, html {
+html, body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -13,6 +13,12 @@ body, html {
   display: flex;
   justify-content: center;
   background: #eeeeee;
+}
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .container {
   width: 100%;
@@ -23,6 +29,8 @@ body, html {
   scrollbar-width: none;
   position: relative;
   background: #AED7FF;
+  padding: 0;
+  margin: 0;
 }
 .container::-webkit-scrollbar {
   display: none;
@@ -46,7 +54,7 @@ body, html {
 .rectangle_bottom_fixed {
   position: sticky;
   bottom: 10px;
-  width: calc(100% - 20px); /* 左右各留10px */
+  width: calc(100% - 20px);
   height: 110px;
   left: 10px;
   background: #FFFFFF;
@@ -211,12 +219,10 @@ body, html {
   </div>
   <div class="rectangle_bottom_fixed"></div>
 </div>
-
 <script>
 const scrollContainer = document.getElementById('scrollContainer');
 const topBar = document.getElementById('topBar');
 let ticking = false;
-
 scrollContainer.addEventListener('scroll', function() {
   if (!ticking) {
     window.requestAnimationFrame(function() {
