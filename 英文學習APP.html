@@ -11,14 +11,17 @@ html, body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background-color: #eeeeee;
+  background-color: #AED7FF;
 }
 
 .container {
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   overflow-y: scroll;
-  position: relative;
+  -webkit-overflow-scrolling: touch;
   background-color: #AED7FF;
 }
 
@@ -58,15 +61,14 @@ html, body {
 
 .內容區域 {
   position: relative;
-  width: 100%;
-  max-width: 440px;
+  width: 440px;
   height: 1231px;
+  margin: 0 auto;
 }
 
 .矩形主頂部 {
   position: absolute;
-  width: calc(100% - 20px);
-  max-width: 420px;
+  width: 420px;
   height: 100px;
   left: 10px;
   top: 110px;
@@ -76,8 +78,7 @@ html, body {
 
 .矩形中間1 {
   position: absolute;
-  width: calc(100% - 20px);
-  max-width: 420px;
+  width: 420px;
   height: 400px;
   left: 10px;
   top: 251px;
@@ -87,8 +88,7 @@ html, body {
 
 .矩形中間2 {
   position: absolute;
-  width: calc(100% - 20px);
-  max-width: 420px;
+  width: 420px;
   height: 400px;
   left: 10px;
   top: 690px;
@@ -98,8 +98,7 @@ html, body {
 
 .矩形藍色按鈕 {
   position: absolute;
-  width: calc(100% - 60px);
-  max-width: 380px;
+  width: 380px;
   height: 85px;
   left: 30px;
   top: 530px;
