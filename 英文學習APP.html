@@ -2,18 +2,12 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=440, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=440, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>英文學習APP</title>
 <style>
 html, body {
-margin-top: 0px;
-margin-right: 0px;
-margin-bottom: 0px;
-margin-left: 0px;
-padding-top: 0px;
-padding-right: 0px;
-padding-bottom: 0px;
-padding-left: 0px;
+margin: 0px;
+padding: 0px;
 overflow-x: hidden;
 overflow-y: auto;
 display: flex;
@@ -24,7 +18,7 @@ position: relative;
 .outer-container {
 width: 440px;
 position: relative;
-top: -40px;
+top: 0px;
 }
 .rectangle-six {
 box-sizing: border-box;
@@ -37,9 +31,7 @@ top: 0px;
 background-color: rgb(174, 215, 255);
 border-bottom: 1px solid rgb(217, 217, 217);
 z-index: 1000;
-transition-property: transform, opacity;
-transition-duration: 0.1s;
-transition-timing-function: linear;
+transition: transform 0.1s linear, opacity 0.1s linear, background-color 0.2s linear;
 opacity: 0;
 }
 .phone {
@@ -161,17 +153,16 @@ border-radius: 42px;
 <script>
 const header=document.querySelector(".rectangle-six")
 const maximumRevealDistance=110
-const tolerance=1
 window.addEventListener("scroll",function(){
 const scrollAmount=window.scrollY
 const revealDistance=Math.min(scrollAmount,maximumRevealDistance)
 header.style.transform="translateX(-50%) translateY("+(-110+revealDistance)+"px)"
 header.style.opacity=Math.min(scrollAmount/maximumRevealDistance,1)
-if(scrollAmount<=tolerance){
-header.style.backgroundColor="rgb(174, 215, 255)"
-}else{
-header.style.backgroundColor="rgb(255, 255, 255)"
-}
+const ratio=Math.min(scrollAmount/maximumRevealDistance,1)
+const r=Math.round(174+(255-174)*ratio)
+const g=Math.round(215+(255-215)*ratio)
+const b=Math.round(255+(255-255)*ratio)
+header.style.backgroundColor="rgb("+r+","+g+","+b+")"
 })
 </script>
 </body>
