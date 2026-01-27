@@ -8,12 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>英文學習APP</title>
 <style>
-    /* 徹底移除所有安全區域限制 */
-    :root {
-        --sat: env(safe-area-inset-top);
-        --sab: env(safe-area-inset-bottom);
-    }
-
+    /* 移除所有預設間距，強制衝破安全區 */
     html, body {
         margin: 0;
         padding: 0;
@@ -21,10 +16,10 @@
         height: 100%;
         background-color: #AED7FF;
         overflow: hidden;
-        position: fixed; /* 鎖死底層，解決跑位問題 */
+        position: fixed; /* 鎖死底層防止滑動晃動 */
     }
 
-    /* 滿版滾動層，強制衝破安全區 */
+    /* 滿版滾動容器，絕對不留白 */
     .scroll-container {
         position: absolute;
         top: 0;
@@ -34,21 +29,20 @@
         overflow-y: scroll;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
-        background-color: #AED7FF;
     }
 
-    /* 440px 物件主體：絕對物理置中 */
+    /* 440px 主體：物理負邊距置中鎖定 */
     .main-viewport {
         position: absolute;
         width: 440px;
         height: 1231px;
         top: 0;
         left: 50%;
-        margin-left: -220px;
+        margin-left: -220px; /* 寬度的一半，確保物理置中 */
         background-color: #AED7FF;
     }
 
-    /* 矩形6：固定在螢幕最頂端，不留白 */
+    /* Rectangle 6：絕對固定在最頂端，完全無視安全區 */
     .rect-6 {
         box-sizing: border-box;
         position: fixed;
@@ -57,7 +51,7 @@
         background-color: #FFFFFF;
         border-bottom: 1px solid #D9D9D9;
         z-index: 2000;
-        top: 0;
+        top: 0; /* 貼死最上方 */
         left: 50%;
         margin-left: -220px;
         opacity: 0;
@@ -72,7 +66,7 @@
         pointer-events: auto;
     }
 
-    /* 以下為原始元件，保持不變 */
+    /* 原始元件座標，保持不變 */
     .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
     .text-streak { position: absolute; width: 400px; left: 80px; top: 130px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
     .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
@@ -115,7 +109,7 @@
         }
     });
 
-    // 鎖死縮放與防止 iOS 橡皮筋
+    // 鎖死縮放與位移
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('touchmove', (e) => {
         if (e.scale !== 1) e.preventDefault();
