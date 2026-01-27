@@ -8,29 +8,41 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>英文學習APP</title>
 <style>
+    /* 鎖死全域，防止任何移動與縮放 */
     html, body {
         margin: 0;
         padding: 0;
         width: 100%;
-        min-height: 100%;
+        height: 100%;
         background-color: #AED7FF;
-        overscroll-behavior: none;
+        overflow: hidden;
+        position: fixed;
+        touch-action: none;
+        -webkit-text-size-adjust: 100%;
     }
-    body {
+
+    /* 唯一的滾動區域 */
+    .scroll-container {
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
         overflow-x: hidden;
-        overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        touch-action: pan-y; /* 只允許垂直滑動 */
     }
+
+    /* 物理置中容器 */
     .main-viewport {
-        position: absolute;
+        position: relative;
         width: 440px;
         height: 1231px;
         background-color: #AED7FF;
-        top: 0;
-        /* 使用物理中心點對齊，確保不論螢幕多大都在正中間 */
-        left: 50%;
-        transform: translateX(-50%);
+        margin: 0 auto;
+        left: 0;
+        right: 0;
     }
+
+    /* Rectangle 6：絕對固定，無視滾動 */
     .rect-6 {
         box-sizing: border-box;
         position: fixed;
@@ -38,9 +50,8 @@
         height: 110px;
         background-color: #FFFFFF;
         border-bottom: 1px solid #D9D9D9;
-        z-index: 1000;
+        z-index: 2000;
         top: 0;
-        /* 固定欄位同步置中 */
         left: 50%;
         transform: translateX(-50%);
         opacity: 0;
@@ -48,11 +59,14 @@
         transition: opacity 0.1s linear;
         pointer-events: none;
     }
+
     .rect-6.show {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
     }
+
+    /* 元件區 */
     .rect-2 {
         position: absolute;
         width: 420px;
@@ -62,6 +76,7 @@
         background-color: #FFFFFF;
         border-radius: 30px;
     }
+
     .text-streak {
         position: absolute;
         width: 400px;
@@ -73,6 +88,7 @@
         color: #000000;
         z-index: 10;
     }
+
     .ellipse {
         position: absolute;
         width: 30px;
@@ -82,6 +98,7 @@
         border-radius: 50%;
         z-index: 10;
     }
+
     .rect-3 {
         position: absolute;
         width: 420px;
@@ -91,6 +108,7 @@
         background-color: #FFFFFF;
         border-radius: 30px;
     }
+
     .rect-4 {
         position: absolute;
         width: 380px;
@@ -100,6 +118,7 @@
         background-color: #51A8FF;
         border-radius: 30px;
     }
+
     .text-today {
         position: absolute;
         width: 120px;
@@ -111,6 +130,7 @@
         color: #FFFFFF;
         z-index: 11;
     }
+
     .rect-5 {
         position: absolute;
         width: 420px;
@@ -120,6 +140,7 @@
         background-color: #FFFFFF;
         border-radius: 30px;
     }
+
     .rect-1 {
         position: absolute;
         width: 420px;
@@ -132,36 +153,50 @@
 </style>
 </head>
 <body>
-    <div class="main-viewport">
-        <div id="sticky-header" class="rect-6"></div>
-        <div class="rect-2"></div>
-        <div class="text-streak">連續學習 0 天</div>
-        <div class="ellipse" style="left: 80px;"></div>
-        <div class="ellipse" style="left: 120px;"></div>
-        <div class="ellipse" style="left: 160px;"></div>
-        <div class="ellipse" style="left: 200px;"></div>
-        <div class="ellipse" style="left: 240px;"></div>
-        <div class="ellipse" style="left: 280px;"></div>
-        <div class="ellipse" style="left: 320px;"></div>
-        <div class="rect-3"></div>
-        <div class="rect-4"></div>
-        <div class="text-today">今日單字</div>
-        <div class="rect-5"></div>
-        <div class="rect-1"></div>
+    <div class="scroll-container" id="scroller">
+        <div class="main-viewport">
+            <div id="sticky-header" class="rect-6"></div>
+            
+            <div class="rect-2"></div>
+            <div class="text-streak">連續學習 0 天</div>
+            <div class="ellipse" style="left: 80px;"></div>
+            <div class="ellipse" style="left: 120px;"></div>
+            <div class="ellipse" style="left: 160px;"></div>
+            <div class="ellipse" style="left: 200px;"></div>
+            <div class="ellipse" style="left: 240px;"></div>
+            <div class="ellipse" style="left: 280px;"></div>
+            <div class="ellipse" style="left: 320px;"></div>
+            
+            <div class="rect-3"></div>
+            <div class="rect-4"></div>
+            <div class="text-today">今日單字</div>
+            <div class="rect-5"></div>
+            <div class="rect-1"></div>
+        </div>
     </div>
+
 <script>
     const header = document.getElementById('sticky-header');
-    window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 0) {
+    const scroller = document.getElementById('scroller');
+
+    // 監聽滾動以切換頂欄顯示
+    scroller.addEventListener('scroll', function() {
+        if (scroller.scrollTop > 5) {
             header.classList.add('show');
         } else {
             header.classList.remove('show');
         }
     });
-    // 禁止手勢縮放
+
+    // 徹底禁止雙指縮放
     document.addEventListener('gesturestart', function(e) {
         e.preventDefault();
     });
+
+    // 攔截所有非滾動區域的觸摸，防止 iOS 橡皮筋與跑位
+    document.addEventListener('touchmove', function(e) {
+        if (e.scale !== 1) { e.preventDefault(); }
+    }, { passive: false });
 </script>
 </body>
 </html>
