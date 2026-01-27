@@ -49,9 +49,12 @@ body {
     box-sizing: border-box;
     position: fixed;
     width: 440px;
+    /* 這裡執行減法：目標總高 110px 減掉 手機自動偵測的安全區高度 */
     height: calc(110px - env(safe-area-inset-top));
     left: 50%;
+    /* 起始點設在安全區的最底端 */
     top: env(safe-area-inset-top);
+    /* 初始狀態隱藏在上方，移動距離包含本體高度與安全區 */
     transform: translateX(-50%) translateY(-110px);
     background-color: rgb(174, 215, 255);
     border-bottom-width: 1px;
@@ -68,14 +71,16 @@ body {
     pointer-events: none;
 }
 
+/* 建立一個補位元素，用來填滿安全區那部分的顏色 */
 .rectangle-six::before {
     content: "";
     position: absolute;
     width: 100%;
     height: env(safe-area-inset-top);
+    /* 讓它往上長，填滿 top 到螢幕最頂端的空隙 */
     top: calc(0px - env(safe-area-inset-top));
-    background-color: inherit;
     left: 0px;
+    background-color: inherit;
 }
 
 .phone {
@@ -110,75 +115,13 @@ body {
     white-space: nowrap;
 }
 
-.circle-one {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 80px;
-}
-
-.circle-two {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 120px;
-}
-
-.circle-three {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 160px;
-}
-
-.circle-four {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 200px;
-}
-
-.circle-five {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 240px;
-}
-
-.circle-six {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 280px;
-}
-
-.circle-seven {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 320px;
-}
+.circle-one { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 80px; }
+.circle-two { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 120px; }
+.circle-three { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 160px; }
+.circle-four { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 200px; }
+.circle-five { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 240px; }
+.circle-six { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 280px; }
+.circle-seven { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 320px; }
 
 .rectangle-three {
     position: absolute;
@@ -259,10 +202,12 @@ const headerElement = document.querySelector(".rectangle-six");
 window.addEventListener("scroll", function() {
     const scrollDistanceValue = window.scrollY;
     if (scrollDistanceValue > 50) {
+        /* 滑動超過 50px 時，Header 降落到安全區下方 */
         headerElement.style.transform = "translateX(-50%) translateY(0px)";
         headerElement.style.opacity = "1";
         headerElement.style.pointerEvents = "auto";
     } else {
+        /* 回到頂部時，Header 縮回上方 */
         headerElement.style.transform = "translateX(-50%) translateY(-110px)";
         headerElement.style.opacity = "0";
         headerElement.style.pointerEvents = "none";
