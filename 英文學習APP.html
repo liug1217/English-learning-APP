@@ -49,13 +49,9 @@ body {
     box-sizing: border-box;
     position: fixed;
     width: 440px;
-    /* 這裡的高度直接減去安全區感官上的負擔，保持在 110px */
-    height: 110px;
+    height: calc(110px - env(safe-area-inset-top));
     left: 50%;
-    /* 強制貼齊螢幕物理邊緣，不論有沒有安全區 */
-    top: 0px;
-    /* 關鍵：利用 padding 將文字內容推離瀏海，但背景色依然在頂部 */
-    padding-top: env(safe-area-inset-top);
+    top: env(safe-area-inset-top);
     transform: translateX(-50%) translateY(-110px);
     background-color: rgb(174, 215, 255);
     border-bottom-width: 1px;
@@ -70,6 +66,16 @@ body {
     align-items: center;
     justify-content: center;
     pointer-events: none;
+}
+
+.rectangle-six::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: env(safe-area-inset-top);
+    top: calc(0px - env(safe-area-inset-top));
+    background-color: inherit;
+    left: 0px;
 }
 
 .phone {
@@ -252,7 +258,6 @@ body {
 const headerElement = document.querySelector(".rectangle-six");
 window.addEventListener("scroll", function() {
     const scrollDistanceValue = window.scrollY;
-    
     if (scrollDistanceValue > 50) {
         headerElement.style.transform = "translateX(-50%) translateY(0px)";
         headerElement.style.opacity = "1";
@@ -262,7 +267,6 @@ window.addEventListener("scroll", function() {
         headerElement.style.opacity = "0";
         headerElement.style.pointerEvents = "none";
     }
-
     const ratioValue = Math.min(scrollDistanceValue / 200, 1);
     const redValue = Math.round(174 + (255 - 174) * ratioValue);
     const greenValue = Math.round(215 + (255 - 215) * ratioValue);
