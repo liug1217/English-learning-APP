@@ -49,18 +49,17 @@ body {
     box-sizing: border-box;
     position: fixed;
     width: 440px;
-    height: calc(110px + env(safe-area-inset-top));
+    height: 110px;
     left: 50%;
-    top: 0px;
-    transform: translateX(-50%) translateY(calc(-110px - env(safe-area-inset-top)));
-    padding-top: env(safe-area-inset-top);
+    top: calc(0px - env(safe-area-inset-top));
+    transform: translateX(-50%) translateY(-110px);
     background-color: rgb(174, 215, 255);
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: rgb(217, 217, 217);
     z-index: 1000;
-    transition-property: opacity, background-color;
-    transition-duration: 0.2s, 0.2s;
+    transition-property: opacity, background-color, transform;
+    transition-duration: 0.2s, 0.2s, 0.2s;
     transition-timing-function: linear;
     opacity: 0;
     display: flex;
@@ -255,7 +254,7 @@ window.addEventListener("scroll", function() {
         headerElement.style.opacity = "1";
         headerElement.style.pointerEvents = "auto";
     } else {
-        headerElement.style.transform = "translateX(-50%) translateY(calc(-110px - env(safe-area-inset-top)))";
+        headerElement.style.transform = "translateX(-50%) translateY(-110px)";
         headerElement.style.opacity = "0";
         headerElement.style.pointerEvents = "none";
     }
@@ -269,3 +268,4 @@ window.addEventListener("scroll", function() {
 </script>
 </body>
 </html>
+
