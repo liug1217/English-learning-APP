@@ -5,14 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>英文學習APP</title>
 <style>
-html {
-margin: 0px;
-padding: 0px;
-height: 100%;
-background-color: rgb(174, 215, 255);
-}
-
-body {
+html, body {
 margin: 0px;
 padding: 0px;
 height: 100%;
@@ -21,13 +14,12 @@ overflow-x: hidden;
 overflow-y: auto;
 display: flex;
 justify-content: center;
-position: relative;
 }
 
 .outer-container {
 width: 440px;
 position: relative;
-top: 0px;
+top: calc(0px - env(safe-area-inset-top));
 }
 
 .rectangle-six {
@@ -39,7 +31,9 @@ left: 50%;
 top: 0px;
 transform: translateX(-50%) translateY(-110px);
 background-color: rgb(174, 215, 255);
-border-bottom: 1px solid rgb(217, 217, 217);
+border-bottom-width: 1px;
+border-bottom-style: solid;
+border-bottom-color: rgb(217, 217, 217);
 z-index: 1000;
 transition-property: transform, opacity, background-color;
 transition-duration: 0.1s, 0.1s, 0.2s;
@@ -70,28 +64,83 @@ position: absolute;
 left: 80px;
 top: 130px;
 font-family: Inter, sans-serif;
+font-style: normal;
 font-weight: 800;
 font-size: 15px;
+line-height: 18px;
 color: rgb(0, 0, 0);
 white-space: nowrap;
 }
 
-.circle-one, .circle-two, .circle-three, .circle-four, .circle-five, .circle-six, .circle-seven {
+.circle-one {
 position: absolute;
 width: 30px;
 height: 30px;
 border-radius: 50%;
 background-color: rgb(217, 217, 217);
 top: 155px;
+left: 80px;
 }
 
-.circle-one { left: 80px; }
-.circle-two { left: 120px; }
-.circle-three { left: 160px; }
-.circle-four { left: 200px; }
-.circle-five { left: 240px; }
-.circle-six { left: 280px; }
-.circle-seven { left: 320px; }
+.circle-two {
+position: absolute;
+width: 30px;
+height: 30px;
+border-radius: 50%;
+background-color: rgb(217, 217, 217);
+top: 155px;
+left: 120px;
+}
+
+.circle-three {
+position: absolute;
+width: 30px;
+height: 30px;
+border-radius: 50%;
+background-color: rgb(217, 217, 217);
+top: 155px;
+left: 160px;
+}
+
+.circle-four {
+position: absolute;
+width: 30px;
+height: 30px;
+border-radius: 50%;
+background-color: rgb(217, 217, 217);
+top: 155px;
+left: 200px;
+}
+
+.circle-five {
+position: absolute;
+width: 30px;
+height: 30px;
+border-radius: 50%;
+background-color: rgb(217, 217, 217);
+top: 155px;
+left: 240px;
+}
+
+.circle-six {
+position: absolute;
+width: 30px;
+height: 30px;
+border-radius: 50%;
+background-color: rgb(217, 217, 217);
+top: 155px;
+left: 280px;
+}
+
+.circle-seven {
+position: absolute;
+width: 30px;
+height: 30px;
+border-radius: 50%;
+background-color: rgb(217, 217, 217);
+top: 155px;
+left: 320px;
+}
 
 .rectangle-three {
 position: absolute;
@@ -118,8 +167,10 @@ position: absolute;
 left: 160px;
 top: 555px;
 font-family: Inter, sans-serif;
+font-style: normal;
 font-weight: 900;
 font-size: 30px;
+line-height: 36px;
 color: rgb(255, 255, 255);
 white-space: nowrap;
 }
@@ -167,22 +218,22 @@ border-radius: 42px;
 </div>
 
 <script>
-const header = document.querySelector(".rectangle-six")
-const maximumRevealDistance = 110
+const headerElement = document.querySelector(".rectangle-six");
+const maximumRevealDistanceValue = 110;
 
 window.addEventListener("scroll", function() {
-const scrollAmount = window.scrollY
-const revealDistance = Math.min(scrollAmount, maximumRevealDistance)
-header.style.transform = "translateX(-50%) translateY(" + (-110 + revealDistance) + "px)"
-header.style.opacity = Math.min(scrollAmount / maximumRevealDistance, 1)
+const scrollDistanceValue = window.scrollY;
+const revealDistanceValue = Math.min(scrollDistanceValue, maximumRevealDistanceValue);
+headerElement.style.transform = "translateX(-50%) translateY(" + (-110 + revealDistanceValue) + "px)";
+headerElement.style.opacity = Math.min(scrollDistanceValue / maximumRevealDistanceValue, 1);
 
-const ratio = Math.min(scrollAmount / maximumRevealDistance, 1)
-const red = Math.round(174 + (255 - 174) * ratio)
-const green = Math.round(215 + (255 - 215) * ratio)
-const blue = 255
+const ratioValue = Math.min(scrollDistanceValue / maximumRevealDistanceValue, 1);
+const redValue = Math.round(174 + (255 - 174) * ratioValue);
+const greenValue = Math.round(215 + (255 - 215) * ratioValue);
+const blueValue = 255;
 
-header.style.backgroundColor = "rgb(" + red + "," + green + "," + blue + ")"
-})
+headerElement.style.backgroundColor = "rgb(" + redValue + ", " + greenValue + ", " + blueValue + ")";
+});
 </script>
 </body>
 </html>
