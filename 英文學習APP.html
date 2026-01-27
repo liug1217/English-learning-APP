@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>App</title>
@@ -17,6 +17,8 @@ html, body {
     align-items: center;
     background-color: #AED7FF;
     overflow: hidden;
+    position: fixed;
+    touch-action: none;
 }
 .main-container {
     position: relative;
@@ -24,8 +26,9 @@ html, body {
     height: 1231px;
     background-color: #AED7FF;
     flex-shrink: 0;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
+    touch-action: pan-y;
     -webkit-overflow-scrolling: touch;
 }
 .rect-6 {
@@ -39,6 +42,7 @@ html, body {
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: #D9D9D9;
+    z-index: 10;
 }
 .rect-2 {
     position: absolute;
@@ -64,6 +68,7 @@ html, body {
     font-size: 15px;
     line-height: 18px;
     color: #000000;
+    z-index: 5;
 }
 .ellipse {
     position: absolute;
@@ -75,6 +80,7 @@ html, body {
     border-top-right-radius: 50%;
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
+    z-index: 5;
 }
 .rect-3 {
     position: absolute;
@@ -112,6 +118,7 @@ html, body {
     font-size: 30px;
     line-height: 36px;
     color: #FFFFFF;
+    z-index: 5;
 }
 .rect-5 {
     position: absolute;
