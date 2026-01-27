@@ -55,8 +55,7 @@ body {
     position: fixed;
     width: 440px;
     left: 50%;
-    top: 0px; 
-    transform: translateX(-50%) translateY(-200px);
+    transform: translateX(-50%) translateY(-250px);
     background-color: rgb(174, 215, 255);
     border-bottom-width: 1px;
     border-bottom-style: solid;
@@ -70,6 +69,7 @@ body {
     align-items: center;
     justify-content: center;
     pointer-events: none;
+    overflow: hidden;
 }
 
 .safe-area-patch {
@@ -80,10 +80,11 @@ body {
     width: 440px;
     height: env(safe-area-inset-top);
     background-color: rgb(174, 215, 255);
-    z-index: 999;
+    z-index: 1001;
     opacity: 0;
     transition-property: opacity;
     transition-duration: 0.2s;
+    pointer-events: none;
 }
 
 .phone {
@@ -211,7 +212,8 @@ function autoAdjustHeader() {
     header.style.top = safeHeight + "px"; 
 }
 
-autoAdjustHeader();
+window.addEventListener("load", autoAdjustHeader);
+window.addEventListener("resize", autoAdjustHeader);
 
 window.addEventListener("scroll", function() {
     const scrollDistance = window.scrollY;
@@ -221,7 +223,7 @@ window.addEventListener("scroll", function() {
         header.style.pointerEvents = "auto";
         patch.style.opacity = "1";
     } else {
-        header.style.transform = "translateX(-50%) translateY(-200px)";
+        header.style.transform = "translateX(-50%) translateY(-250px)";
         header.style.opacity = "0";
         header.style.pointerEvents = "none";
         patch.style.opacity = "0";
