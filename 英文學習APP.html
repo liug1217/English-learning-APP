@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>英文學習APP</title>
 <style>
+    /* 核心：html 與 body 必須撐開且不准動 */
     html, body {
         margin: 0;
         padding: 0;
@@ -15,33 +16,36 @@
         height: 100%;
         background-color: #AED7FF;
         overflow: hidden;
-        position: fixed;
-        touch-action: none;
+        position: fixed; /* 鎖死底層防止晃動 */
     }
 
+    /* 滾動容器：延伸至安全區域之外 */
     .scroll-container {
         position: absolute;
         top: 0;
         left: 0;
+        right: 0;
+        bottom: 0;
         width: 100%;
         height: 100%;
         overflow-y: scroll;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
-        touch-action: pan-y;
+        background-color: #AED7FF; /* 確保背景填滿 */
     }
 
+    /* 物件主體：物理置中鎖定 */
     .main-viewport {
         position: absolute;
         width: 440px;
         height: 1231px;
         background-color: #AED7FF;
         top: 0;
-        /* 物理置中鎖定：先推到 50% 再往回扣寬度一半 */
         left: 50%;
-        margin-left: -220px;
+        margin-left: -220px; /* 固定寬度的一半 */
     }
 
+    /* 矩形6：固定於頂部且置中 */
     .rect-6 {
         box-sizing: border-box;
         position: fixed;
@@ -51,7 +55,6 @@
         border-bottom: 1px solid #D9D9D9;
         z-index: 2000;
         top: 0;
-        /* 固定欄位同步物理置中 */
         left: 50%;
         margin-left: -220px;
         opacity: 0;
@@ -66,89 +69,15 @@
         pointer-events: auto;
     }
 
-    .rect-2 {
-        position: absolute;
-        width: 420px;
-        height: 100px;
-        left: 10px;
-        top: 110px;
-        background-color: #FFFFFF;
-        border-radius: 30px;
-    }
-
-    .text-streak {
-        position: absolute;
-        width: 400px;
-        left: 80px;
-        top: 130px;
-        font-family: 'Inter', sans-serif;
-        font-weight: 800;
-        font-size: 15px;
-        color: #000000;
-        z-index: 10;
-    }
-
-    .ellipse {
-        position: absolute;
-        width: 30px;
-        height: 30px;
-        top: 155px;
-        background-color: #D9D9D9;
-        border-radius: 50%;
-        z-index: 10;
-    }
-
-    .rect-3 {
-        position: absolute;
-        width: 420px;
-        height: 400px;
-        left: 10px;
-        top: 251px;
-        background-color: #FFFFFF;
-        border-radius: 30px;
-    }
-
-    .rect-4 {
-        position: absolute;
-        width: 380px;
-        height: 85px;
-        left: 30px;
-        top: 530px;
-        background-color: #51A8FF;
-        border-radius: 30px;
-    }
-
-    .text-today {
-        position: absolute;
-        width: 120px;
-        left: 160px;
-        top: 555px;
-        font-family: 'Inter', sans-serif;
-        font-weight: 900;
-        font-size: 30px;
-        color: #FFFFFF;
-        z-index: 11;
-    }
-
-    .rect-5 {
-        position: absolute;
-        width: 420px;
-        height: 400px;
-        left: 10px;
-        top: 690px;
-        background-color: #FFFFFF;
-        border-radius: 30px;
-    }
-
-    .rect-1 {
-        position: absolute;
-        width: 420px;
-        height: 110px;
-        left: 10px;
-        top: 835px;
-        background-color: #FFFFFF;
-        border-radius: 42px;
-    }
+    /* 元件樣式保持不變 */
+    .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
+    .text-streak { position: absolute; width: 400px; left: 80px; top: 130px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
+    .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
+    .rect-3 { position: absolute; width: 420px; height: 400px; left: 10px; top: 251px; background-color: #FFFFFF; border-radius: 30px; }
+    .rect-4 { position: absolute; width: 380px; height: 85px; left: 30px; top: 530px; background-color: #51A8FF; border-radius: 30px; }
+    .text-today { position: absolute; width: 120px; left: 160px; top: 555px; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 30px; color: #FFFFFF; z-index: 11; }
+    .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
+    .rect-1 { position: absolute; width: 420px; height: 110px; left: 10px; top: 835px; background-color: #FFFFFF; border-radius: 42px; }
 </style>
 </head>
 <body>
@@ -175,6 +104,7 @@
     const header = document.getElementById('sticky-header');
     const scroller = document.getElementById('scroller');
 
+    // 處理滾動顯示隱藏
     scroller.addEventListener('scroll', function() {
         if (scroller.scrollTop > 5) {
             header.classList.add('show');
@@ -183,12 +113,10 @@
         }
     });
 
-    document.addEventListener('gesturestart', function(e) {
-        e.preventDefault();
-    });
-
-    document.addEventListener('touchmove', function(e) {
-        if (e.scale !== 1) { e.preventDefault(); }
+    // 鎖死手勢與縮放
+    document.addEventListener('gesturestart', (e) => e.preventDefault());
+    document.addEventListener('touchmove', (e) => {
+        if (e.scale !== 1) e.preventDefault();
     }, { passive: false });
 </script>
 </body>
