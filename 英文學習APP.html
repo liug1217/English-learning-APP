@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>英文學習APP</title>
 <style>
-    /* 移除所有預設間距，強制衝破安全區 */
+    /* 1. 基礎設定：強制填滿，不留任何安全縫隙 */
     html, body {
         margin: 0;
         padding: 0;
@@ -16,33 +16,34 @@
         height: 100%;
         background-color: #AED7FF;
         overflow: hidden;
-        position: fixed; /* 鎖死底層防止滑動晃動 */
+        position: fixed; /* 徹底鎖死，防止 iOS 橡皮筋晃動 */
     }
 
-    /* 滿版滾動容器，絕對不留白 */
+    /* 2. 滾動容器：貼死螢幕四個角落，無視安全區 */
     .scroll-container {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
+        right: 0;
+        bottom: 0;
         overflow-y: scroll;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
+        background-color: #AED7FF;
     }
 
-    /* 440px 主體：物理負邊距置中鎖定 */
+    /* 3. 主視窗：440px 物理負邊距鎖定置中 */
     .main-viewport {
         position: absolute;
         width: 440px;
         height: 1231px;
+        background-color: #AED7FF;
         top: 0;
         left: 50%;
-        margin-left: -220px; /* 寬度的一半，確保物理置中 */
-        background-color: #AED7FF;
+        margin-left: -220px; /* 寬度 440 的一半，達成絕對置中 */
     }
 
-    /* Rectangle 6：絕對固定在最頂端，完全無視安全區 */
+    /* 4. 矩形 6：固定在螢幕最頂部 (Top 0)，完全不考慮劉海 */
     .rect-6 {
         box-sizing: border-box;
         position: fixed;
@@ -51,7 +52,7 @@
         background-color: #FFFFFF;
         border-bottom: 1px solid #D9D9D9;
         z-index: 2000;
-        top: 0; /* 貼死最上方 */
+        top: 0; 
         left: 50%;
         margin-left: -220px;
         opacity: 0;
@@ -66,7 +67,7 @@
         pointer-events: auto;
     }
 
-    /* 原始元件座標，保持不變 */
+    /* 以下元件座標完全照舊，不進行任何偏移修正 */
     .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
     .text-streak { position: absolute; width: 400px; left: 80px; top: 130px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
     .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
@@ -101,6 +102,7 @@
     const header = document.getElementById('sticky-header');
     const scroller = document.getElementById('scroller');
 
+    // 監聽滾動控制頂欄
     scroller.addEventListener('scroll', function() {
         if (scroller.scrollTop > 5) {
             header.classList.add('show');
@@ -109,7 +111,7 @@
         }
     });
 
-    // 鎖死縮放與位移
+    // 禁止縮放與 iOS 的橡皮筋跑位
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('touchmove', (e) => {
         if (e.scale !== 1) e.preventDefault();
