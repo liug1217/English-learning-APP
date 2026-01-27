@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="apple-mobile-web-app-title" content="英文學習APP">
-<meta name="viewport" content="width=440, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>英文學習APP</title>
@@ -17,19 +17,19 @@
         overscroll-behavior: none;
     }
     body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         overflow-x: hidden;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
     .main-viewport {
-        position: relative;
+        position: absolute;
         width: 440px;
         height: 1231px;
         background-color: #AED7FF;
-        flex-shrink: 0;
+        top: 0;
+        /* 使用物理中心點對齊，確保不論螢幕多大都在正中間 */
+        left: 50%;
+        transform: translateX(-50%);
     }
     .rect-6 {
         box-sizing: border-box;
@@ -40,8 +40,9 @@
         border-bottom: 1px solid #D9D9D9;
         z-index: 1000;
         top: 0;
+        /* 固定欄位同步置中 */
         left: 50%;
-        margin-left: -220px;
+        transform: translateX(-50%);
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.1s linear;
@@ -157,6 +158,7 @@
             header.classList.remove('show');
         }
     });
+    // 禁止手勢縮放
     document.addEventListener('gesturestart', function(e) {
         e.preventDefault();
     });
