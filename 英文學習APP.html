@@ -2,25 +2,23 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <meta name="viewport" content="width=440, user-scalable=no">
     <title>英文學習APP</title>
     <style>
-        /* 基礎清空，不對安全區做任何特殊補償 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html, body {
             width: 100%;
             height: 100%;
             background-color: #AED7FF;
-            overflow: hidden; /* 防止整體頁面被 Safari 拉動晃動 */
+            overflow: hidden;
             position: fixed;
         }
 
-        /* 2. 滾動容器：單純的滿版，讓 iOS 預設的 SafeArea 自動生效 */
+        /* 滿版容器 */
         .scroll-container {
             position: absolute;
             top: 0;
@@ -32,18 +30,18 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* 3. 主容器：440px 物理鎖定置中。使用 left 50% + 負邊距，絕對不偏移 */
+        /* 440px 主體：物理負邊距鎖定中線 */
         .main-viewport {
             position: absolute;
             top: 0;
             left: 50%;
             width: 440px;
             height: 1231px;
-            margin-left: -220px; /* 寬度 440 的一半，達成物理置中 */
+            margin-left: -220px;
             background-color: #AED7FF;
         }
 
-        /* 4. 矩形 6：固定在頂部，隨主容器置中 */
+        /* 矩形 6：固定頂部 */
         .rect-6 {
             position: fixed;
             top: 0;
@@ -54,10 +52,10 @@
             background-color: #FFFFFF;
             border-bottom: 1px solid #D9D9D9;
             z-index: 2000;
-            display: none; /* 預設隱藏，滑動後出現 */
+            display: none;
         }
 
-        /* --- 以下是你原始的 UI 零件座標 --- */
+        /* 你的 UI 元件座標 */
         .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
         .text-streak { position: absolute; left: 80px; top: 130px; font-family: sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
         .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
@@ -72,10 +70,8 @@
     <div class="scroll-container" id="scroller">
         <div class="main-viewport">
             <div id="sticky-header" class="rect-6"></div>
-            
             <div class="rect-2"></div>
             <div class="text-streak">連續學習 0 天</div>
-            
             <div class="ellipse" style="left: 80px;"></div>
             <div class="ellipse" style="left: 120px;"></div>
             <div class="ellipse" style="left: 160px;"></div>
@@ -83,7 +79,6 @@
             <div class="ellipse" style="left: 240px;"></div>
             <div class="ellipse" style="left: 280px;"></div>
             <div class="ellipse" style="left: 320px;"></div>
-            
             <div class="rect-3"></div>
             <div class="rect-4"></div>
             <div class="text-today">今日單字</div>
@@ -91,13 +86,10 @@
             <div class="rect-1"></div>
         </div>
     </div>
-
 <script>
     const header = document.getElementById('sticky-header');
     const scroller = document.getElementById('scroller');
-    
-    scroller.addEventListener('scroll', function() {
-        // 當滑動超過 10px 時顯示頂欄，否則隱藏
+    scroller.addEventListener('scroll', () => {
         header.style.display = scroller.scrollTop > 10 ? 'block' : 'none';
     });
 </script>
