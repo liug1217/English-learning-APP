@@ -41,8 +41,11 @@
         border-bottom: 1px solid #D9D9D9;
         z-index: 1000;
         top: 0px;
-        left: 50%;
-        transform: translateX(-50%);
+        /* 純 CSS 絕對置中邏輯，不靠 JS */
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.1s linear;
@@ -151,23 +154,13 @@
     </div>
 <script>
     const header = document.getElementById('sticky-header');
-    const container = document.getElementById('container');
-    function alignHeader() {
-        const rect = container.getBoundingClientRect();
-        header.style.left = rect.left + 'px';
-        header.style.transform = 'none';
-    }
     window.addEventListener('scroll', function() {
         if (window.pageYOffset > 0) {
             header.classList.add('show');
         } else {
             header.classList.remove('show');
         }
-        alignHeader();
     });
-    window.addEventListener('resize', alignHeader);
-    window.addEventListener('load', alignHeader);
-    alignHeader();
     document.addEventListener('gesturestart', function(e) {
         e.preventDefault();
     });
