@@ -275,45 +275,44 @@ body {
 </div>
 
 <script>
-const header = document.querySelector(".rectangle-six");
+const headerElement = document.querySelector(".rectangle-six");
 
-function executeAutoCalculation() {
+function executeRigidCalculation() {
     const targetTotalHeight = 110;
+    const probeElement = document.createElement("div");
+    probeElement.style.height = "env(safe-area-inset-top, 0px)";
+    probeElement.style.position = "absolute";
+    probeElement.style.visibility = "hidden";
+    document.body.appendChild(probeElement);
     
-    const tempElement = document.createElement("div");
-    tempElement.style.position = "absolute";
-    tempElement.style.top = "0px";
-    tempElement.style.height = "env(safe-area-inset-top)";
-    tempElement.style.visibility = "hidden";
-    document.body.appendChild(tempElement);
+    let detectedSafeValue = probeElement.offsetHeight;
+    document.body.removeChild(probeElement);
+
+    const calculatedFinalHeight = targetTotalHeight - detectedSafeValue;
     
-    const detectedSafeHeight = tempElement.offsetHeight;
-    document.body.removeChild(tempElement);
-    
-    const finalResultHeight = targetTotalHeight - detectedSafeHeight;
-    
-    header.style.height = finalResultHeight + "px";
-    header.style.paddingTop = detectedSafeHeight + "px";
+    headerElement.style.height = calculatedFinalHeight + "px";
+    headerElement.style.paddingTop = detectedSafeValue + "px";
 }
 
-window.addEventListener("load", executeAutoCalculation);
+window.addEventListener("load", executeRigidCalculation);
+window.addEventListener("resize", executeRigidCalculation);
 
 window.addEventListener("scroll", function() {
-    const scrollYValue = window.scrollY;
-    if (scrollYValue > 50) {
-        header.style.transform = "translateX(-50%) translateY(0px)";
-        header.style.opacity = "1";
-        header.style.pointerEvents = "auto";
+    const scrollYCoordinate = window.scrollY;
+    if (scrollYCoordinate > 50) {
+        headerElement.style.transform = "translateX(-50%) translateY(0px)";
+        headerElement.style.opacity = "1";
+        headerElement.style.pointerEvents = "auto";
     } else {
-        header.style.transform = "translateX(-50%) translateY(-300px)";
-        header.style.opacity = "0";
-        header.style.pointerEvents = "none";
+        headerElement.style.transform = "translateX(-50%) translateY(-300px)";
+        headerElement.style.opacity = "0";
+        headerElement.style.pointerEvents = "none";
     }
-    const colorRatio = Math.min(scrollYValue / 200, 1);
-    const rValue = Math.round(174 + (255 - 174) * colorRatio);
-    const gValue = Math.round(215 + (255 - 215) * colorRatio);
-    const bValue = 255;
-    header.style.backgroundColor = "rgb(" + rValue + ", " + gValue + ", " + bValue + ")";
+    const colorTransitionRatio = Math.min(scrollYCoordinate / 200, 1);
+    const redChannel = Math.round(174 + (255 - 174) * colorTransitionRatio);
+    const greenChannel = Math.round(215 + (255 - 215) * colorTransitionRatio);
+    const blueChannel = 255;
+    headerElement.style.backgroundColor = "rgb(" + redChannel + ", " + greenChannel + ", " + blueChannel + ")";
 });
 </script>
 </body>
