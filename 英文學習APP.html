@@ -1,13 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=440, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>英文學習APP</title>
 <style>
-    /* 徹底刪除所有安全區補償，回歸原始座標 */
+    /* 1. 徹底歸零：不寫任何安全區，不寫補償 */
     html, body {
         margin: 0;
         padding: 0;
@@ -15,10 +14,9 @@
         height: 100%;
         background-color: #AED7FF;
         overflow: hidden;
-        position: fixed;
     }
 
-    /* 滾動容器：不做任何安全區推擠 */
+    /* 2. 滾動層：單純的滿版容器 */
     .scroll-container {
         position: absolute;
         top: 0;
@@ -30,18 +28,18 @@
         -webkit-overflow-scrolling: touch;
     }
 
-    /* 440px 主體：物理負邊距鎖定中心，解決「小小偏」問題 */
+    /* 3. 主體：直接用負邊距鎖死 440px 置中，解決偏移 */
     .main-viewport {
         position: absolute;
         width: 440px;
         height: 1231px;
         top: 0;
         left: 50%;
-        margin-left: -220px; /* 寬度 440 的一半，達成真置中 */
+        margin-left: -220px; /* 440的一半，絕對中線 */
         background-color: #AED7FF;
     }
 
-    /* 矩形 6：固定在螢幕最頂端，跟隨 440px 容器置中 */
+    /* 4. 矩形 6：直接固定在 Top 0 */
     .rect-6 {
         box-sizing: border-box;
         position: fixed;
@@ -56,16 +54,14 @@
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.1s linear;
-        pointer-events: none;
     }
 
     .rect-6.show {
         opacity: 1;
         visibility: visible;
-        pointer-events: auto;
     }
 
-    /* 原始元件座標：完全不變 */
+    /* 以下為你原始的物件座標 */
     .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
     .text-streak { position: absolute; width: 400px; left: 80px; top: 130px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
     .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
@@ -99,7 +95,6 @@
 <script>
     const header = document.getElementById('sticky-header');
     const scroller = document.getElementById('scroller');
-
     scroller.addEventListener('scroll', function() {
         if (scroller.scrollTop > 5) {
             header.classList.add('show');
@@ -107,12 +102,6 @@
             header.classList.remove('show');
         }
     });
-
-    // 禁止縮放
-    document.addEventListener('gesturestart', (e) => e.preventDefault());
-    document.addEventListener('touchmove', (e) => {
-        if (e.scale !== 1) e.preventDefault();
-    }, { passive: false });
 </script>
 </body>
 </html>
