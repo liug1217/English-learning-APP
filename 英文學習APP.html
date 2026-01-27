@@ -4,20 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=440, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>英文學習APP</title>
 <style>
-    /* 1. 徹底刪除所有邊距，強制背景衝破頂部 */
+    /* 徹底刪除所有安全區補償，回歸原始座標 */
     html, body {
         margin: 0;
         padding: 0;
         width: 100%;
         height: 100%;
         background-color: #AED7FF;
-        overflow: hidden; /* 防止主頁面晃動 */
+        overflow: hidden;
+        position: fixed;
     }
 
-    /* 2. 滾動層：直接從 Top 0 開始，不留任何安全區空間 */
+    /* 滾動容器：不做任何安全區推擠 */
     .scroll-container {
         position: absolute;
         top: 0;
@@ -29,18 +30,18 @@
         -webkit-overflow-scrolling: touch;
     }
 
-    /* 3. 440px 主體：物理負邊距鎖定中心線（解決小偏問題） */
+    /* 440px 主體：物理負邊距鎖定中心，解決「小小偏」問題 */
     .main-viewport {
         position: absolute;
         width: 440px;
         height: 1231px;
         top: 0;
         left: 50%;
-        margin-left: -220px; /* 寬度一半，最穩定的置中方案 */
+        margin-left: -220px; /* 寬度 440 的一半，達成真置中 */
         background-color: #AED7FF;
     }
 
-    /* 4. Rectangle 6：死死固定在最頂端 */
+    /* 矩形 6：固定在螢幕最頂端，跟隨 440px 容器置中 */
     .rect-6 {
         box-sizing: border-box;
         position: fixed;
@@ -64,7 +65,7 @@
         pointer-events: auto;
     }
 
-    /* 元件座標：保持你原始 CSS 的設定 */
+    /* 原始元件座標：完全不變 */
     .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
     .text-streak { position: absolute; width: 400px; left: 80px; top: 130px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
     .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
@@ -107,7 +108,7 @@
         }
     });
 
-    // 鎖死禁止縮放
+    // 禁止縮放
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('touchmove', (e) => {
         if (e.scale !== 1) e.preventDefault();
