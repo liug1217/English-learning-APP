@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=440, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>英文學習APP</title>
     <style>
-        /* 基礎清空 */
-        html, body {
+        /* 徹底拔除所有預設行為 */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
             width: 100%;
             height: 100%;
             background-color: #AED7FF;
-            overflow: hidden; /* 防止底層晃動 */
+            overflow: hidden;
+            position: fixed; /* 鎖死底層，絕對不準晃動 */
         }
 
-        /* 滾動容器：單純滿版，不考慮安全區 */
+        /* 滿版容器：直接從物理 0 點開始 */
         .scroll-container {
             position: absolute;
             top: 0;
@@ -29,29 +33,28 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* 核心置中邏輯：物理中線定位，解決偏移問題 */
+        /* 440px 主體：物理負邊距鎖定中線，解決「小小偏」 */
         .main-viewport {
             position: absolute;
-            width: 440px;
-            height: 1231px;
             top: 0;
             left: 50%;
-            margin-left: -220px; /* 寬度的一半，確保任何螢幕都在正中央 */
+            width: 440px;
+            height: 1231px;
+            margin-left: -220px; /* 寬度的一半，達成真置中 */
             background-color: #AED7FF;
         }
 
-        /* 矩形 6：直接固定在螢幕最頂端 */
+        /* 矩形 6：固定在 Top 0，不留任何安全區縫隙 */
         .rect-6 {
-            box-sizing: border-box;
             position: fixed;
-            width: 440px;
-            height: 110px;
-            background-color: #FFFFFF;
-            border-bottom: 1px solid #D9D9D9;
-            z-index: 1000;
             top: 0;
             left: 50%;
+            width: 440px;
+            height: 110px;
             margin-left: -220px;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #D9D9D9;
+            z-index: 2000;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.1s linear;
@@ -62,9 +65,9 @@
             visibility: visible;
         }
 
-        /* 原本的零件座標與樣式 */
+        /* 零件座標（完全依照你原始的 CSS 定位） */
         .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
-        .text-streak { position: absolute; width: 400px; left: 80px; top: 130px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
+        .text-streak { position: absolute; left: 80px; top: 130px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
         .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
         .rect-3 { position: absolute; width: 420px; height: 400px; left: 10px; top: 251px; background-color: #FFFFFF; border-radius: 30px; }
         .rect-4 { position: absolute; width: 380px; height: 85px; left: 30px; top: 530px; background-color: #51A8FF; border-radius: 30px; }
@@ -77,8 +80,10 @@
     <div class="scroll-container" id="scroller">
         <div class="main-viewport">
             <div id="sticky-header" class="rect-6"></div>
+            
             <div class="rect-2"></div>
             <div class="text-streak">連續學習 0 天</div>
+            
             <div class="ellipse" style="left: 80px;"></div>
             <div class="ellipse" style="left: 120px;"></div>
             <div class="ellipse" style="left: 160px;"></div>
@@ -86,6 +91,7 @@
             <div class="ellipse" style="left: 240px;"></div>
             <div class="ellipse" style="left: 280px;"></div>
             <div class="ellipse" style="left: 320px;"></div>
+            
             <div class="rect-3"></div>
             <div class="rect-4"></div>
             <div class="text-today">今日單字</div>
@@ -93,17 +99,24 @@
             <div class="rect-1"></div>
         </div>
     </div>
+
 <script>
     const header = document.getElementById('sticky-header');
     const scroller = document.getElementById('scroller');
+    
+    // 監聽滾動，讓頂欄出現/消失
     scroller.addEventListener('scroll', function() {
-        if (scroller.scrollTop > 5) {
+        if (scroller.scrollTop > 10) {
             header.classList.add('show');
         } else {
             header.classList.remove('show');
         }
     });
+
+    // 禁用雙指縮放，確保佈局絕對穩定
+    document.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
 </script>
 </body>
 </html>
-
