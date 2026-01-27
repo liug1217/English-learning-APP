@@ -49,22 +49,24 @@ body {
     box-sizing: border-box;
     position: fixed;
     width: 440px;
-    height: 110px;
+    height: calc(110px + env(safe-area-inset-top));
     left: 50%;
-    top: calc(0px - env(safe-area-inset-top));
-    transform: translateX(-50%) translateY(-110px);
+    top: 0px;
+    transform: translateX(-50%) translateY(calc(-110px - env(safe-area-inset-top)));
+    padding-top: env(safe-area-inset-top);
     background-color: rgb(174, 215, 255);
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: rgb(217, 217, 217);
     z-index: 1000;
-    transition-property: transform, opacity, background-color;
-    transition-duration: 0.1s, 0.1s, 0.2s;
-    transition-timing-function: linear, linear, linear;
+    transition-property: opacity, background-color;
+    transition-duration: 0.2s, 0.2s;
+    transition-timing-function: linear;
     opacity: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
 }
 
 .phone {
@@ -72,7 +74,8 @@ body {
     width: 440px;
     height: 1231px;
     background-color: rgb(174, 215, 255);
-    top: calc(0px - env(safe-area-inset-top));
+    top: 0px;
+    padding-top: env(safe-area-inset-top);
 }
 
 .rectangle-two {
@@ -224,7 +227,7 @@ body {
 </head>
 <body>
 <div class="outer-container">
-<div class="rectangle-six">Header</div>
+<div class="rectangle-six">標題文字</div>
 <div class="phone">
 <div class="rectangle-two"></div>
 <div class="learning-days">連續學習 0 天</div>
@@ -245,12 +248,19 @@ body {
 <script>
 const headerElement = document.querySelector(".rectangle-six");
 window.addEventListener("scroll", function() {
-    const totalHeaderHeight = headerElement.offsetHeight;
     const scrollDistanceValue = window.scrollY;
-    const revealDistanceValue = Math.min(scrollDistanceValue, totalHeaderHeight);
-    headerElement.style.transform = "translateX(-50%) translateY(" + (revealDistanceValue) + "px)";
-    const ratioValue = Math.min(scrollDistanceValue / 110, 1);
-    headerElement.style.opacity = ratioValue;
+    
+    if (scrollDistanceValue > 50) {
+        headerElement.style.transform = "translateX(-50%) translateY(0px)";
+        headerElement.style.opacity = "1";
+        headerElement.style.pointerEvents = "auto";
+    } else {
+        headerElement.style.transform = "translateX(-50%) translateY(calc(-110px - env(safe-area-inset-top)))";
+        headerElement.style.opacity = "0";
+        headerElement.style.pointerEvents = "none";
+    }
+
+    const ratioValue = Math.min(scrollDistanceValue / 200, 1);
     const redValue = Math.round(174 + (255 - 174) * ratioValue);
     const greenValue = Math.round(215 + (255 - 215) * ratioValue);
     const blueValue = 255;
