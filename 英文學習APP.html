@@ -1,76 +1,77 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=440, user-scalable=no">
-<title>英文學習APP</title>
-<style>
-    /* 1. 徹底歸零：不寫任何安全區，不寫補償 */
-    html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #AED7FF;
-        overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=440, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>英文學習APP</title>
+    <style>
+        /* 基礎清空 */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #AED7FF;
+            overflow: hidden; /* 防止底層晃動 */
+        }
 
-    /* 2. 滾動層：單純的滿版容器 */
-    .scroll-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-    }
+        /* 滾動容器：單純滿版，不考慮安全區 */
+        .scroll-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
 
-    /* 3. 主體：直接用負邊距鎖死 440px 置中，解決偏移 */
-    .main-viewport {
-        position: absolute;
-        width: 440px;
-        height: 1231px;
-        top: 0;
-        left: 50%;
-        margin-left: -220px; /* 440的一半，絕對中線 */
-        background-color: #AED7FF;
-    }
+        /* 核心置中邏輯：物理中線定位，解決偏移問題 */
+        .main-viewport {
+            position: absolute;
+            width: 440px;
+            height: 1231px;
+            top: 0;
+            left: 50%;
+            margin-left: -220px; /* 寬度的一半，確保任何螢幕都在正中央 */
+            background-color: #AED7FF;
+        }
 
-    /* 4. 矩形 6：直接固定在 Top 0 */
-    .rect-6 {
-        box-sizing: border-box;
-        position: fixed;
-        width: 440px;
-        height: 110px;
-        background-color: #FFFFFF;
-        border-bottom: 1px solid #D9D9D9;
-        z-index: 2000;
-        top: 0;
-        left: 50%;
-        margin-left: -220px;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.1s linear;
-    }
+        /* 矩形 6：直接固定在螢幕最頂端 */
+        .rect-6 {
+            box-sizing: border-box;
+            position: fixed;
+            width: 440px;
+            height: 110px;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #D9D9D9;
+            z-index: 1000;
+            top: 0;
+            left: 50%;
+            margin-left: -220px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.1s linear;
+        }
 
-    .rect-6.show {
-        opacity: 1;
-        visibility: visible;
-    }
+        .rect-6.show {
+            opacity: 1;
+            visibility: visible;
+        }
 
-    /* 以下為你原始的物件座標 */
-    .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
-    .text-streak { position: absolute; width: 400px; left: 80px; top: 130px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
-    .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
-    .rect-3 { position: absolute; width: 420px; height: 400px; left: 10px; top: 251px; background-color: #FFFFFF; border-radius: 30px; }
-    .rect-4 { position: absolute; width: 380px; height: 85px; left: 30px; top: 530px; background-color: #51A8FF; border-radius: 30px; }
-    .text-today { position: absolute; width: 120px; left: 160px; top: 555px; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 30px; color: #FFFFFF; z-index: 11; }
-    .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
-    .rect-1 { position: absolute; width: 420px; height: 110px; left: 10px; top: 835px; background-color: #FFFFFF; border-radius: 42px; }
-</style>
+        /* 原本的零件座標與樣式 */
+        .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
+        .text-streak { position: absolute; width: 400px; left: 80px; top: 130px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
+        .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
+        .rect-3 { position: absolute; width: 420px; height: 400px; left: 10px; top: 251px; background-color: #FFFFFF; border-radius: 30px; }
+        .rect-4 { position: absolute; width: 380px; height: 85px; left: 30px; top: 530px; background-color: #51A8FF; border-radius: 30px; }
+        .text-today { position: absolute; width: 120px; left: 160px; top: 555px; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 30px; color: #FFFFFF; z-index: 11; }
+        .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
+        .rect-1 { position: absolute; width: 420px; height: 110px; left: 10px; top: 835px; background-color: #FFFFFF; border-radius: 42px; }
+    </style>
 </head>
 <body>
     <div class="scroll-container" id="scroller">
@@ -105,3 +106,4 @@
 </script>
 </body>
 </html>
+
