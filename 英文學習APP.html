@@ -8,29 +8,33 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>英文學習APP</title>
 <style>
-    html {
-        margin: 0;
-        padding: 0;
-        background-color: #AED7FF;
-        overscroll-behavior: none;
-    }
-    body {
+    html, body {
         margin: 0;
         padding: 0;
         width: 100%;
-        min-height: 100%;
+        height: 100%;
         background-color: #AED7FF;
-        display: flex;
-        justify-content: center;
+        overflow: hidden;
+        position: fixed;
+    }
+    .scroll-container {
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
         overflow-x: hidden;
-        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: none;
     }
     .main-viewport {
         position: relative;
         width: 440px;
         height: 1231px;
         background-color: #AED7FF;
-        flex-shrink: 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        left: 0;
+        right: 0;
     }
     .rect-6 {
         box-sizing: border-box;
@@ -41,9 +45,7 @@
         border-bottom: 1px solid #D9D9D9;
         z-index: 1000;
         top: 0px;
-        /* 使用 translateX 達成物理級別的真置中 */
-        left: 50%;
-        transform: translateX(-50%);
+        left: calc(50% - 220px);
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.1s linear;
@@ -133,27 +135,30 @@
 </style>
 </head>
 <body>
-    <div class="main-viewport" id="container">
-        <div id="sticky-header" class="rect-6"></div>
-        <div class="rect-2"></div>
-        <div class="text-streak">連續學習 0 天</div>
-        <div class="ellipse" style="left: 80px;"></div>
-        <div class="ellipse" style="left: 120px;"></div>
-        <div class="ellipse" style="left: 160px;"></div>
-        <div class="ellipse" style="left: 200px;"></div>
-        <div class="ellipse" style="left: 240px;"></div>
-        <div class="ellipse" style="left: 280px;"></div>
-        <div class="ellipse" style="left: 320px;"></div>
-        <div class="rect-3"></div>
-        <div class="rect-4"></div>
-        <div class="text-today">今日單字</div>
-        <div class="rect-5"></div>
-        <div class="rect-1"></div>
+    <div class="scroll-container" id="scroller">
+        <div class="main-viewport">
+            <div id="sticky-header" class="rect-6"></div>
+            <div class="rect-2"></div>
+            <div class="text-streak">連續學習 0 天</div>
+            <div class="ellipse" style="left: 80px;"></div>
+            <div class="ellipse" style="left: 120px;"></div>
+            <div class="ellipse" style="left: 160px;"></div>
+            <div class="ellipse" style="left: 200px;"></div>
+            <div class="ellipse" style="left: 240px;"></div>
+            <div class="ellipse" style="left: 280px;"></div>
+            <div class="ellipse" style="left: 320px;"></div>
+            <div class="rect-3"></div>
+            <div class="rect-4"></div>
+            <div class="text-today">今日單字</div>
+            <div class="rect-5"></div>
+            <div class="rect-1"></div>
+        </div>
     </div>
 <script>
     const header = document.getElementById('sticky-header');
-    window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 0) {
+    const scroller = document.getElementById('scroller');
+    scroller.addEventListener('scroll', function() {
+        if (scroller.scrollTop > 0) {
             header.classList.add('show');
         } else {
             header.classList.remove('show');
