@@ -39,30 +39,31 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
+#safe-area-probe {
+    position: absolute;
+    visibility: hidden;
+    height: env(safe-area-inset-top);
+}
+
 .outer-container {
     width: 440px;
     position: relative;
-    top: 0px;
 }
 
 .rectangle-six {
     box-sizing: border-box;
     position: fixed;
     width: 440px;
-    /* 這裡執行減法：目標總高 110px 減掉 手機自動偵測的安全區高度 */
-    height: calc(110px - env(safe-area-inset-top));
     left: 50%;
-    /* 起始點設在安全區的最底端 */
-    top: env(safe-area-inset-top);
-    /* 初始狀態隱藏在上方，移動距離包含本體高度與安全區 */
-    transform: translateX(-50%) translateY(-110px);
+    top: 0px; 
+    transform: translateX(-50%) translateY(-200px);
     background-color: rgb(174, 215, 255);
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: rgb(217, 217, 217);
     z-index: 1000;
     transition-property: opacity, background-color, transform;
-    transition-duration: 0.2s, 0.2s, 0.2s;
+    transition-duration: 0.2s;
     transition-timing-function: linear;
     opacity: 0;
     display: flex;
@@ -71,16 +72,18 @@ body {
     pointer-events: none;
 }
 
-/* 建立一個補位元素，用來填滿安全區那部分的顏色 */
-.rectangle-six::before {
-    content: "";
-    position: absolute;
-    width: 100%;
+.safe-area-patch {
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 440px;
     height: env(safe-area-inset-top);
-    /* 讓它往上長，填滿 top 到螢幕最頂端的空隙 */
-    top: calc(0px - env(safe-area-inset-top));
-    left: 0px;
-    background-color: inherit;
+    background-color: rgb(174, 215, 255);
+    z-index: 999;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.2s;
 }
 
 .phone {
@@ -88,7 +91,6 @@ body {
     width: 440px;
     height: 1231px;
     background-color: rgb(174, 215, 255);
-    top: 0px;
     padding-top: env(safe-area-inset-top);
 }
 
@@ -107,12 +109,9 @@ body {
     left: 80px;
     top: 130px;
     font-family: Inter, sans-serif;
-    font-style: normal;
     font-weight: 800;
     font-size: 15px;
-    line-height: 18px;
     color: rgb(0, 0, 0);
-    white-space: nowrap;
 }
 
 .circle-one { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 80px; }
@@ -148,12 +147,9 @@ body {
     left: 160px;
     top: 555px;
     font-family: Inter, sans-serif;
-    font-style: normal;
     font-weight: 900;
     font-size: 30px;
-    line-height: 36px;
     color: rgb(255, 255, 255);
-    white-space: nowrap;
 }
 
 .rectangle-five {
@@ -178,45 +174,65 @@ body {
 </style>
 </head>
 <body>
+
+<div id="safe-area-probe"></div>
+
 <div class="outer-container">
-<div class="rectangle-six">標題文字</div>
-<div class="phone">
-<div class="rectangle-two"></div>
-<div class="learning-days">連續學習 0 天</div>
-<div class="circle-one"></div>
-<div class="circle-two"></div>
-<div class="circle-three"></div>
-<div class="circle-four"></div>
-<div class="circle-five"></div>
-<div class="circle-six"></div>
-<div class="circle-seven"></div>
-<div class="rectangle-three"></div>
-<div class="rectangle-four"></div>
-<div class="today-word">今日單字</div>
-<div class="rectangle-five"></div>
-<div class="rectangle-one"></div>
+    <div class="safe-area-patch"></div>
+    <div class="rectangle-six">標題文字</div>
+    <div class="phone">
+        <div class="rectangle-two"></div>
+        <div class="learning-days">連續學習 0 天</div>
+        <div class="circle-one"></div>
+        <div class="circle-two"></div>
+        <div class="circle-three"></div>
+        <div class="circle-four"></div>
+        <div class="circle-five"></div>
+        <div class="circle-six"></div>
+        <div class="circle-seven"></div>
+        <div class="rectangle-three"></div>
+        <div class="rectangle-four"></div>
+        <div class="today-word">今日單字</div>
+        <div class="rectangle-five"></div>
+        <div class="rectangle-one"></div>
+    </div>
 </div>
-</div>
+
 <script>
-const headerElement = document.querySelector(".rectangle-six");
+const header = document.querySelector(".rectangle-six");
+const patch = document.querySelector(".safe-area-patch");
+const probe = document.getElementById("safe-area-probe");
+
+function autoAdjustHeader() {
+    const safeHeight = probe.offsetHeight; 
+    const totalGoal = 110;
+    const resultHeight = totalGoal - safeHeight;
+    header.style.height = resultHeight + "px";
+    header.style.top = safeHeight + "px"; 
+}
+
+autoAdjustHeader();
+
 window.addEventListener("scroll", function() {
-    const scrollDistanceValue = window.scrollY;
-    if (scrollDistanceValue > 50) {
-        /* 滑動超過 50px 時，Header 降落到安全區下方 */
-        headerElement.style.transform = "translateX(-50%) translateY(0px)";
-        headerElement.style.opacity = "1";
-        headerElement.style.pointerEvents = "auto";
+    const scrollDistance = window.scrollY;
+    if (scrollDistance > 50) {
+        header.style.transform = "translateX(-50%) translateY(0px)";
+        header.style.opacity = "1";
+        header.style.pointerEvents = "auto";
+        patch.style.opacity = "1";
     } else {
-        /* 回到頂部時，Header 縮回上方 */
-        headerElement.style.transform = "translateX(-50%) translateY(-110px)";
-        headerElement.style.opacity = "0";
-        headerElement.style.pointerEvents = "none";
+        header.style.transform = "translateX(-50%) translateY(-200px)";
+        header.style.opacity = "0";
+        header.style.pointerEvents = "none";
+        patch.style.opacity = "0";
     }
-    const ratioValue = Math.min(scrollDistanceValue / 200, 1);
-    const redValue = Math.round(174 + (255 - 174) * ratioValue);
-    const greenValue = Math.round(215 + (255 - 215) * ratioValue);
-    const blueValue = 255;
-    headerElement.style.backgroundColor = "rgb(" + redValue + ", " + greenValue + ", " + blueValue + ")";
+    const ratio = Math.min(scrollDistance / 200, 1);
+    const r = Math.round(174 + (255 - 174) * ratio);
+    const g = Math.round(215 + (255 - 215) * ratio);
+    const b = 255;
+    const color = "rgb(" + r + ", " + g + ", " + b + ")";
+    header.style.backgroundColor = color;
+    patch.style.backgroundColor = color;
 });
 </script>
 </body>
