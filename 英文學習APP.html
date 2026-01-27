@@ -39,12 +39,6 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-#safe-area-probe {
-    position: absolute;
-    visibility: hidden;
-    height: env(safe-area-inset-top);
-}
-
 .outer-container {
     width: 440px;
     position: relative;
@@ -55,36 +49,23 @@ body {
     position: fixed;
     width: 440px;
     left: 50%;
-    transform: translateX(-50%) translateY(-250px);
+    top: 0px;
+    transform: translateX(-50%) translateY(-300px);
     background-color: rgb(174, 215, 255);
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: rgb(217, 217, 217);
     z-index: 1000;
     transition-property: opacity, background-color, transform;
-    transition-duration: 0.2s;
-    transition-timing-function: linear;
+    transition-duration: 0.2s, 0.2s, 0.2s;
+    transition-timing-function: linear, linear, linear;
     opacity: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    overflow: hidden;
-}
-
-.safe-area-patch {
-    position: fixed;
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 440px;
-    height: env(safe-area-inset-top);
-    background-color: rgb(174, 215, 255);
-    z-index: 1001;
-    opacity: 0;
-    transition-property: opacity;
-    transition-duration: 0.2s;
-    pointer-events: none;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .phone {
@@ -92,7 +73,6 @@ body {
     width: 440px;
     height: 1231px;
     background-color: rgb(174, 215, 255);
-    padding-top: env(safe-area-inset-top);
 }
 
 .rectangle-two {
@@ -102,7 +82,10 @@ body {
     left: 10px;
     top: 110px;
     background-color: rgb(255, 255, 255);
-    border-radius: 30px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
 }
 
 .learning-days {
@@ -115,13 +98,96 @@ body {
     color: rgb(0, 0, 0);
 }
 
-.circle-one { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 80px; }
-.circle-two { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 120px; }
-.circle-three { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 160px; }
-.circle-four { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 200px; }
-.circle-five { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 240px; }
-.circle-six { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 280px; }
-.circle-seven { position: absolute; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(217, 217, 217); top: 155px; left: 320px; }
+.circle-one {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: rgb(217, 217, 217);
+    top: 155px;
+    left: 80px;
+}
+
+.circle-two {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: rgb(217, 217, 217);
+    top: 155px;
+    left: 120px;
+}
+
+.circle-three {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: rgb(217, 217, 217);
+    top: 155px;
+    left: 160px;
+}
+
+.circle-four {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: rgb(217, 217, 217);
+    top: 155px;
+    left: 200px;
+}
+
+.circle-five {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: rgb(217, 217, 217);
+    top: 155px;
+    left: 240px;
+}
+
+.circle-six {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: rgb(217, 217, 217);
+    top: 155px;
+    left: 280px;
+}
+
+.circle-seven {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: rgb(217, 217, 217);
+    top: 155px;
+    left: 320px;
+}
 
 .rectangle-three {
     position: absolute;
@@ -130,7 +196,10 @@ body {
     left: 10px;
     top: 251px;
     background-color: rgb(255, 255, 255);
-    border-radius: 30px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
 }
 
 .rectangle-four {
@@ -140,7 +209,10 @@ body {
     left: 30px;
     top: 530px;
     background-color: rgb(81, 168, 255);
-    border-radius: 30px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
 }
 
 .today-word {
@@ -160,7 +232,10 @@ body {
     left: 10px;
     top: 690px;
     background-color: rgb(255, 255, 255);
-    border-radius: 30px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
 }
 
 .rectangle-one {
@@ -170,16 +245,16 @@ body {
     left: 10px;
     top: 835px;
     background-color: rgb(255, 255, 255);
-    border-radius: 42px;
+    border-top-left-radius: 42px;
+    border-top-right-radius: 42px;
+    border-bottom-left-radius: 42px;
+    border-bottom-right-radius: 42px;
 }
 </style>
 </head>
 <body>
 
-<div id="safe-area-probe"></div>
-
 <div class="outer-container">
-    <div class="safe-area-patch"></div>
     <div class="rectangle-six">標題文字</div>
     <div class="phone">
         <div class="rectangle-two"></div>
@@ -201,40 +276,44 @@ body {
 
 <script>
 const header = document.querySelector(".rectangle-six");
-const patch = document.querySelector(".safe-area-patch");
-const probe = document.getElementById("safe-area-probe");
 
-function autoAdjustHeader() {
-    const safeHeight = probe.offsetHeight; 
-    const totalGoal = 110;
-    const resultHeight = totalGoal - safeHeight;
-    header.style.height = resultHeight + "px";
-    header.style.top = safeHeight + "px"; 
+function executeAutoCalculation() {
+    const targetTotalHeight = 110;
+    
+    const tempElement = document.createElement("div");
+    tempElement.style.position = "absolute";
+    tempElement.style.top = "0px";
+    tempElement.style.height = "env(safe-area-inset-top)";
+    tempElement.style.visibility = "hidden";
+    document.body.appendChild(tempElement);
+    
+    const detectedSafeHeight = tempElement.offsetHeight;
+    document.body.removeChild(tempElement);
+    
+    const finalResultHeight = targetTotalHeight - detectedSafeHeight;
+    
+    header.style.height = finalResultHeight + "px";
+    header.style.paddingTop = detectedSafeHeight + "px";
 }
 
-window.addEventListener("load", autoAdjustHeader);
-window.addEventListener("resize", autoAdjustHeader);
+window.addEventListener("load", executeAutoCalculation);
 
 window.addEventListener("scroll", function() {
-    const scrollDistance = window.scrollY;
-    if (scrollDistance > 50) {
+    const scrollYValue = window.scrollY;
+    if (scrollYValue > 50) {
         header.style.transform = "translateX(-50%) translateY(0px)";
         header.style.opacity = "1";
         header.style.pointerEvents = "auto";
-        patch.style.opacity = "1";
     } else {
-        header.style.transform = "translateX(-50%) translateY(-250px)";
+        header.style.transform = "translateX(-50%) translateY(-300px)";
         header.style.opacity = "0";
         header.style.pointerEvents = "none";
-        patch.style.opacity = "0";
     }
-    const ratio = Math.min(scrollDistance / 200, 1);
-    const r = Math.round(174 + (255 - 174) * ratio);
-    const g = Math.round(215 + (255 - 215) * ratio);
-    const b = 255;
-    const color = "rgb(" + r + ", " + g + ", " + b + ")";
-    header.style.backgroundColor = color;
-    patch.style.backgroundColor = color;
+    const colorRatio = Math.min(scrollYValue / 200, 1);
+    const rValue = Math.round(174 + (255 - 174) * colorRatio);
+    const gValue = Math.round(215 + (255 - 215) * colorRatio);
+    const bValue = 255;
+    header.style.backgroundColor = "rgb(" + rValue + ", " + gValue + ", " + bValue + ")";
 });
 </script>
 </body>
