@@ -8,19 +8,16 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>英文學習APP</title>
 <style>
-    /* 基礎重置與禁止全域滾動 */
     html, body {
         margin: 0;
         padding: 0;
         width: 100%;
         height: 100%;
         background-color: #AED7FF;
-        overflow: hidden; /* 禁止 body 滾動 */
-        position: fixed; /* 徹底鎖死背景防止拖移 */
-        touch-action: none; /* 禁止預設手勢 */
+        overflow: hidden;
+        position: fixed;
+        touch-action: none;
     }
-
-    /* 專用滾動容器：處理內容滑動並禁止橡皮筋回彈 */
     .scroll-container {
         width: 100%;
         height: 100%;
@@ -28,11 +25,10 @@
         overflow-x: hidden;
         display: flex;
         justify-content: center;
-        overscroll-behavior-y: none; /* 禁止 Chrome/Android 彈條 */
-        -webkit-overflow-scrolling: touch; /* 讓 iOS 滑動順暢 */
-        touch-action: pan-y; /* 僅允許垂直滑動 */
+        overscroll-behavior-y: none;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
     }
-
     .main-viewport {
         position: relative;
         width: 440px;
@@ -40,8 +36,6 @@
         background-color: #AED7FF;
         flex-shrink: 0;
     }
-
-    /* 頂部純白欄位：滑動時顯示 */
     .rect-6 {
         box-sizing: border-box;
         position: fixed;
@@ -54,16 +48,13 @@
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.1s linear;
-        pointer-events: none; /* 隱藏時不可點擊 */
+        pointer-events: none;
     }
-
     .rect-6.show {
         opacity: 1;
         visibility: visible;
-        pointer-events: auto; /* 顯示時恢復點擊 */
+        pointer-events: auto;
     }
-
-    /* 以下為內容元件區 */
     .rect-2 {
         position: absolute;
         width: 420px;
@@ -73,7 +64,6 @@
         background-color: #FFFFFF;
         border-radius: 30px;
     }
-
     .text-streak {
         position: absolute;
         width: 400px;
@@ -85,7 +75,6 @@
         color: #000000;
         z-index: 10;
     }
-
     .ellipse {
         position: absolute;
         width: 30px;
@@ -95,7 +84,6 @@
         border-radius: 50%;
         z-index: 10;
     }
-
     .rect-3 {
         position: absolute;
         width: 420px;
@@ -105,7 +93,6 @@
         background-color: #FFFFFF;
         border-radius: 30px;
     }
-
     .rect-4 {
         position: absolute;
         width: 380px;
@@ -115,7 +102,6 @@
         background-color: #51A8FF;
         border-radius: 30px;
     }
-
     .text-today {
         position: absolute;
         width: 120px;
@@ -127,7 +113,6 @@
         color: #FFFFFF;
         z-index: 11;
     }
-
     .rect-5 {
         position: absolute;
         width: 420px;
@@ -137,7 +122,6 @@
         background-color: #FFFFFF;
         border-radius: 30px;
     }
-
     .rect-1 {
         position: absolute;
         width: 420px;
@@ -153,7 +137,6 @@
     <div class="scroll-container" id="scroller">
         <div class="main-viewport" id="container">
             <div id="sticky-header" class="rect-6"></div>
-            
             <div class="rect-2"></div>
             <div class="text-streak">連續學習 0 天</div>
             <div class="ellipse" style="left: 80px;"></div>
@@ -163,7 +146,6 @@
             <div class="ellipse" style="left: 240px;"></div>
             <div class="ellipse" style="left: 280px;"></div>
             <div class="ellipse" style="left: 320px;"></div>
-            
             <div class="rect-3"></div>
             <div class="rect-4"></div>
             <div class="text-today">今日單字</div>
@@ -171,19 +153,14 @@
             <div class="rect-1"></div>
         </div>
     </div>
-
 <script>
     const header = document.getElementById('sticky-header');
     const container = document.getElementById('container');
     const scroller = document.getElementById('scroller');
-
-    // 精確計算頂欄位置（針對寬螢幕置中）
     function alignHeader() {
         const rect = container.getBoundingClientRect();
         header.style.left = rect.left + 'px';
     }
-
-    // 監聽滾動容器而非 window
     scroller.addEventListener('scroll', function() {
         if (scroller.scrollTop > 0) {
             header.classList.add('show');
@@ -192,17 +169,11 @@
         }
         alignHeader();
     });
-
-    // 初始化與縮放處理
     window.addEventListener('resize', alignHeader);
     alignHeader();
-
-    // 強制禁止 iOS Safari 的手勢縮放
     document.addEventListener('gesturestart', function(e) {
         e.preventDefault();
     });
-
-    // 防止在滾動容器邊界外的拖移行為（iOS 專用補強）
     document.addEventListener('touchmove', function(e) {
         if (!scroller.contains(e.target)) {
             e.preventDefault();
