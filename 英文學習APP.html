@@ -8,7 +8,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>英文學習APP</title>
 <style>
-    /* 核心：html 與 body 必須撐開且不准動 */
+    /* 徹底移除所有安全區域限制 */
+    :root {
+        --sat: env(safe-area-inset-top);
+        --sab: env(safe-area-inset-bottom);
+    }
+
     html, body {
         margin: 0;
         padding: 0;
@@ -16,36 +21,34 @@
         height: 100%;
         background-color: #AED7FF;
         overflow: hidden;
-        position: fixed; /* 鎖死底層防止晃動 */
+        position: fixed; /* 鎖死底層，解決跑位問題 */
     }
 
-    /* 滾動容器：延伸至安全區域之外 */
+    /* 滿版滾動層，強制衝破安全區 */
     .scroll-container {
         position: absolute;
         top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
         width: 100%;
         height: 100%;
         overflow-y: scroll;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
-        background-color: #AED7FF; /* 確保背景填滿 */
+        background-color: #AED7FF;
     }
 
-    /* 物件主體：物理置中鎖定 */
+    /* 440px 物件主體：絕對物理置中 */
     .main-viewport {
         position: absolute;
         width: 440px;
         height: 1231px;
-        background-color: #AED7FF;
         top: 0;
         left: 50%;
-        margin-left: -220px; /* 固定寬度的一半 */
+        margin-left: -220px;
+        background-color: #AED7FF;
     }
 
-    /* 矩形6：固定於頂部且置中 */
+    /* 矩形6：固定在螢幕最頂端，不留白 */
     .rect-6 {
         box-sizing: border-box;
         position: fixed;
@@ -69,7 +72,7 @@
         pointer-events: auto;
     }
 
-    /* 元件樣式保持不變 */
+    /* 以下為原始元件，保持不變 */
     .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
     .text-streak { position: absolute; width: 400px; left: 80px; top: 130px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
     .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
@@ -104,7 +107,6 @@
     const header = document.getElementById('sticky-header');
     const scroller = document.getElementById('scroller');
 
-    // 處理滾動顯示隱藏
     scroller.addEventListener('scroll', function() {
         if (scroller.scrollTop > 5) {
             header.classList.add('show');
@@ -113,7 +115,7 @@
         }
     });
 
-    // 鎖死手勢與縮放
+    // 鎖死縮放與防止 iOS 橡皮筋
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('touchmove', (e) => {
         if (e.scale !== 1) e.preventDefault();
