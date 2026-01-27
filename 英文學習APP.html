@@ -2,248 +2,160 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-title" content="英文學習APP">
+<meta name="viewport" content="width=440, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>英文學習APP</title>
 <style>
-html {
-    margin: 0px;
-    padding: 0px;
-    height: 100%;
+html, body {
+    margin: 0;
+    padding: 0;
     width: 100%;
-    background-color: rgb(174, 215, 255);
-}
-
-body {
-    margin: 0px;
-    padding: 0px;
-    height: 100%;
-    width: 100%;
-    background-color: rgb(174, 215, 255);
-    overflow-x: hidden;
-    overflow-y: auto;
+    min-height: 100%;
+    background-color: transparent;
     display: flex;
     justify-content: center;
-    position: relative;
-    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
 }
-
-.outer-container {
+.main-viewport {
+    position: relative;
     width: 440px;
-    position: relative;
-    top: 0px;
+    height: 1231px;
+    background-color: #AED7FF;
+    flex-shrink: 0;
 }
-
-.rectangle-six {
+.rect-6 {
     box-sizing: border-box;
     position: fixed;
     width: 440px;
     height: 110px;
-    left: 50%;
-    top: 0px;
-    transform: translateX(-50%) translateY(-110px);
-    background-color: rgb(174, 215, 255);
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: rgb(217, 217, 217);
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #D9D9D9;
     z-index: 1000;
-    transition-property: transform, opacity, background-color;
-    transition-duration: 0.1s, 0.1s, 0.2s;
-    transition-timing-function: linear, linear, linear;
-    opacity: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.phone {
-    position: relative;
-    width: 440px;
-    height: 1231px;
-    background-color: rgb(174, 215, 255);
     top: 0px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.1s linear;
 }
-
-.rectangle-two {
+.rect-6.show {
+    opacity: 1;
+    visibility: visible;
+}
+.rect-2 {
     position: absolute;
     width: 420px;
     height: 100px;
     left: 10px;
     top: 110px;
-    background-color: rgb(255, 255, 255);
+    background-color: #FFFFFF;
     border-radius: 30px;
 }
-
-.learning-days {
+.text-streak {
     position: absolute;
+    width: 400px;
     left: 80px;
     top: 130px;
-    font-family: Inter, sans-serif;
-    font-style: normal;
+    font-family: 'Inter';
     font-weight: 800;
     font-size: 15px;
-    line-height: 18px;
-    color: rgb(0, 0, 0);
-    white-space: nowrap;
+    color: #000000;
+    z-index: 10;
 }
-
-.circle-one {
+.ellipse {
     position: absolute;
     width: 30px;
     height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
     top: 155px;
-    left: 80px;
-}
-
-.circle-two {
-    position: absolute;
-    width: 30px;
-    height: 30px;
+    background-color: #D9D9D9;
     border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 120px;
+    z-index: 10;
 }
-
-.circle-three {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 160px;
-}
-
-.circle-four {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 200px;
-}
-
-.circle-five {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 240px;
-}
-
-.circle-six {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 280px;
-}
-
-.circle-seven {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: rgb(217, 217, 217);
-    top: 155px;
-    left: 320px;
-}
-
-.rectangle-three {
+.rect-3 {
     position: absolute;
     width: 420px;
     height: 400px;
     left: 10px;
     top: 251px;
-    background-color: rgb(255, 255, 255);
+    background-color: #FFFFFF;
     border-radius: 30px;
 }
-
-.rectangle-four {
+.rect-4 {
     position: absolute;
     width: 380px;
     height: 85px;
     left: 30px;
     top: 530px;
-    background-color: rgb(81, 168, 255);
+    background-color: #51A8FF;
     border-radius: 30px;
 }
-
-.today-word {
+.text-today {
     position: absolute;
+    width: 120px;
     left: 160px;
     top: 555px;
-    font-family: Inter, sans-serif;
-    font-style: normal;
+    font-family: 'Inter';
     font-weight: 900;
     font-size: 30px;
-    line-height: 36px;
-    color: rgb(255, 255, 255);
-    white-space: nowrap;
+    color: #FFFFFF;
+    z-index: 11;
 }
-
-.rectangle-five {
+.rect-5 {
     position: absolute;
     width: 420px;
     height: 400px;
     left: 10px;
     top: 690px;
-    background-color: rgb(255, 255, 255);
+    background-color: #FFFFFF;
     border-radius: 30px;
 }
-
-.rectangle-one {
+.rect-1 {
     position: absolute;
     width: 420px;
     height: 110px;
     left: 10px;
     top: 835px;
-    background-color: rgb(255, 255, 255);
+    background-color: #FFFFFF;
     border-radius: 42px;
 }
 </style>
 </head>
 <body>
-<div class="outer-container">
-<div class="rectangle-six">Header</div>
-<div class="phone">
-<div class="rectangle-two"></div>
-<div class="learning-days">連續學習 0 天</div>
-<div class="circle-one"></div>
-<div class="circle-two"></div>
-<div class="circle-three"></div>
-<div class="circle-four"></div>
-<div class="circle-five"></div>
-<div class="circle-six"></div>
-<div class="circle-seven"></div>
-<div class="rectangle-three"></div>
-<div class="rectangle-four"></div>
-<div class="today-word">今日單字</div>
-<div class="rectangle-five"></div>
-<div class="rectangle-one"></div>
-</div>
-</div>
+    <div class="main-viewport" id="container">
+        <div id="sticky-header" class="rect-6"></div>
+        <div class="rect-2"></div>
+        <div class="text-streak">連續學習 0 天</div>
+        <div class="ellipse" style="left: 80px;"></div>
+        <div class="ellipse" style="left: 120px;"></div>
+        <div class="ellipse" style="left: 160px;"></div>
+        <div class="ellipse" style="left: 200px;"></div>
+        <div class="ellipse" style="left: 240px;"></div>
+        <div class="ellipse" style="left: 280px;"></div>
+        <div class="ellipse" style="left: 320px;"></div>
+        <div class="rect-3"></div>
+        <div class="rect-4"></div>
+        <div class="text-today">今日單字</div>
+        <div class="rect-5"></div>
+        <div class="rect-1"></div>
+    </div>
 <script>
-const headerElement = document.querySelector(".rectangle-six");
-window.addEventListener("scroll", function() {
-    const totalHeaderHeight = headerElement.offsetHeight;
-    const scrollDistanceValue = window.scrollY;
-    const revealDistanceValue = Math.min(scrollDistanceValue, totalHeaderHeight);
-    headerElement.style.transform = "translateX(-50%) translateY(" + (-totalHeaderHeight + revealDistanceValue) + "px)";
-    const ratioValue = Math.min(scrollDistanceValue / 110, 1);
-    headerElement.style.opacity = ratioValue;
-    const redValue = Math.round(174 + (255 - 174) * ratioValue);
-    const greenValue = Math.round(215 + (255 - 215) * ratioValue);
-    const blueValue = 255;
-    headerElement.style.backgroundColor = "rgb(" + redValue + ", " + greenValue + ", " + blueValue + ")";
-});
+    const header = document.getElementById('sticky-header');
+    const container = document.getElementById('container');
+    function alignHeader() {
+        const rect = container.getBoundingClientRect();
+        header.style.left = rect.left + 'px';
+    }
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 0) {
+            header.classList.add('show');
+        } else {
+            header.classList.remove('show');
+        }
+        alignHeader();
+    });
+    window.addEventListener('resize', alignHeader);
+    alignHeader();
 </script>
 </body>
+
 </html>
