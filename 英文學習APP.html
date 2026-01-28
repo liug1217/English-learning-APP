@@ -8,23 +8,25 @@
     <meta name="theme-color" content="#AED7FF">
     <title>英文學習APP</title>
     <style>
+        :root {
+            --status-bar-height: 0px; 
+        }
+
         html {
             background-color: #AED7FF;
+            height: 100%;
+            overflow: hidden;
         }
 
         body {
             margin: 0;
             padding: 0;
             width: 100%;
+            height: 100%;
             background-color: #AED7FF;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             overscroll-behavior-y: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        ::-webkit-scrollbar {
-            display: none;
         }
 
         .main-viewport {
@@ -33,6 +35,8 @@
             height: 1231px;
             margin: 0 auto;
             background-color: transparent;
+            /* 強制抵銷 Safari 的安全區位移 */
+            margin-top: calc(-1 * env(safe-area-inset-top));
         }
 
         .rect-6 {
