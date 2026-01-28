@@ -10,28 +10,19 @@
     <style>
         html {
             background-color: #AED7FF;
-            overflow: hidden; /* 防止網頁層級出現滾動條 */
-            height: 100%;
         }
         body {
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
             background-color: #AED7FF;
-            /* 針對不同瀏覽器的隱藏滾動條設定 */
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
-            overflow-y: scroll; /* 允許滾動但隱藏條 */
-            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            overscroll-behavior-y: none;
             -webkit-tap-highlight-color: transparent;
         }
-        /* 核心修改：強制隱藏所有 Webkit 瀏覽器（Safari/Chrome）的滾動條 */
         ::-webkit-scrollbar {
-            display: none !important;
-            width: 0 !important;
-            height: 0 !important;
-            background: transparent;
+            display: none;
         }
         #web-only-mask {
             position: fixed;
