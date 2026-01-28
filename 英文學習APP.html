@@ -10,19 +10,26 @@
     <style>
         html {
             background-color: #AED7FF;
+            overflow: hidden;
+            height: 100%;
         }
         body {
             margin: 0;
             padding: 0;
             width: 100%;
+            height: 100%;
             background-color: #AED7FF;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            overscroll-behavior-y: none;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
             -webkit-tap-highlight-color: transparent;
         }
         ::-webkit-scrollbar {
-            display: none;
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            background: transparent;
         }
         #web-only-mask {
             position: fixed;
