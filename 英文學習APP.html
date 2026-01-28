@@ -31,18 +31,17 @@
             background-color: #AED7FF;
         }
 
-        /* 修正 Bug：移除 display: none，改用不干擾佈局的 fixed 頂部墊底 */
         .rect-6 {
             position: fixed;
             top: 0;
             left: 50%;
             width: 440px;
-            height: 100px;
+            height: 110px;
             margin-left: -220px;
             background-color: #FFFFFF;
-            z-index: 2000;
-            /* 預設不顯示邊框，避免載入時看到一條線 */
-            border-bottom: 0px solid transparent;
+            border-bottom: 1px solid #D9D9D9;
+            z-index: 3000;
+            display: none;
         }
 
         .rect-2 {
@@ -53,7 +52,7 @@
             top: 110px;
             background-color: #FFFFFF;
             border-radius: 30px;
-            z-index: 2001;
+            z-index: 10;
         }
 
         .text-streak {
@@ -64,7 +63,7 @@
             font-weight: 800;
             font-size: 15px;
             color: #000000;
-            z-index: 2002;
+            z-index: 20;
         }
 
         .ellipse {
@@ -74,7 +73,7 @@
             top: 155px;
             background-color: #D9D9D9;
             border-radius: 50%;
-            z-index: 2002;
+            z-index: 20;
         }
 
         .rect-3 {
@@ -92,7 +91,7 @@
             width: 380px;
             height: 85px;
             left: 30px;
-            top: 490px;
+            top: 500px;
             background-color: #51A8FF;
             border-radius: 30px;
         }
@@ -101,7 +100,7 @@
             position: absolute;
             width: 120px;
             left: 160px;
-            top: 515px;
+            top: 525px;
             font-family: sans-serif;
             font-weight: 900;
             font-size: 30px;
@@ -114,7 +113,7 @@
             width: 420px;
             height: 400px;
             left: 10px;
-            top: 640px;
+            top: 660px;
             background-color: #FFFFFF;
             border-radius: 30px;
         }
@@ -124,7 +123,7 @@
             width: 420px;
             height: 110px;
             left: 10px;
-            top: 1060px;
+            top: 1080px;
             background-color: #FFFFFF;
             border-radius: 42px;
         }
@@ -133,7 +132,6 @@
 <body>
     <div class="main-viewport">
         <div id="sticky-header" class="rect-6"></div>
-        
         <div class="rect-2"></div>
         <div class="text-streak">連續學習 0 天</div>
         <div class="ellipse" style="left: 80px;"></div>
@@ -143,7 +141,6 @@
         <div class="ellipse" style="left: 240px;"></div>
         <div class="ellipse" style="left: 280px;"></div>
         <div class="ellipse" style="left: 320px;"></div>
-        
         <div class="rect-3"></div>
         <div class="rect-4"></div>
         <div class="text-today">今日單字</div>
@@ -153,11 +150,10 @@
     <script>
         const header = document.getElementById('sticky-header');
         window.addEventListener('scroll', function() {
-            // 滑動後才顯現邊框，這樣載入時完全不會怪怪的
-            if (window.scrollY > 5) {
-                header.style.borderBottom = '1px solid #D9D9D9';
+            if (window.scrollY > 10) {
+                header.style.display = 'block';
             } else {
-                header.style.borderBottom = '0px solid transparent';
+                header.style.display = 'none';
             }
         });
     </script>
