@@ -10,15 +10,21 @@
     <style>
         html {
             background-color: #AED7FF;
+            /* 鎖定高度，防止縮放 */
+            height: 100%;
+            overflow: hidden;
         }
 
         body {
             margin: 0;
             padding: 0;
             width: 100%;
+            height: 100%;
             background-color: #AED7FF;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             overscroll-behavior-y: none;
             -webkit-tap-highlight-color: transparent;
         }
@@ -33,6 +39,8 @@
             height: 1231px;
             margin: 0 auto;
             background-color: transparent;
+            /* 關鍵：強行把內容往上推，填滿 Safari 頂部的安全區 */
+            margin-top: calc(-1 * env(safe-area-inset-top));
         }
 
         .rect-6 {
@@ -153,6 +161,7 @@
     <script>
         const header = document.getElementById('sticky-header');
         window.addEventListener('scroll', () => {
+            // 滑動監聽也同步使用 110px 基準
             header.style.display = window.scrollY > 110 ? 'block' : 'none';
         }, { passive: true });
     </script>
