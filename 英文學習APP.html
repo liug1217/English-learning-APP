@@ -34,13 +34,13 @@
             background-color: transparent;
         }
 
-        /* rect-6：滾動後顯示的白色置頂條，高度配合狀態列調整 */
         .rect-6 {
             position: fixed;
             top: 0;
             left: 50%;
             width: 440px;
-            height: 100px;
+            /* 高度設定為 60px，剛好對齊 rect-2 的 top */
+            height: 60px;
             margin-left: -220px;
             background-color: #FFFFFF;
             border-bottom: 1px solid #D9D9D9;
@@ -48,7 +48,6 @@
             display: none;
         }
 
-        /* 所有元件 top 值統一減去 50px 以適應全屏佈局 */
         .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 60px; background-color: #FFFFFF; border-radius: 30px; }
         .text-streak { position: absolute; left: 80px; top: 80px; font-family: sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
         .ellipse { position: absolute; width: 30px; height: 30px; top: 105px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
@@ -86,9 +85,10 @@
     <script>
         const header = document.getElementById('sticky-header');
         window.addEventListener('scroll', () => {
-            // 當向下滑動超過 20px 時顯示 rect-6
-            header.style.display = window.scrollY > 20 ? 'block' : 'none';
+            // 當向下滑動到 rect-2 的位置時顯示頭部
+            header.style.display = window.scrollY > 60 ? 'block' : 'none';
         }, { passive: true });
     </script>
 </body>
 </html>
+
