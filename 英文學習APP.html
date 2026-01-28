@@ -8,13 +8,18 @@
     <meta name="theme-color" content="#AED7FF">
     <title>英文學習APP</title>
     <style>
-        html, body {
+        html {
+            background-color: #AED7FF;
+        }
+
+        body {
             margin: 0;
             padding: 0;
             width: 100%;
             background-color: #AED7FF;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            overscroll-behavior-y: none;
         }
 
         ::-webkit-scrollbar {
@@ -26,7 +31,7 @@
             width: 440px;
             height: 1231px;
             margin: 0 auto;
-            background-color: #AED7FF;
+            background-color: transparent;
         }
 
         .rect-6 {
@@ -148,7 +153,7 @@
         const header = document.getElementById('sticky-header');
         window.addEventListener('scroll', () => {
             header.style.display = window.scrollY > 10 ? 'block' : 'none';
-        });
+        }, { passive: true });
     </script>
 </body>
 </html>
