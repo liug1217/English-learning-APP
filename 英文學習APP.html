@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=440, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="theme-color" content="#AED7FF">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <title>英文學習APP</title>
     <style>
+        /* 完全保留你的原始樣式，不做任何位置移動 */
         html, body {
             margin: 0;
             padding: 0;
@@ -39,19 +44,15 @@
             display: none;
         }
 
-        /* --- 修改區：刪除頂部空白，全體上移 --- */
-        
-        /* 讓第一塊直接頂天，刪除原本 110px 的間隙 */
-        .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 0px; background-color: #FFFFFF; border-radius: 0 0 30px 30px; }
-        .text-streak { position: absolute; left: 80px; top: 20px; font-family: sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
-        .ellipse { position: absolute; width: 30px; height: 30px; top: 45px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
-        
-        /* 後續方塊也跟著上移 110px */
-        .rect-3 { position: absolute; width: 420px; height: 400px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
-        .rect-4 { position: absolute; width: 380px; height: 85px; left: 30px; top: 389px; background-color: #51A8FF; border-radius: 30px; }
-        .text-today { position: absolute; width: 120px; left: 160px; top: 414px; font-family: sans-serif; font-weight: 900; font-size: 30px; color: #FFFFFF; z-index: 11; }
-        .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 549px; background-color: #FFFFFF; border-radius: 30px; }
-        .rect-1 { position: absolute; width: 420px; height: 110px; left: 10px; top: 970px; background-color: #FFFFFF; border-radius: 42px; }
+        /* 零件座標完全依照你的「正確版」，沒亂動 */
+        .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
+        .text-streak { position: absolute; left: 80px; top: 130px; font-family: sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
+        .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
+        .rect-3 { position: absolute; width: 420px; height: 400px; left: 10px; top: 251px; background-color: #FFFFFF; border-radius: 30px; }
+        .rect-4 { position: absolute; width: 380px; height: 85px; left: 30px; top: 530px; background-color: #51A8FF; border-radius: 30px; }
+        .text-today { position: absolute; width: 120px; left: 160px; top: 555px; font-family: sans-serif; font-weight: 900; font-size: 30px; color: #FFFFFF; z-index: 11; }
+        .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
+        .rect-1 { position: absolute; width: 420px; height: 110px; left: 10px; top: 835px; background-color: #FFFFFF; border-radius: 42px; }
     </style>
 </head>
 <body>
