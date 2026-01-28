@@ -8,6 +8,7 @@
     <meta name="theme-color" content="#AED7FF">
     <title>英文學習APP</title>
     <style>
+        /* 關鍵：在 html 層級就設定背景色，防止滾動時的渲染延遲 */
         html {
             background-color: #AED7FF;
         }
@@ -19,8 +20,8 @@
             background-color: #AED7FF;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            /* 禁用 iOS 橡皮筋回彈，防止拉動時白邊閃現 */
             overscroll-behavior-y: none;
-            -webkit-tap-highlight-color: transparent;
         }
 
         ::-webkit-scrollbar {
@@ -35,106 +36,19 @@
             background-color: transparent;
         }
 
-        .rect-6 {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            width: 440px;
-            height: 110px;
-            margin-left: -220px;
-            background-color: #FFFFFF;
-            border-bottom: 1px solid #D9D9D9;
-            z-index: 3000;
-            display: none;
-        }
-
-        .rect-2 {
-            position: absolute;
-            width: 420px;
-            height: 100px;
-            left: 10px;
-            top: 110px;
-            background-color: #FFFFFF;
-            border-radius: 30px;
-        }
-
-        .text-streak {
-            position: absolute;
-            left: 80px;
-            top: 130px;
-            font-family: sans-serif;
-            font-weight: 800;
-            font-size: 15px;
-            color: #000000;
-            z-index: 10;
-        }
-
-        .ellipse {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            top: 155px;
-            background-color: #D9D9D9;
-            border-radius: 50%;
-            z-index: 10;
-        }
-
-        .rect-3 {
-            position: absolute;
-            width: 420px;
-            height: 400px;
-            left: 10px;
-            top: 251px;
-            background-color: #FFFFFF;
-            border-radius: 30px;
-        }
-
-        .rect-4 {
-            position: absolute;
-            width: 380px;
-            height: 85px;
-            left: 30px;
-            top: 530px;
-            background-color: #51A8FF;
-            border-radius: 30px;
-        }
-
-        .text-today {
-            position: absolute;
-            width: 120px;
-            left: 160px;
-            top: 555px;
-            font-family: sans-serif;
-            font-weight: 900;
-            font-size: 30px;
-            color: #FFFFFF;
-            z-index: 11;
-        }
-
-        .rect-5 {
-            position: absolute;
-            width: 420px;
-            height: 400px;
-            left: 10px;
-            top: 690px;
-            background-color: #FFFFFF;
-            border-radius: 30px;
-        }
-
-        .rect-1 {
-            position: absolute;
-            width: 420px;
-            height: 110px;
-            left: 10px;
-            top: 835px;
-            background-color: #FFFFFF;
-            border-radius: 42px;
-        }
+        /* 以下是你原本的方塊座標，完全不動 */
+        .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
+        .text-streak { position: absolute; left: 80px; top: 130px; font-family: sans-serif; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
+        .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
+        .rect-3 { position: absolute; width: 420px; height: 400px; left: 10px; top: 251px; background-color: #FFFFFF; border-radius: 30px; }
+        .rect-4 { position: absolute; width: 380px; height: 85px; left: 30px; top: 530px; background-color: #51A8FF; border-radius: 30px; }
+        .text-today { position: absolute; width: 120px; left: 160px; top: 555px; font-family: sans-serif; font-weight: 900; font-size: 30px; color: #FFFFFF; z-index: 11; }
+        .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
+        .rect-1 { position: absolute; width: 420px; height: 110px; left: 10px; top: 835px; background-color: #FFFFFF; border-radius: 42px; }
     </style>
 </head>
 <body>
     <div class="main-viewport">
-        <div id="sticky-header" class="rect-6"></div>
         <div class="rect-2"></div>
         <div class="text-streak">連續學習 0 天</div>
         <div class="ellipse" style="left: 80px;"></div>
@@ -150,11 +64,6 @@
         <div class="rect-5"></div>
         <div class="rect-1"></div>
     </div>
-    <script>
-        const header = document.getElementById('sticky-header');
-        window.addEventListener('scroll', () => {
-            header.style.display = window.scrollY > 10 ? 'block' : 'none';
-        }, { passive: true });
-    </script>
 </body>
 </html>
+
