@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=440, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="英文學習">
     <meta name="theme-color" content="#AED7FF">
+    <link rel="apple-touch-icon" href="icon.png">
     <title>英文學習APP</title>
     <style>
         html {
@@ -23,8 +25,11 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* 遮罩層：網頁版會看到這個 */
-        #web-only-mask {
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        #web-mask {
             position: fixed;
             top: 0;
             left: 0;
@@ -38,34 +43,19 @@
             justify-content: center;
             text-align: center;
             font-family: sans-serif;
-            padding: 20px;
-            box-sizing: border-box;
         }
 
-        .install-icon {
-            width: 80px;
-            height: 80px;
-            background: white;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
+        .mask-content {
+            padding: 40px;
         }
 
-        /* 原本的 APP 內容：預設先隱藏 */
         .main-viewport {
-            display: none; 
+            display: none;
             position: relative;
             width: 440px;
             height: 1231px;
             margin: 0 auto;
             background-color: transparent;
-        }
-
-        ::-webkit-scrollbar {
-            display: none;
         }
 
         .rect-6 {
@@ -166,17 +156,14 @@
     </style>
 </head>
 <body>
-    <div id="web-only-mask">
-        <div class="install-icon">📖</div>
-        <h2 style="color: #333;">請安裝 APP 使用</h2>
-        <p style="color: #666; line-height: 1.6;">
-            點擊瀏覽器下方的 <strong style="color: #007AFF;">分享按鈕 (↑)</strong><br>
-            然後選擇 <strong style="color: #007AFF;">「加入主畫面」</strong><br>
-            即可開始學習！
-        </p>
+    <div id="web-mask">
+        <div class="mask-content">
+            <h2 style="color: #ffffff;">請安裝應用程式</h2>
+            <p style="color: #ffffff;">點擊分享按鈕並選擇「加入主畫面」</p>
+        </div>
     </div>
 
-    <div id="app-content" class="main-viewport">
+    <div id="app-ui" class="main-viewport">
         <div id="sticky-header" class="rect-6"></div>
         <div class="rect-2"></div>
         <div class="text-streak">連續學習 0 天</div>
@@ -195,14 +182,13 @@
     </div>
 
     <script>
-        const mask = document.getElementById('web-only-mask');
-        const app = document.getElementById('app-content');
+        const mask = document.getElementById('web-mask');
+        const app = document.getElementById('app-ui');
         const header = document.getElementById('sticky-header');
 
-        // 檢查是否為「加入主畫面」模式開啟
-        if (window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches) {
-            mask.style.display = 'none'; // 隱藏提示
-            app.style.display = 'block'; // 顯示 APP
+        if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+            mask.style.display = 'none';
+            app.style.display = 'block';
         }
 
         window.addEventListener('scroll', () => {
