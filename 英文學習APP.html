@@ -12,13 +12,17 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* 隱藏捲動條 */
         ::-webkit-scrollbar {
             display: none;
         }
 
+        /* 關鍵：讓 html 和 body 100% 填滿並鎖定背景色，達成穿透效果 */
         html, body {
             width: 100%;
-            background-color: #AED7FF;
+            margin: 0;
+            padding: 0;
+            background-color: #AED7FF; /* 這裡的顏色會直接填滿頂部和底部的安全區 */
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -26,11 +30,12 @@
         .main-viewport {
             position: relative;
             width: 440px;
-            height: 1250px;
+            height: 1400px; 
             margin: 0 auto;
             background-color: #AED7FF;
         }
 
+        /* 矩形 6：滑動後出現，同樣設在物理頂端 0 */
         .rect-6 {
             position: fixed;
             top: 0;
@@ -44,21 +49,22 @@
             display: none;
         }
 
+        /* 矩形 2：直接衝到最頂端 0 */
         .rect-2 {
             position: absolute;
             width: 420px;
             height: 100px;
             left: 10px;
-            top: 110px;
+            top: 0px; 
             background-color: #FFFFFF;
-            border-radius: 30px;
+            border-radius: 0 0 30px 30px; 
             z-index: 10;
         }
 
         .text-streak {
             position: absolute;
             left: 80px;
-            top: 130px;
+            top: 20px;
             font-family: sans-serif;
             font-weight: 800;
             font-size: 15px;
@@ -70,7 +76,7 @@
             position: absolute;
             width: 30px;
             height: 30px;
-            top: 155px;
+            top: 45px;
             background-color: #D9D9D9;
             border-radius: 50%;
             z-index: 20;
@@ -81,7 +87,7 @@
             width: 420px;
             height: 400px;
             left: 10px;
-            top: 220px;
+            top: 110px; 
             background-color: #FFFFFF;
             border-radius: 30px;
         }
@@ -91,7 +97,7 @@
             width: 380px;
             height: 85px;
             left: 30px;
-            top: 500px;
+            top: 390px;
             background-color: #51A8FF;
             border-radius: 30px;
         }
@@ -100,7 +106,7 @@
             position: absolute;
             width: 120px;
             left: 160px;
-            top: 525px;
+            top: 415px;
             font-family: sans-serif;
             font-weight: 900;
             font-size: 30px;
@@ -113,7 +119,7 @@
             width: 420px;
             height: 400px;
             left: 10px;
-            top: 660px;
+            top: 550px;
             background-color: #FFFFFF;
             border-radius: 30px;
         }
@@ -123,7 +129,7 @@
             width: 420px;
             height: 110px;
             left: 10px;
-            top: 1080px;
+            top: 970px;
             background-color: #FFFFFF;
             border-radius: 42px;
         }
@@ -150,7 +156,7 @@
     <script>
         const header = document.getElementById('sticky-header');
         window.addEventListener('scroll', function() {
-            if (window.scrollY > 10) {
+            if (window.scrollY > 5) {
                 header.style.display = 'block';
             } else {
                 header.style.display = 'none';
