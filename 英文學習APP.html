@@ -163,10 +163,9 @@
             display: none;
             position: fixed;
             top: 0;
-            left: 50%;
+            left: 0;
             width: 440px;
             height: 100%;
-            margin-left: -220px;
             background-color: #AED7FF;
             z-index: 5000;
             overflow: hidden;
@@ -250,45 +249,36 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            position: relative;
         }
-        .mic-button {
+        .mic-btn {
             position: absolute;
-            right: 0;
-            bottom: 10px;
-            width: 50px;
-            height: 50px;
+            right: 25px;
+            bottom: 25px;
+            width: 65px;
+            height: 65px;
             background-color: #FFEDF1;
             border-radius: 50%;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             border: none;
-            transition: transform 0.2s;
         }
-        .mic-button:active {
-            transform: scale(0.9);
-        }
-        .mic-button.recording {
+        .mic-btn.active {
             background-color: #FF85A2;
-            animation: pulse 1.5s infinite;
+            animation: pulse 1.2s infinite;
         }
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 133, 162, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(255, 133, 162, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 133, 162, 0); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         .beta-tag {
-            position: absolute;
-            top: -10px;
-            right: -5px;
-            background-color: #51A8FF;
-            color: white;
             font-size: 10px;
-            padding: 2px 5px;
-            border-radius: 6px;
             font-weight: 800;
+            color: #FF85A2;
+            margin-top: -2px;
         }
         .word-pool-container {
             position: absolute;
@@ -375,10 +365,7 @@
         <div class="ellipse" style="left: 241px;"></div>
         <div class="ellipse" style="left: 281px;"></div>
         <div class="ellipse" style="left: 321px;"></div>
-        <div class="rect-7"></div>
-        <div class="rect-8"></div>
-        <div class="rect-9"></div>
-        <div class="rect-10"></div>
+        <div class="rect-7"></div><div class="rect-8"></div><div class="rect-9"></div><div class="rect-10"></div>
         <div class="rect-3"></div>
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
@@ -397,19 +384,18 @@
         </div>
         <div class="question-card">
             <div id="chinese-title" class="chinese-text"></div>
-            <div id="answer-area" class="answer-area">
-                <button id="mic-btn" class="mic-button" onclick="startRecognition()">
-                    <span class="beta-tag">Beta</span>
-                    <span style="font-size: 24px;">🎙️</span>
-                </button>
-            </div>
+            <div id="answer-area" class="answer-area"></div>
+            <button id="mic-btn" class="mic-btn" onclick="startRecognition()">
+                <span style="font-size: 24px;">🎙️</span>
+                <span class="beta-tag">Beta</span>
+            </button>
         </div>
         <div class="word-pool-container">
             <div id="word-pool" class="word-pool"></div>
             <div class="bottom-actions">
                 <div class="check-btn" onclick="showAnswer()">
                     <span style="font-size: 24px;">👁</span>
-                    <label style="font-size: 13px; font-weight: 700;">觀看答案</label>
+                    <label style="font-size: 13px; font-weight: 700; cursor: pointer;">觀看答案</label>
                 </div>
                 <div class="confirm-btn" onclick="checkFinal()">確認</div>
             </div>
@@ -437,11 +423,8 @@
         let currentQuestionIndex = 0;
 
         window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                navbar.classList.add('visible');
-            } else {
-                navbar.classList.remove('visible');
-            }
+            if (window.scrollY > 50) navbar.classList.add('visible');
+            else navbar.classList.remove('visible');
         });
 
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
@@ -453,67 +436,25 @@
         function loadQuestion() {
             const data = questionList[currentQuestionIndex];
             chineseTitle.innerText = data.chinese;
-            
-            const existingTiles = answerArea.querySelectorAll('.word-tile');
-            existingTiles.forEach(t => t.remove());
-
+            answerArea.innerHTML = '';
             poolContainer.innerHTML = '';
             progressText.innerText = currentQuestionIndex + "/" + questionList.length;
             progressBar.style.width = (currentQuestionIndex / questionList.length) * 100 + "%";
-
             const shuffled = [...data.english].sort(function() { return Math.random() - 0.5; });
             shuffled.forEach(function(word) {
                 const tile = document.createElement('div');
                 tile.className = 'word-tile';
                 tile.innerText = word;
                 tile.onclick = function() {
-                    addWordToAnswer(word, tile);
+                    const ans = document.createElement('div');
+                    ans.className = 'word-tile';
+                    ans.innerText = word;
+                    ans.onclick = function() { ans.remove(); tile.classList.remove('used'); };
+                    answerArea.appendChild(ans);
+                    tile.classList.add('used');
                 };
                 poolContainer.appendChild(tile);
             });
-        }
-
-        function addWordToAnswer(word, sourceTile) {
-            const ans = document.createElement('div');
-            ans.className = 'word-tile';
-            ans.innerText = word;
-            ans.onclick = function() {
-                ans.remove();
-                sourceTile.classList.remove('used');
-            };
-            answerArea.insertBefore(ans, micBtn);
-            sourceTile.classList.add('used');
-        }
-
-        function startRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                alert("您的瀏覽器不支援語音功能");
-                return;
-            }
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'en-US';
-            recognition.onstart = function() {
-                micBtn.classList.add('recording');
-            };
-            recognition.onend = function() {
-                micBtn.classList.remove('recording');
-            };
-            recognition.onresult = function(event) {
-                const transcript = event.results[0][0].transcript.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"");
-                const spokenWords = transcript.split(" ");
-                const targetWords = questionList[currentQuestionIndex].english;
-                
-                if (transcript.toLowerCase() === targetWords.join(" ").toLowerCase()) {
-                    alert("語音辨識成功！");
-                    currentQuestionIndex++;
-                    if (currentQuestionIndex < questionList.length) loadQuestion();
-                    else { alert("恭喜完成！"); goBack(); }
-                } else {
-                    alert("辨識結果：" + transcript + "\n請再試一次");
-                }
-            };
-            recognition.start();
         }
 
         btnToday.onclick = function() {
@@ -536,19 +477,1575 @@
         }
 
         function checkFinal() {
-            const currentAnswer = Array.from(answerArea.querySelectorAll('.word-tile')).map(function(t) { return t.innerText; }).join(" ");
+            const currentAnswer = Array.from(answerArea.children).map(function(t) { return t.innerText; }).join(" ");
             const targetAnswer = questionList[currentQuestionIndex].english.join(" ");
             if (currentAnswer === targetAnswer) {
                 currentQuestionIndex++;
-                if (currentQuestionIndex < questionList.length) {
-                    loadQuestion();
-                } else {
-                    alert("恭喜！你已完成所有練習。");
-                    goBack();
-                }
-            } else {
-                alert("順序不完全正確，請再檢查一下！");
+                if (currentQuestionIndex < questionList.length) loadQuestion();
+                else { alert("恭喜！你已完成所有練習。"); goBack(); }
+            } else { alert("順序不正確！"); }
+        }
+
+        function startRecognition() {
+            const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!Recognition) {
+                alert("此瀏覽器不支援語音功能");
+                return;
             }
+            const rec = new Recognition();
+            rec.lang = 'en-US';
+            rec.onstart = function() { micBtn.classList.add('active'); };
+            rec.onresult = function(e) {
+                const result = e.results[0][0].transcript.toLowerCase().replace(/[.,!]/g, "");
+                const target = questionList[currentQuestionIndex].english.join(" ").toLowerCase();
+                if (result === target) {
+                    alert("發音完全正確！");
+                    checkFinal();
+                } else {
+                    alert("辨識結果：" + result + "\n再試一次！");
+                }
+            };
+            rec.onend = function() { micBtn.classList.remove('active'); };
+            rec.start();
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=440, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#AED7FF">
+    <title>英文學習APP</title>
+    <style>
+        :root {
+            --main-font: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        html {
+            background-color: #AED7FF;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            width: 440px;
+            background-color: #AED7FF;
+            font-family: var(--main-font);
+            scrollbar-width: none;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        #web-only-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #AED7FF;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-viewport {
+            display: none;
+            position: relative;
+            width: 440px;
+            height: 1231px;
+            margin: 0 auto;
+        }
+        .rect-6 {
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            width: 440px;
+            height: 110px;
+            margin-left: -220px;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #D9D9D9;
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .rect-6.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .rect-1 {
+            position: fixed;
+            width: 420px;
+            height: 110px;
+            left: 50%;
+            top: 835px;
+            margin-left: -210px;
+            background-color: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 42px;
+            z-index: 4000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .rect-2 {
+            position: absolute;
+            width: 420px;
+            height: 100px;
+            left: 10px;
+            top: 110px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        .fire-icon {
+            position: absolute;
+            left: 25px;
+            top: 140px;
+            font-weight: 900;
+            font-size: 45px;
+            z-index: 11;
+        }
+        .text-streak {
+            position: absolute;
+            width: 150px;
+            left: 80px;
+            top: 130px;
+            font-weight: 800;
+            font-size: 15px;
+            z-index: 10;
+        }
+        .ellipse {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 155px;
+            background-color: #D9D9D9;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .rect-7 { position: absolute; width: 70px; height: 90px; left: 360px; top: 251px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-8 { position: absolute; width: 70px; height: 90px; left: 360px; top: 341px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-9 { position: absolute; width: 70px; height: 90px; left: 360px; top: 431px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-10 { position: absolute; width: 70px; height: 90px; left: 360px; top: 521px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-3 {
+            position: absolute;
+            width: 381px;
+            height: 400px;
+            left: 10px;
+            top: 251px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        .rect-4 {
+            position: absolute;
+            width: 312px;
+            height: 85px;
+            left: 30px;
+            top: 530px;
+            background-color: #51A8FF;
+            border-radius: 30px;
+            z-index: 20;
+            cursor: pointer;
+        }
+        .text-today {
+            position: absolute;
+            width: 120px;
+            left: 126px;
+            top: 555px;
+            font-weight: 900;
+            font-size: 30px;
+            color: #FFFFFF;
+            z-index: 21;
+            pointer-events: none;
+        }
+        .rect-5 {
+            position: absolute;
+            width: 420px;
+            height: 400px;
+            left: 10px;
+            top: 690px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        #stage-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 440px;
+            height: 100%;
+            background-color: #AED7FF;
+            z-index: 5000;
+            overflow: hidden;
+            touch-action: none;
+        }
+        .stage-nav {
+            position: absolute;
+            width: 440px;
+            height: 100px;
+            top: 0px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .back-arrow {
+            font-size: 35px;
+            color: #FFFFFF;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .trophy-bar-bg {
+            flex: 1;
+            height: 28px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            margin: 0 15px;
+            position: relative;
+        }
+        .trophy-bar-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #FFFFFF;
+            border-radius: 14px;
+            transition: width 0.3s;
+        }
+        .trophy-icon {
+            position: absolute;
+            left: -10px;
+            top: -8px;
+            width: 44px;
+            height: 44px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .progress-badge {
+            position: absolute;
+            right: 6px;
+            padding: 2px 10px;
+            background-color: rgba(81, 168, 255, 0.2);
+            border: 1.5px solid #51A8FF;
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 13px;
+        }
+        .question-card {
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            left: 10px;
+            top: 80px;
+            background-color: #FFFFFF;
+            border-radius: 40px;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        .chinese-text {
+            font-weight: 700;
+            font-size: 28px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        .answer-area {
+            width: 100%;
+            height: 150px;
+            border-bottom: 2px solid #E0E0E0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .mic-btn {
+            position: absolute;
+            right: 25px;
+            bottom: 25px;
+            width: 65px;
+            height: 65px;
+            background-color: #FFEDF1;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+        }
+        .mic-btn.active {
+            background-color: #FF85A2;
+            animation: pulse 1.2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .beta-tag {
+            font-size: 10px;
+            font-weight: 800;
+            color: #FF85A2;
+            margin-top: -2px;
+        }
+        .word-pool-container {
+            position: absolute;
+            width: 440px;
+            height: 500px;
+            left: 0;
+            top: 520px;
+            background-color: #FFFFFF;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+        .word-pool {
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        .word-tile {
+            background-color: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            border-radius: 18px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 19px;
+            color: #333333;
+            box-shadow: 0 4px 0px #E0E0E0;
+            cursor: pointer;
+        }
+        .word-tile.used {
+            visibility: hidden;
+        }
+        .bottom-actions {
+            position: absolute;
+            bottom: 40px;
+            width: 440px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            gap: 15px;
+        }
+        .check-btn {
+            width: 110px;
+            height: 85px;
+            background-color: #B28DFF;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+        .confirm-btn {
+            flex: 1;
+            height: 85px;
+            background-color: #51A8FF;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 26px;
+            box-shadow: 0 6px 0px #3A8CDD;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="web-only-mask">
+        <h2>請安裝 APP 使用</h2>
+    </div>
+    <div id="app-content" class="main-viewport">
+        <div id="navbar" class="rect-6"></div>
+        <div class="rect-2"></div>
+        <div class="fire-icon">🔥</div>
+        <div class="text-streak">連續學習 0 天</div>
+        <div class="ellipse" style="left: 81px;"></div>
+        <div class="ellipse" style="left: 121px;"></div>
+        <div class="ellipse" style="left: 161px;"></div>
+        <div class="ellipse" style="left: 201px;"></div>
+        <div class="ellipse" style="left: 241px;"></div>
+        <div class="ellipse" style="left: 281px;"></div>
+        <div class="ellipse" style="left: 321px;"></div>
+        <div class="rect-7"></div><div class="rect-8"></div><div class="rect-9"></div><div class="rect-10"></div>
+        <div class="rect-3"></div>
+        <div id="btn-today" class="rect-4"></div>
+        <div class="text-today">今日單字</div>
+        <div class="rect-5"></div>
+        <div id="tabbar" class="rect-1"></div>
+    </div>
+    <div id="stage-screen">
+        <div class="stage-nav">
+            <div class="back-arrow" onclick="goBack()">〈</div>
+            <div class="trophy-bar-bg">
+                <div class="trophy-icon">🏆</div>
+                <div class="trophy-bar-fill" id="progress-bar"></div>
+                <div class="progress-badge" id="progress-text">0/5</div>
+            </div>
+            <div style="color:white; font-weight:800;">❤️ 5</div>
+        </div>
+        <div class="question-card">
+            <div id="chinese-title" class="chinese-text"></div>
+            <div id="answer-area" class="answer-area"></div>
+            <button id="mic-btn" class="mic-btn" onclick="startRecognition()">
+                <span style="font-size: 24px;">🎙️</span>
+                <span class="beta-tag">Beta</span>
+            </button>
+        </div>
+        <div class="word-pool-container">
+            <div id="word-pool" class="word-pool"></div>
+            <div class="bottom-actions">
+                <div class="check-btn" onclick="showAnswer()">
+                    <span style="font-size: 24px;">👁</span>
+                    <label style="font-size: 13px; font-weight: 700; cursor: pointer;">觀看答案</label>
+                </div>
+                <div class="confirm-btn" onclick="checkFinal()">確認</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const app = document.getElementById('app-content');
+        const stage = document.getElementById('stage-screen');
+        const btnToday = document.getElementById('btn-today');
+        const navbar = document.getElementById('navbar');
+        const poolContainer = document.getElementById('word-pool');
+        const answerArea = document.getElementById('answer-area');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const chineseTitle = document.getElementById('chinese-title');
+        const micBtn = document.getElementById('mic-btn');
+
+        const questionList = [
+            { chinese: "我對這份工作感興趣。", english: ["I", "am", "interested", "in", "this", "job"] },
+            { chinese: "學習一門新語言非常有趣。", english: ["Learning", "a", "new", "language", "is", "fun"] },
+            { chinese: "這本書非常有用。", english: ["This", "book", "is", "very", "useful"] },
+            { chinese: "天氣今天非常好。", english: ["The", "weather", "is", "great", "today"] },
+            { chinese: "他喜歡在公園跑步。", english: ["He", "likes", "running", "in", "the", "park"] }
+        ];
+        let currentQuestionIndex = 0;
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) navbar.classList.add('visible');
+            else navbar.classList.remove('visible');
+        });
+
+        const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+        if (isStandalone) {
+            document.getElementById('web-only-mask').style.display = 'none';
+            app.style.display = 'block';
+        }
+
+        function loadQuestion() {
+            const data = questionList[currentQuestionIndex];
+            chineseTitle.innerText = data.chinese;
+            answerArea.innerHTML = '';
+            poolContainer.innerHTML = '';
+            progressText.innerText = currentQuestionIndex + "/" + questionList.length;
+            progressBar.style.width = (currentQuestionIndex / questionList.length) * 100 + "%";
+            const shuffled = [...data.english].sort(function() { return Math.random() - 0.5; });
+            shuffled.forEach(function(word) {
+                const tile = document.createElement('div');
+                tile.className = 'word-tile';
+                tile.innerText = word;
+                tile.onclick = function() {
+                    const ans = document.createElement('div');
+                    ans.className = 'word-tile';
+                    ans.innerText = word;
+                    ans.onclick = function() { ans.remove(); tile.classList.remove('used'); };
+                    answerArea.appendChild(ans);
+                    tile.classList.add('used');
+                };
+                poolContainer.appendChild(tile);
+            });
+        }
+
+        btnToday.onclick = function() {
+            window.scrollTo(0, 0);
+            document.body.style.overflow = 'hidden';
+            app.style.display = 'none';
+            stage.style.display = 'block';
+            currentQuestionIndex = 0;
+            loadQuestion();
+        };
+
+        function goBack() {
+            document.body.style.overflow = 'auto';
+            stage.style.display = 'none';
+            app.style.display = 'block';
+        }
+
+        function showAnswer() {
+            alert("正確答案是：" + questionList[currentQuestionIndex].english.join(" "));
+        }
+
+        function checkFinal() {
+            const currentAnswer = Array.from(answerArea.children).map(function(t) { return t.innerText; }).join(" ");
+            const targetAnswer = questionList[currentQuestionIndex].english.join(" ");
+            if (currentAnswer === targetAnswer) {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questionList.length) loadQuestion();
+                else { alert("恭喜！你已完成所有練習。"); goBack(); }
+            } else { alert("順序不正確！"); }
+        }
+
+        function startRecognition() {
+            const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!Recognition) {
+                alert("此瀏覽器不支援語音功能");
+                return;
+            }
+            const rec = new Recognition();
+            rec.lang = 'en-US';
+            rec.onstart = function() { micBtn.classList.add('active'); };
+            rec.onresult = function(e) {
+                const result = e.results[0][0].transcript.toLowerCase().replace(/[.,!]/g, "");
+                const target = questionList[currentQuestionIndex].english.join(" ").toLowerCase();
+                if (result === target) {
+                    alert("發音完全正確！");
+                    checkFinal();
+                } else {
+                    alert("辨識結果：" + result + "\n再試一次！");
+                }
+            };
+            rec.onend = function() { micBtn.classList.remove('active'); };
+            rec.start();
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=440, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#AED7FF">
+    <title>英文學習APP</title>
+    <style>
+        :root {
+            --main-font: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        html {
+            background-color: #AED7FF;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            width: 440px;
+            background-color: #AED7FF;
+            font-family: var(--main-font);
+            scrollbar-width: none;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        #web-only-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #AED7FF;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-viewport {
+            display: none;
+            position: relative;
+            width: 440px;
+            height: 1231px;
+            margin: 0 auto;
+        }
+        .rect-6 {
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            width: 440px;
+            height: 110px;
+            margin-left: -220px;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #D9D9D9;
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .rect-6.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .rect-1 {
+            position: fixed;
+            width: 420px;
+            height: 110px;
+            left: 50%;
+            top: 835px;
+            margin-left: -210px;
+            background-color: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 42px;
+            z-index: 4000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .rect-2 {
+            position: absolute;
+            width: 420px;
+            height: 100px;
+            left: 10px;
+            top: 110px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        .fire-icon {
+            position: absolute;
+            left: 25px;
+            top: 140px;
+            font-weight: 900;
+            font-size: 45px;
+            z-index: 11;
+        }
+        .text-streak {
+            position: absolute;
+            width: 150px;
+            left: 80px;
+            top: 130px;
+            font-weight: 800;
+            font-size: 15px;
+            z-index: 10;
+        }
+        .ellipse {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 155px;
+            background-color: #D9D9D9;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .rect-7 { position: absolute; width: 70px; height: 90px; left: 360px; top: 251px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-8 { position: absolute; width: 70px; height: 90px; left: 360px; top: 341px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-9 { position: absolute; width: 70px; height: 90px; left: 360px; top: 431px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-10 { position: absolute; width: 70px; height: 90px; left: 360px; top: 521px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-3 {
+            position: absolute;
+            width: 381px;
+            height: 400px;
+            left: 10px;
+            top: 251px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        .rect-4 {
+            position: absolute;
+            width: 312px;
+            height: 85px;
+            left: 30px;
+            top: 530px;
+            background-color: #51A8FF;
+            border-radius: 30px;
+            z-index: 20;
+            cursor: pointer;
+        }
+        .text-today {
+            position: absolute;
+            width: 120px;
+            left: 126px;
+            top: 555px;
+            font-weight: 900;
+            font-size: 30px;
+            color: #FFFFFF;
+            z-index: 21;
+            pointer-events: none;
+        }
+        .rect-5 {
+            position: absolute;
+            width: 420px;
+            height: 400px;
+            left: 10px;
+            top: 690px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        #stage-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 440px;
+            height: 100%;
+            background-color: #AED7FF;
+            z-index: 5000;
+            overflow: hidden;
+            touch-action: none;
+        }
+        .stage-nav {
+            position: absolute;
+            width: 440px;
+            height: 100px;
+            top: 0px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .back-arrow {
+            font-size: 35px;
+            color: #FFFFFF;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .trophy-bar-bg {
+            flex: 1;
+            height: 28px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            margin: 0 15px;
+            position: relative;
+        }
+        .trophy-bar-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #FFFFFF;
+            border-radius: 14px;
+            transition: width 0.3s;
+        }
+        .trophy-icon {
+            position: absolute;
+            left: -10px;
+            top: -8px;
+            width: 44px;
+            height: 44px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .progress-badge {
+            position: absolute;
+            right: 6px;
+            padding: 2px 10px;
+            background-color: rgba(81, 168, 255, 0.2);
+            border: 1.5px solid #51A8FF;
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 13px;
+        }
+        .question-card {
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            left: 10px;
+            top: 80px;
+            background-color: #FFFFFF;
+            border-radius: 40px;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        .chinese-text {
+            font-weight: 700;
+            font-size: 28px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        .answer-area {
+            width: 100%;
+            height: 150px;
+            border-bottom: 2px solid #E0E0E0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .mic-btn {
+            position: absolute;
+            right: 25px;
+            bottom: 25px;
+            width: 65px;
+            height: 65px;
+            background-color: #FFEDF1;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+        }
+        .mic-btn.active {
+            background-color: #FF85A2;
+            animation: pulse 1.2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .beta-tag {
+            font-size: 10px;
+            font-weight: 800;
+            color: #FF85A2;
+            margin-top: -2px;
+        }
+        .word-pool-container {
+            position: absolute;
+            width: 440px;
+            height: 500px;
+            left: 0;
+            top: 520px;
+            background-color: #FFFFFF;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+        .word-pool {
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        .word-tile {
+            background-color: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            border-radius: 18px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 19px;
+            color: #333333;
+            box-shadow: 0 4px 0px #E0E0E0;
+            cursor: pointer;
+        }
+        .word-tile.used {
+            visibility: hidden;
+        }
+        .bottom-actions {
+            position: absolute;
+            bottom: 40px;
+            width: 440px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            gap: 15px;
+        }
+        .check-btn {
+            width: 110px;
+            height: 85px;
+            background-color: #B28DFF;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+        .confirm-btn {
+            flex: 1;
+            height: 85px;
+            background-color: #51A8FF;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 26px;
+            box-shadow: 0 6px 0px #3A8CDD;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="web-only-mask">
+        <h2>請安裝 APP 使用</h2>
+    </div>
+    <div id="app-content" class="main-viewport">
+        <div id="navbar" class="rect-6"></div>
+        <div class="rect-2"></div>
+        <div class="fire-icon">🔥</div>
+        <div class="text-streak">連續學習 0 天</div>
+        <div class="ellipse" style="left: 81px;"></div>
+        <div class="ellipse" style="left: 121px;"></div>
+        <div class="ellipse" style="left: 161px;"></div>
+        <div class="ellipse" style="left: 201px;"></div>
+        <div class="ellipse" style="left: 241px;"></div>
+        <div class="ellipse" style="left: 281px;"></div>
+        <div class="ellipse" style="left: 321px;"></div>
+        <div class="rect-7"></div><div class="rect-8"></div><div class="rect-9"></div><div class="rect-10"></div>
+        <div class="rect-3"></div>
+        <div id="btn-today" class="rect-4"></div>
+        <div class="text-today">今日單字</div>
+        <div class="rect-5"></div>
+        <div id="tabbar" class="rect-1"></div>
+    </div>
+    <div id="stage-screen">
+        <div class="stage-nav">
+            <div class="back-arrow" onclick="goBack()">〈</div>
+            <div class="trophy-bar-bg">
+                <div class="trophy-icon">🏆</div>
+                <div class="trophy-bar-fill" id="progress-bar"></div>
+                <div class="progress-badge" id="progress-text">0/5</div>
+            </div>
+            <div style="color:white; font-weight:800;">❤️ 5</div>
+        </div>
+        <div class="question-card">
+            <div id="chinese-title" class="chinese-text"></div>
+            <div id="answer-area" class="answer-area"></div>
+            <button id="mic-btn" class="mic-btn" onclick="startRecognition()">
+                <span style="font-size: 24px;">🎙️</span>
+                <span class="beta-tag">Beta</span>
+            </button>
+        </div>
+        <div class="word-pool-container">
+            <div id="word-pool" class="word-pool"></div>
+            <div class="bottom-actions">
+                <div class="check-btn" onclick="showAnswer()">
+                    <span style="font-size: 24px;">👁</span>
+                    <label style="font-size: 13px; font-weight: 700; cursor: pointer;">觀看答案</label>
+                </div>
+                <div class="confirm-btn" onclick="checkFinal()">確認</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const app = document.getElementById('app-content');
+        const stage = document.getElementById('stage-screen');
+        const btnToday = document.getElementById('btn-today');
+        const navbar = document.getElementById('navbar');
+        const poolContainer = document.getElementById('word-pool');
+        const answerArea = document.getElementById('answer-area');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const chineseTitle = document.getElementById('chinese-title');
+        const micBtn = document.getElementById('mic-btn');
+
+        const questionList = [
+            { chinese: "我對這份工作感興趣。", english: ["I", "am", "interested", "in", "this", "job"] },
+            { chinese: "學習一門新語言非常有趣。", english: ["Learning", "a", "new", "language", "is", "fun"] },
+            { chinese: "這本書非常有用。", english: ["This", "book", "is", "very", "useful"] },
+            { chinese: "天氣今天非常好。", english: ["The", "weather", "is", "great", "today"] },
+            { chinese: "他喜歡在公園跑步。", english: ["He", "likes", "running", "in", "the", "park"] }
+        ];
+        let currentQuestionIndex = 0;
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) navbar.classList.add('visible');
+            else navbar.classList.remove('visible');
+        });
+
+        const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+        if (isStandalone) {
+            document.getElementById('web-only-mask').style.display = 'none';
+            app.style.display = 'block';
+        }
+
+        function loadQuestion() {
+            const data = questionList[currentQuestionIndex];
+            chineseTitle.innerText = data.chinese;
+            answerArea.innerHTML = '';
+            poolContainer.innerHTML = '';
+            progressText.innerText = currentQuestionIndex + "/" + questionList.length;
+            progressBar.style.width = (currentQuestionIndex / questionList.length) * 100 + "%";
+            const shuffled = [...data.english].sort(function() { return Math.random() - 0.5; });
+            shuffled.forEach(function(word) {
+                const tile = document.createElement('div');
+                tile.className = 'word-tile';
+                tile.innerText = word;
+                tile.onclick = function() {
+                    const ans = document.createElement('div');
+                    ans.className = 'word-tile';
+                    ans.innerText = word;
+                    ans.onclick = function() { ans.remove(); tile.classList.remove('used'); };
+                    answerArea.appendChild(ans);
+                    tile.classList.add('used');
+                };
+                poolContainer.appendChild(tile);
+            });
+        }
+
+        btnToday.onclick = function() {
+            window.scrollTo(0, 0);
+            document.body.style.overflow = 'hidden';
+            app.style.display = 'none';
+            stage.style.display = 'block';
+            currentQuestionIndex = 0;
+            loadQuestion();
+        };
+
+        function goBack() {
+            document.body.style.overflow = 'auto';
+            stage.style.display = 'none';
+            app.style.display = 'block';
+        }
+
+        function showAnswer() {
+            alert("正確答案是：" + questionList[currentQuestionIndex].english.join(" "));
+        }
+
+        function checkFinal() {
+            const currentAnswer = Array.from(answerArea.children).map(function(t) { return t.innerText; }).join(" ");
+            const targetAnswer = questionList[currentQuestionIndex].english.join(" ");
+            if (currentAnswer === targetAnswer) {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questionList.length) loadQuestion();
+                else { alert("恭喜！你已完成所有練習。"); goBack(); }
+            } else { alert("順序不正確！"); }
+        }
+
+        function startRecognition() {
+            const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!Recognition) {
+                alert("此瀏覽器不支援語音功能");
+                return;
+            }
+            const rec = new Recognition();
+            rec.lang = 'en-US';
+            rec.onstart = function() { micBtn.classList.add('active'); };
+            rec.onresult = function(e) {
+                const result = e.results[0][0].transcript.toLowerCase().replace(/[.,!]/g, "");
+                const target = questionList[currentQuestionIndex].english.join(" ").toLowerCase();
+                if (result === target) {
+                    alert("發音完全正確！");
+                    checkFinal();
+                } else {
+                    alert("辨識結果：" + result + "\n再試一次！");
+                }
+            };
+            rec.onend = function() { micBtn.classList.remove('active'); };
+            rec.start();
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=440, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#AED7FF">
+    <title>英文學習APP</title>
+    <style>
+        :root {
+            --main-font: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        html {
+            background-color: #AED7FF;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            width: 440px;
+            background-color: #AED7FF;
+            font-family: var(--main-font);
+            scrollbar-width: none;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        #web-only-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #AED7FF;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-viewport {
+            display: none;
+            position: relative;
+            width: 440px;
+            height: 1231px;
+            margin: 0 auto;
+        }
+        .rect-6 {
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            width: 440px;
+            height: 110px;
+            margin-left: -220px;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #D9D9D9;
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .rect-6.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .rect-1 {
+            position: fixed;
+            width: 420px;
+            height: 110px;
+            left: 50%;
+            top: 835px;
+            margin-left: -210px;
+            background-color: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 42px;
+            z-index: 4000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .rect-2 {
+            position: absolute;
+            width: 420px;
+            height: 100px;
+            left: 10px;
+            top: 110px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        .fire-icon {
+            position: absolute;
+            left: 25px;
+            top: 140px;
+            font-weight: 900;
+            font-size: 45px;
+            z-index: 11;
+        }
+        .text-streak {
+            position: absolute;
+            width: 150px;
+            left: 80px;
+            top: 130px;
+            font-weight: 800;
+            font-size: 15px;
+            z-index: 10;
+        }
+        .ellipse {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 155px;
+            background-color: #D9D9D9;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .rect-7 { position: absolute; width: 70px; height: 90px; left: 360px; top: 251px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-8 { position: absolute; width: 70px; height: 90px; left: 360px; top: 341px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-9 { position: absolute; width: 70px; height: 90px; left: 360px; top: 431px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-10 { position: absolute; width: 70px; height: 90px; left: 360px; top: 521px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-3 {
+            position: absolute;
+            width: 381px;
+            height: 400px;
+            left: 10px;
+            top: 251px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        .rect-4 {
+            position: absolute;
+            width: 312px;
+            height: 85px;
+            left: 30px;
+            top: 530px;
+            background-color: #51A8FF;
+            border-radius: 30px;
+            z-index: 20;
+            cursor: pointer;
+        }
+        .text-today {
+            position: absolute;
+            width: 120px;
+            left: 126px;
+            top: 555px;
+            font-weight: 900;
+            font-size: 30px;
+            color: #FFFFFF;
+            z-index: 21;
+            pointer-events: none;
+        }
+        .rect-5 {
+            position: absolute;
+            width: 420px;
+            height: 400px;
+            left: 10px;
+            top: 690px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        #stage-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 440px;
+            height: 100%;
+            background-color: #AED7FF;
+            z-index: 5000;
+            overflow: hidden;
+            touch-action: none;
+        }
+        .stage-nav {
+            position: absolute;
+            width: 440px;
+            height: 100px;
+            top: 0px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .back-arrow {
+            font-size: 35px;
+            color: #FFFFFF;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .trophy-bar-bg {
+            flex: 1;
+            height: 28px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            margin: 0 15px;
+            position: relative;
+        }
+        .trophy-bar-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #FFFFFF;
+            border-radius: 14px;
+            transition: width 0.3s;
+        }
+        .trophy-icon {
+            position: absolute;
+            left: -10px;
+            top: -8px;
+            width: 44px;
+            height: 44px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .progress-badge {
+            position: absolute;
+            right: 6px;
+            padding: 2px 10px;
+            background-color: rgba(81, 168, 255, 0.2);
+            border: 1.5px solid #51A8FF;
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 13px;
+        }
+        .question-card {
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            left: 10px;
+            top: 80px;
+            background-color: #FFFFFF;
+            border-radius: 40px;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        .chinese-text {
+            font-weight: 700;
+            font-size: 28px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        .answer-area {
+            width: 100%;
+            height: 150px;
+            border-bottom: 2px solid #E0E0E0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .mic-btn {
+            position: absolute;
+            right: 25px;
+            bottom: 25px;
+            width: 65px;
+            height: 65px;
+            background-color: #FFEDF1;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+        }
+        .mic-btn.active {
+            background-color: #FF85A2;
+            animation: pulse 1.2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .beta-tag {
+            font-size: 10px;
+            font-weight: 800;
+            color: #FF85A2;
+            margin-top: -2px;
+        }
+        .word-pool-container {
+            position: absolute;
+            width: 440px;
+            height: 500px;
+            left: 0;
+            top: 520px;
+            background-color: #FFFFFF;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+        .word-pool {
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        .word-tile {
+            background-color: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            border-radius: 18px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 19px;
+            color: #333333;
+            box-shadow: 0 4px 0px #E0E0E0;
+            cursor: pointer;
+        }
+        .word-tile.used {
+            visibility: hidden;
+        }
+        .bottom-actions {
+            position: absolute;
+            bottom: 40px;
+            width: 440px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            gap: 15px;
+        }
+        .check-btn {
+            width: 110px;
+            height: 85px;
+            background-color: #B28DFF;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+        .confirm-btn {
+            flex: 1;
+            height: 85px;
+            background-color: #51A8FF;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 26px;
+            box-shadow: 0 6px 0px #3A8CDD;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="web-only-mask">
+        <h2>請安裝 APP 使用</h2>
+    </div>
+    <div id="app-content" class="main-viewport">
+        <div id="navbar" class="rect-6"></div>
+        <div class="rect-2"></div>
+        <div class="fire-icon">🔥</div>
+        <div class="text-streak">連續學習 0 天</div>
+        <div class="ellipse" style="left: 81px;"></div>
+        <div class="ellipse" style="left: 121px;"></div>
+        <div class="ellipse" style="left: 161px;"></div>
+        <div class="ellipse" style="left: 201px;"></div>
+        <div class="ellipse" style="left: 241px;"></div>
+        <div class="ellipse" style="left: 281px;"></div>
+        <div class="ellipse" style="left: 321px;"></div>
+        <div class="rect-7"></div><div class="rect-8"></div><div class="rect-9"></div><div class="rect-10"></div>
+        <div class="rect-3"></div>
+        <div id="btn-today" class="rect-4"></div>
+        <div class="text-today">今日單字</div>
+        <div class="rect-5"></div>
+        <div id="tabbar" class="rect-1"></div>
+    </div>
+    <div id="stage-screen">
+        <div class="stage-nav">
+            <div class="back-arrow" onclick="goBack()">〈</div>
+            <div class="trophy-bar-bg">
+                <div class="trophy-icon">🏆</div>
+                <div class="trophy-bar-fill" id="progress-bar"></div>
+                <div class="progress-badge" id="progress-text">0/5</div>
+            </div>
+            <div style="color:white; font-weight:800;">❤️ 5</div>
+        </div>
+        <div class="question-card">
+            <div id="chinese-title" class="chinese-text"></div>
+            <div id="answer-area" class="answer-area"></div>
+            <button id="mic-btn" class="mic-btn" onclick="startRecognition()">
+                <span style="font-size: 24px;">🎙️</span>
+                <span class="beta-tag">Beta</span>
+            </button>
+        </div>
+        <div class="word-pool-container">
+            <div id="word-pool" class="word-pool"></div>
+            <div class="bottom-actions">
+                <div class="check-btn" onclick="showAnswer()">
+                    <span style="font-size: 24px;">👁</span>
+                    <label style="font-size: 13px; font-weight: 700; cursor: pointer;">觀看答案</label>
+                </div>
+                <div class="confirm-btn" onclick="checkFinal()">確認</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const app = document.getElementById('app-content');
+        const stage = document.getElementById('stage-screen');
+        const btnToday = document.getElementById('btn-today');
+        const navbar = document.getElementById('navbar');
+        const poolContainer = document.getElementById('word-pool');
+        const answerArea = document.getElementById('answer-area');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const chineseTitle = document.getElementById('chinese-title');
+        const micBtn = document.getElementById('mic-btn');
+
+        const questionList = [
+            { chinese: "我對這份工作感興趣。", english: ["I", "am", "interested", "in", "this", "job"] },
+            { chinese: "學習一門新語言非常有趣。", english: ["Learning", "a", "new", "language", "is", "fun"] },
+            { chinese: "這本書非常有用。", english: ["This", "book", "is", "very", "useful"] },
+            { chinese: "天氣今天非常好。", english: ["The", "weather", "is", "great", "today"] },
+            { chinese: "他喜歡在公園跑步。", english: ["He", "likes", "running", "in", "the", "park"] }
+        ];
+        let currentQuestionIndex = 0;
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) navbar.classList.add('visible');
+            else navbar.classList.remove('visible');
+        });
+
+        const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+        if (isStandalone) {
+            document.getElementById('web-only-mask').style.display = 'none';
+            app.style.display = 'block';
+        }
+
+        function loadQuestion() {
+            const data = questionList[currentQuestionIndex];
+            chineseTitle.innerText = data.chinese;
+            answerArea.innerHTML = '';
+            poolContainer.innerHTML = '';
+            progressText.innerText = currentQuestionIndex + "/" + questionList.length;
+            progressBar.style.width = (currentQuestionIndex / questionList.length) * 100 + "%";
+            const shuffled = [...data.english].sort(function() { return Math.random() - 0.5; });
+            shuffled.forEach(function(word) {
+                const tile = document.createElement('div');
+                tile.className = 'word-tile';
+                tile.innerText = word;
+                tile.onclick = function() {
+                    const ans = document.createElement('div');
+                    ans.className = 'word-tile';
+                    ans.innerText = word;
+                    ans.onclick = function() { ans.remove(); tile.classList.remove('used'); };
+                    answerArea.appendChild(ans);
+                    tile.classList.add('used');
+                };
+                poolContainer.appendChild(tile);
+            });
+        }
+
+        btnToday.onclick = function() {
+            window.scrollTo(0, 0);
+            document.body.style.overflow = 'hidden';
+            app.style.display = 'none';
+            stage.style.display = 'block';
+            currentQuestionIndex = 0;
+            loadQuestion();
+        };
+
+        function goBack() {
+            document.body.style.overflow = 'auto';
+            stage.style.display = 'none';
+            app.style.display = 'block';
+        }
+
+        function showAnswer() {
+            alert("正確答案是：" + questionList[currentQuestionIndex].english.join(" "));
+        }
+
+        function checkFinal() {
+            const currentAnswer = Array.from(answerArea.children).map(function(t) { return t.innerText; }).join(" ");
+            const targetAnswer = questionList[currentQuestionIndex].english.join(" ");
+            if (currentAnswer === targetAnswer) {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questionList.length) loadQuestion();
+                else { alert("恭喜！你已完成所有練習。"); goBack(); }
+            } else { alert("順序不正確！"); }
+        }
+
+        function startRecognition() {
+            const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!Recognition) {
+                alert("此瀏覽器不支援語音功能");
+                return;
+            }
+            const rec = new Recognition();
+            rec.lang = 'en-US';
+            rec.onstart = function() { micBtn.classList.add('active'); };
+            rec.onresult = function(e) {
+                const result = e.results[0][0].transcript.toLowerCase().replace(/[.,!]/g, "");
+                const target = questionList[currentQuestionIndex].english.join(" ").toLowerCase();
+                if (result === target) {
+                    alert("發音完全正確！");
+                    checkFinal();
+                } else {
+                    alert("辨識結果：" + result + "\n再試一次！");
+                }
+            };
+            rec.onend = function() { micBtn.classList.remove('active'); };
+            rec.start();
         }
     </script>
 </body>
