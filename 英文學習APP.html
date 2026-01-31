@@ -24,6 +24,12 @@
             -ms-overflow-style: none;
             -webkit-tap-highlight-color: transparent;
         }
+        /* 新增：鎖定滾動用的樣式，不影響佈局 */
+        .lock-scroll {
+            overflow: hidden !important;
+            height: 100% !important;
+            position: fixed !important; 
+        }
         ::-webkit-scrollbar {
             display: none;
         }
@@ -191,6 +197,7 @@
             margin: 0 auto;
             background-color: #AED7FF;
             overflow: hidden;
+            touch-action: none; /* 新增：從 CSS 層面阻斷觸控滾動 */
         }
         .stage-nav {
             position: absolute;
@@ -467,12 +474,14 @@
             answerArea.appendChild(answerTile);
         }
         btnToday.addEventListener('click', function() {
+            window.scrollTo(0, 0); // 置頂
+            document.body.classList.add('lock-scroll'); // 鎖定 body 滾動
             app.style.display = 'none';
             stage.style.display = 'block';
             initStage();
-            window.scrollTo(0, 0);
         });
         function goBack() {
+            document.body.classList.remove('lock-scroll'); // 恢復 body 滾動
             stage.style.display = 'none';
             app.style.display = 'block';
             window.scrollTo(0, 0);
