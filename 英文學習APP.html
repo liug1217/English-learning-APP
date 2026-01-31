@@ -24,12 +24,11 @@
             -ms-overflow-style: none;
             -webkit-tap-highlight-color: transparent;
         }
-        /* 禁止捲動的樣式 */
-        .no-scroll {
+        /* 只用這個 class 來鎖死捲動 */
+        .lock-scroll {
             overflow: hidden !important;
             height: 100vh !important;
-            position: fixed !important;
-            width: 100% !important;
+            touch-action: none;
         }
         ::-webkit-scrollbar {
             display: none;
@@ -83,10 +82,10 @@
         .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
         .rect-1 { position: absolute; width: 420px; height: 110px; left: 10px; top: 835px; background-color: #FFFFFF; border-radius: 42px; }
 
-        /* 關卡頁面 - 鎖死高度與捲動 */
+        /* 關卡頁面：維持 absolute 且完全不改動座標與高度 */
         #stage-screen {
             display: none;
-            position: fixed; /* 讓它蓋在最上面且不動 */
+            position: absolute;
             top: 0;
             left: 50%;
             width: 440px;
@@ -94,8 +93,6 @@
             margin-left: -220px;
             background-color: #AED7FF;
             z-index: 5000;
-            overflow: hidden; /* 禁止內部捲動 */
-            touch-action: none; /* 阻斷手機觸控捲動 */
         }
         .stage-nav { position: absolute; width: 440px; height: 100px; top: 40px; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
         .back-arrow { font-size: 30px; color: #FFFFFF; font-weight: 800; cursor: pointer; padding: 10px; }
@@ -126,20 +123,8 @@
         <div class="rect-2"></div>
         <div class="fire-icon">🔥</div>
         <div class="text-streak">連續學習 0 天</div>
-        <div class="ellipse" style="left: 81px;"></div>
-        <div class="ellipse" style="left: 121px;"></div>
-        <div class="ellipse" style="left: 161px;"></div>
-        <div class="ellipse" style="left: 201px;"></div>
-        <div class="ellipse" style="left: 241px;"></div>
-        <div class="ellipse" style="left: 281px;"></div>
-        <div class="ellipse" style="left: 321px;"></div>
-        <div class="day-label" style="left: 90px;">六</div>
-        <div class="day-label" style="left: 130px;">日</div>
-        <div class="day-label" style="left: 170px;">一</div>
-        <div class="day-label" style="left: 210px;">二</div>
-        <div class="day-label" style="left: 250px;">三</div>
-        <div class="day-label" style="left: 290px;">四</div>
-        <div class="day-label" style="left: 330px;">五</div>
+        <div class="ellipse" style="left: 81px;"></div><div class="ellipse" style="left: 121px;"></div><div class="ellipse" style="left: 161px;"></div><div class="ellipse" style="left: 201px;"></div><div class="ellipse" style="left: 241px;"></div><div class="ellipse" style="left: 281px;"></div><div class="ellipse" style="left: 321px;"></div>
+        <div class="day-label" style="left: 90px;">六</div><div class="day-label" style="left: 130px;">日</div><div class="day-label" style="left: 170px;">一</div><div class="day-label" style="left: 210px;">二</div><div class="day-label" style="left: 250px;">三</div><div class="day-label" style="left: 290px;">四</div><div class="day-label" style="left: 330px;">五</div>
         <div class="rect-7"></div><div class="rect-8"></div><div class="rect-9"></div><div class="rect-10"></div>
         <div class="rect-3"></div>
         <div id="btn-today" class="rect-4"></div>
@@ -191,14 +176,17 @@
         }
 
         btnToday.addEventListener('click', function() {
-            document.body.classList.add('no-scroll'); // 進入關卡時鎖死 Body
+            window.scrollTo(0, 0); // 先置頂，確保關卡對準
+            document.body.classList.add('lock-scroll'); // 鎖住捲動
+            app.style.display = 'none';
             stage.style.display = 'block';
             initStage();
         });
 
         function goBack() {
-            document.body.classList.remove('no-scroll'); // 離開關卡時恢復 Body
+            document.body.classList.remove('lock-scroll'); // 解除捲動鎖
             stage.style.display = 'none';
+            app.style.display = 'block';
         }
 
         function initStage() {
@@ -216,7 +204,6 @@
                 poolContainer.appendChild(tile);
             });
         }
-
         function createAnswerTile(word, poolId) {
             const answerTile = document.createElement('div');
             answerTile.className = 'word-tile';
@@ -227,7 +214,6 @@
             };
             answerArea.appendChild(answerTile);
         }
-
         function showAnswer() { alert("正確答案：" + correctWords.join(" ")); }
         function checkFinal() {
             const current = Array.from(answerArea.children).map(t => t.innerText);
