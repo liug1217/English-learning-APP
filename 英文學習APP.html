@@ -11,22 +11,15 @@
         :root {
             --main-font: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-        html {
-            background-color: #AED7FF;
-        }
-        body {
+        html, body {
             margin: 0;
             padding: 0;
             width: 100%;
+            height: 100%;
             background-color: #AED7FF;
             font-family: var(--main-font);
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            overscroll-behavior-y: none;
+            overflow: hidden;
             -webkit-tap-highlight-color: transparent;
-        }
-        ::-webkit-scrollbar {
-            display: none;
         }
         #web-only-mask {
             position: fixed;
@@ -190,15 +183,14 @@
             top: 0;
             left: 50%;
             width: 440px;
-            height: 956px;
+            height: 100%;
             margin-left: -220px;
             background-color: #AED7FF;
             z-index: 5000;
-            overflow: hidden;
         }
         .stage-nav {
             position: absolute;
-            width: 440px;
+            width: 100%;
             height: 100px;
             top: 40px;
             display: flex;
@@ -266,24 +258,23 @@
         .question-card {
             position: absolute;
             width: 400px;
-            height: 420px;
+            height: 380px;
             left: 20px;
-            top: 130px;
+            top: 140px;
             background-color: #FFFFFF;
             border-radius: 40px;
             padding: 40px;
             box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         .chinese-text {
             font-weight: 700;
             font-size: 28px;
             color: #333333;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
         .answer-area {
             width: 100%;
-            height: 150px;
+            height: 140px;
             border-bottom: 2px solid #E0E0E0;
             display: flex;
             flex-wrap: wrap;
@@ -293,23 +284,24 @@
         .word-pool-container {
             position: absolute;
             width: 440px;
-            height: 400px;
             left: 0;
             bottom: 0;
+            height: 420px;
             background-color: #FFFFFF;
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
+            display: flex;
+            flex-direction: column;
             z-index: 5001;
         }
         .word-pool {
-            width: 100%;
-            height: 250px;
+            flex: 1;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-content: center;
+            align-content: flex-start;
             gap: 12px;
-            padding: 20px;
+            padding: 40px 30px 0 30px;
             box-sizing: border-box;
         }
         .word-tile {
@@ -322,26 +314,19 @@
             color: #333333;
             box-shadow: 0 4px 0px #E0E0E0;
             cursor: pointer;
-            user-select: none;
-        }
-        .word-tile:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0px #E0E0E0;
         }
         .word-tile.used {
             visibility: hidden;
             pointer-events: none;
         }
         .bottom-actions {
-            position: absolute;
-            bottom: 40px;
+            height: 140px;
             width: 100%;
             display: flex;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 20px 20px 20px;
             box-sizing: border-box;
             gap: 15px;
-            background-color: transparent;
         }
         .check-btn {
             width: 95px;
@@ -356,7 +341,6 @@
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
-            text-align: center;
         }
         .confirm-btn {
             flex: 1;
@@ -377,11 +361,8 @@
 <body>
     <div id="web-only-mask">
         <div class="install-icon">📖</div>
-        <h2 style="color: #333333;">請安裝 APP 使用</h2>
-        <p style="color: #666666; line-height: 1.6;">
-            點擊瀏覽器下方的 分享按鈕 (↑)<br>
-            選擇 加入主畫面 即可開始學習！
-        </p>
+        <h2>請安裝 APP 使用</h2>
+        <p>點擊分享按鈕並選擇「加入主畫面」</p>
     </div>
     <div id="app-content" class="main-viewport">
         <div id="sticky-header" class="rect-6"></div>
@@ -420,10 +401,7 @@
                 <div class="trophy-bar-fill" id="progress-bar"></div>
                 <div class="progress-badge" id="progress-text">0/1</div>
             </div>
-            <div class="heart-container">
-                <span>❤️</span>
-                <span>5</span>
-            </div>
+            <div class="heart-container"><span>❤️</span><span>5</span></div>
         </div>
         <div class="question-card">
             <div class="chinese-text">我對這份工作感興趣。</div>
@@ -433,7 +411,7 @@
             <div id="word-pool" class="word-pool"></div>
             <div class="bottom-actions">
                 <div class="check-btn" onclick="showAnswer()">
-                    <span style="font-size: 24px; margin-bottom: 2px;">👁</span>
+                    <span style="font-size: 24px;">👁</span>
                     <span>觀看答案</span>
                 </div>
                 <div class="confirm-btn" onclick="checkFinal()">確認</div>
@@ -452,21 +430,16 @@
         const progressText = document.getElementById('progress-text');
         const correctWords = ["I", "am", "interested", "in", "this", "job"];
         const poolWords = ["interested", "I", "am", "this", "in", "job"];
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-        if (!isMobile || isStandalone) {
+        if (isStandalone) {
             mask.style.display = 'none';
             app.style.display = 'block';
         }
         window.addEventListener('scroll', function() {
             if (app.style.display === 'block') {
-                if (window.pageYOffset > 0) {
-                    header.style.display = 'block';
-                } else {
-                    header.style.display = 'none';
-                }
+                header.style.display = window.pageYOffset > 0 ? 'block' : 'none';
             }
-        }, { passive: true });
+        });
         function initStage() {
             poolContainer.innerHTML = '';
             answerArea.innerHTML = '';
@@ -496,24 +469,21 @@
             app.style.display = 'none';
             stage.style.display = 'block';
             initStage();
-            window.scrollTo(0, 0);
         });
         function goBack() {
             stage.style.display = 'none';
             app.style.display = 'block';
         }
-        function showAnswer() {
-            alert("正確答案是：" + correctWords.join(" "));
-        }
+        function showAnswer() { alert("正確答案：" + correctWords.join(" ")); }
         function checkFinal() {
-            const currentAnswer = Array.from(answerArea.children).map(t => t.innerText);
-            if (currentAnswer.join(" ") === correctWords.join(" ")) {
+            const current = Array.from(answerArea.children).map(t => t.innerText);
+            if (current.join(" ") === correctWords.join(" ")) {
                 progressBar.style.width = "100%";
                 progressText.innerText = "1/1";
-                alert("恭喜答對！");
+                alert("太棒了！");
                 goBack();
             } else {
-                alert("順序有誤，再試試看！");
+                alert("再試一次！");
             }
         }
     </script>
