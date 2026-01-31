@@ -13,16 +13,22 @@
         }
         html {
             background-color: #AED7FF;
+            /* 防止整個 HTML 層級出現彈性滾動 */
+            overflow: hidden;
+            height: 100%;
         }
         body {
             margin: 0;
             padding: 0;
             width: 100%;
+            height: 100%;
             background-color: #AED7FF;
             font-family: var(--main-font);
-            scrollbar-width: none;
-            -ms-overflow-style: none;
             -webkit-tap-highlight-color: transparent;
+            /* 預設主頁可以滾動，但我們會透過 JavaScript 動態控制 */
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: none;
         }
         ::-webkit-scrollbar {
             display: none;
@@ -47,6 +53,7 @@
             height: 1231px;
             margin: 0 auto;
         }
+        /* 導覽列 */
         .rect-6 {
             position: fixed;
             top: 0;
@@ -65,6 +72,7 @@
             opacity: 1;
             visibility: visible;
         }
+        /* 底部導覽列 */
         .rect-1 {
             position: fixed;
             width: 420px;
@@ -179,14 +187,19 @@
             background-color: #FFFFFF;
             border-radius: 30px;
         }
+        /* 關卡畫面 - 關鍵修正：固定高度且不允許滾動 */
         #stage-screen {
             display: none;
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 440px;
-            height: 956px;
-            margin: 0 auto;
+            height: 100vh;
             background-color: #AED7FF;
+            z-index: 6000;
             overflow: hidden;
+            touch-action: none; /* 禁用觸控滑動行為 */
         }
         .stage-nav {
             position: absolute;
@@ -318,13 +331,8 @@
             user-select: none;
             transition: transform 0.1s;
         }
-        .word-tile:active {
-            transform: translateY(2px);
-        }
-        .word-tile.used {
-            visibility: hidden;
-            pointer-events: none;
-        }
+        .word-tile:active { transform: translateY(2px); }
+        .word-tile.used { visibility: hidden; pointer-events: none; }
         .bottom-actions {
             position: absolute;
             bottom: 40px;
@@ -336,7 +344,7 @@
             gap: 15px;
         }
         .check-btn {
-            width: 115px;
+            width: 105px;
             height: 85px;
             background-color: #B28DFF;
             border-radius: 25px;
@@ -347,15 +355,8 @@
             color: #FFFFFF;
             cursor: pointer;
         }
-        .check-btn span {
-            font-size: 26px;
-        }
-        .check-btn label {
-            font-size: 13px;
-            font-weight: 800;
-            margin-top: 3px;
-            cursor: pointer;
-        }
+        .check-btn span { font-size: 26px; }
+        .check-btn label { font-size: 14px; font-weight: 700; margin-top: 2px; cursor: pointer; }
         .confirm-btn {
             flex: 1;
             height: 85px;
@@ -384,17 +385,9 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        .mic-icon {
-            font-size: 30px;
-            color: #FF85A2;
-        }
-        .mic-container.active {
-            background-color: #FF85A2;
-            animation: pulse-ring 1.2s infinite;
-        }
-        .mic-container.active .mic-icon {
-            color: #FFFFFF;
-        }
+        .mic-icon { font-size: 30px; color: #FF85A2; }
+        .mic-container.active { background-color: #FF85A2; animation: pulse-ring 1.2s infinite; }
+        .mic-container.active .mic-icon { color: #FFFFFF; }
         @keyframes pulse-ring {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -403,9 +396,8 @@
     </style>
 </head>
 <body>
-    <div id="web-only-mask">
-        <h2>請安裝 APP 使用</h2>
-    </div>
+    <div id="web-only-mask"><h2>請安裝 APP 使用</h2></div>
+    
     <div id="app-content" class="main-viewport">
         <div id="navbar" class="rect-6"></div>
         <div class="rect-2"></div>
@@ -425,16 +417,14 @@
         <div class="day-label" style="left: 250px;">三</div>
         <div class="day-label" style="left: 290px;">四</div>
         <div class="day-label" style="left: 330px;">五</div>
-        <div class="rect-7"></div>
-        <div class="rect-8"></div>
-        <div class="rect-9"></div>
-        <div class="rect-10"></div>
+        <div class="rect-7"></div><div class="rect-8"></div><div class="rect-9"></div><div class="rect-10"></div>
         <div class="rect-3"></div>
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
         <div class="rect-5"></div>
         <div class="rect-1"></div>
     </div>
+
     <div id="stage-screen">
         <div class="stage-nav">
             <div class="back-arrow" onclick="playClickSound(); goBack()">〈</div>
@@ -443,10 +433,7 @@
                 <div id="progress-bar" class="trophy-bar-fill"></div>
                 <div id="progress-text" class="progress-badge">0/5</div>
             </div>
-            <div class="heart-container">
-                <span>❤️</span>
-                <span>5</span>
-            </div>
+            <div class="heart-container"><span>❤️</span><span>5</span></div>
         </div>
         <div class="question-card">
             <div id="chinese-title" class="chinese-text">載入中...</div>
@@ -461,12 +448,14 @@
         <div class="bottom-actions">
             <div class="check-btn" onclick="playClickSound(); showAnswer()">
                 <span>👁</span>
-                <label>觀看答案</label>
+                <label>答案</label>
             </div>
             <div class="confirm-btn" onclick="playClickSound(); checkFinal()">確認</div>
         </div>
     </div>
+
     <script>
+        const bodyElement = document.body;
         const app = document.getElementById('app-content');
         const stage = document.getElementById('stage-screen');
         const btnToday = document.getElementById('btn-today');
@@ -511,9 +500,7 @@
             playClickSound();
             const recognition = new webkitSpeechRecognition();
             recognition.lang = 'en-US';
-            recognition.onstart = function() {
-                micContainer.classList.add('active');
-            };
+            recognition.onstart = function() { micContainer.classList.add('active'); };
             recognition.onresult = function(event) {
                 const speechResult = event.results[0][0].transcript.toLowerCase().replace(/[.,!]/g, "");
                 const correctFullAnswer = questionList[currentQuestionIndex].english.join(" ").toLowerCase();
@@ -525,18 +512,12 @@
                     alert("您說的是: " + speechResult + "\n請再試一次！");
                 }
             };
-            recognition.onend = function() {
-                micContainer.classList.remove('active');
-            };
+            recognition.onend = function() { micContainer.classList.remove('active'); };
             recognition.start();
         }
 
         window.addEventListener('scroll', function() {
-            if (window.scrollY > 20) {
-                navbar.classList.add('visible');
-            } else {
-                navbar.classList.remove('visible');
-            }
+            navbar.classList.toggle('visible', window.scrollY > 20);
         });
 
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
@@ -549,13 +530,17 @@
             playClickSound();
             app.style.display = 'none';
             stage.style.display = 'block';
+            // 進入關卡：禁止背景滾動
+            bodyElement.style.overflow = 'hidden';
             currentQuestionIndex = 0;
             loadNextQuestion();
         });
 
-        function goBack() {
-            stage.style.display = 'none';
-            app.style.display = 'block';
+        function goBack() { 
+            stage.style.display = 'none'; 
+            app.style.display = 'block'; 
+            // 離開關卡：恢復主選單滾動
+            bodyElement.style.overflow = 'auto';
         }
 
         function loadNextQuestion() {
@@ -605,16 +590,11 @@
             } else {
                 progressBar.style.width = "100%";
                 progressText.innerText = "5/5";
-                setTimeout(function() {
-                    alert("太棒了！過關！");
-                    goBack();
-                }, 300);
+                setTimeout(function() { alert("太棒了！過關！"); goBack(); }, 300);
             }
         }
 
-        function showAnswer() {
-            alert(questionList[currentQuestionIndex].english.join(" "));
-        }
+        function showAnswer() { alert(questionList[currentQuestionIndex].english.join(" ")); }
     </script>
 </body>
 </html>
