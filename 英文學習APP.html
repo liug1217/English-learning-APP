@@ -190,7 +190,7 @@
             top: 0;
             left: 50%;
             width: 440px;
-            height: 956px;
+            height: 100vh;
             margin-left: -220px;
             background-color: #AED7FF;
             z-index: 5000;
@@ -200,7 +200,7 @@
             position: absolute;
             width: 440px;
             height: 100px;
-            top: 40px;
+            top: 60px;
             display: flex;
             align-items: center;
             padding: 0 20px;
@@ -268,7 +268,7 @@
             width: 400px;
             height: 420px;
             left: 20px;
-            top: 150px;
+            top: 180px;
             background-color: #FFFFFF;
             border-radius: 40px;
             padding: 40px;
@@ -295,7 +295,7 @@
             width: 440px;
             height: 400px;
             left: 0;
-            top: 580px;
+            bottom: 0;
             background-color: #FFFFFF;
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
@@ -435,13 +435,13 @@
         </div>
         <div class="word-pool-container">
             <div id="word-pool" class="word-pool"></div>
-        </div>
-        <div class="bottom-actions">
-            <div class="check-btn" onclick="showAnswer()">
-                <span style="font-size: 24px; margin-bottom: 2px;">👁</span>
-                <span>觀看答案</span>
+            <div class="bottom-actions">
+                <div class="check-btn" onclick="showAnswer()">
+                    <span style="font-size: 24px; margin-bottom: 2px;">👁</span>
+                    <span>觀看答案</span>
+                </div>
+                <div class="confirm-btn" onclick="checkFinal()">確認</div>
             </div>
-            <div class="confirm-btn" onclick="checkFinal()">確認</div>
         </div>
     </div>
     <script>
