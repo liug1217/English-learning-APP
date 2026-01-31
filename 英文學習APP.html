@@ -161,18 +161,23 @@
         }
         #stage-screen {
             display: none;
-            position: relative;
-            width: 440px;
-            height: 956px;
-            margin: 0 auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: #AED7FF;
+            z-index: 5000;
             overflow: hidden;
+            touch-action: none;
         }
         .stage-nav {
             position: absolute;
             width: 440px;
             height: 100px;
             top: 40px;
+            left: 50%;
+            margin-left: -220px;
             display: flex;
             align-items: center;
             padding: 0 20px;
@@ -227,8 +232,9 @@
             position: absolute;
             width: 400px;
             height: 420px;
-            left: 20px;
+            left: 50%;
             top: 130px;
+            margin-left: -200px;
             background-color: #FFFFFF;
             border-radius: 40px;
             padding: 40px;
@@ -252,8 +258,9 @@
             position: absolute;
             width: 440px;
             height: 400px;
-            left: 0;
+            left: 50%;
             top: 580px;
+            margin-left: -220px;
             background-color: #FFFFFF;
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
@@ -321,7 +328,6 @@
     <div id="web-only-mask">
         <h2>請安裝 APP 使用</h2>
     </div>
-
     <div id="app-content" class="main-viewport">
         <div id="navbar" class="rect-6"></div>
         <div class="rect-2"></div>
@@ -344,7 +350,6 @@
         <div class="rect-5"></div>
         <div id="tabbar" class="rect-1"></div>
     </div>
-
     <div id="stage-screen">
         <div class="stage-nav">
             <div class="back-arrow" onclick="goBack()">〈</div>
@@ -370,7 +375,6 @@
             </div>
         </div>
     </div>
-
     <script>
         const app = document.getElementById('app-content');
         const stage = document.getElementById('stage-screen');
@@ -381,7 +385,6 @@
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
         const chineseTitle = document.getElementById('chinese-title');
-
         const questionList = [
             { chinese: "我對這份工作感興趣。", english: ["I", "am", "interested", "in", "this", "job"] },
             { chinese: "學習一門新語言非常有趣。", english: ["Learning", "a", "new", "language", "is", "fun"] },
@@ -389,9 +392,7 @@
             { chinese: "天氣今天非常好。", english: ["The", "weather", "is", "great", "today"] },
             { chinese: "他喜歡在公園跑步。", english: ["He", "likes", "running", "in", "the", "park"] }
         ];
-
         let currentQuestionIndex = 0;
-
         window.addEventListener('scroll', function() {
             if (window.scrollY > 50) {
                 navbar.classList.add('visible');
@@ -399,13 +400,11 @@
                 navbar.classList.remove('visible');
             }
         });
-
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
         if (isStandalone) {
             document.getElementById('web-only-mask').style.display = 'none';
             app.style.display = 'block';
         }
-
         function loadQuestion() {
             const data = questionList[currentQuestionIndex];
             chineseTitle.innerText = data.chinese;
@@ -413,9 +412,8 @@
             poolContainer.innerHTML = '';
             progressText.innerText = currentQuestionIndex + "/" + questionList.length;
             progressBar.style.width = (currentQuestionIndex / questionList.length) * 100 + "%";
-
             const shuffled = [...data.english].sort(function() { return Math.random() - 0.5; });
-            shuffled.forEach(function(word, index) {
+            shuffled.forEach(function(word) {
                 const tile = document.createElement('div');
                 tile.className = 'word-tile';
                 tile.innerText = word;
@@ -433,23 +431,21 @@
                 poolContainer.appendChild(tile);
             });
         }
-
         btnToday.onclick = function() {
+            document.body.style.overflow = 'hidden';
             app.style.display = 'none';
             stage.style.display = 'block';
             currentQuestionIndex = 0;
             loadQuestion();
         };
-
         function goBack() {
+            document.body.style.overflow = 'auto';
             stage.style.display = 'none';
             app.style.display = 'block';
         }
-
         function showAnswer() {
             alert("正確答案是：" + questionList[currentQuestionIndex].english.join(" "));
         }
-
         function checkFinal() {
             const currentAnswer = Array.from(answerArea.children).map(function(t) { return t.innerText; }).join(" ");
             const targetAnswer = questionList[currentQuestionIndex].english.join(" ");
