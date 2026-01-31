@@ -23,9 +23,13 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
             -webkit-tap-highlight-color: transparent;
-            /* 預設主頁面可以滾動 */
-            overflow-x: hidden;
-            overflow-y: auto;
+        }
+        /* 禁止捲動的樣式 */
+        .no-scroll {
+            overflow: hidden !important;
+            height: 100vh !important;
+            position: fixed !important;
+            width: 100% !important;
         }
         ::-webkit-scrollbar {
             display: none;
@@ -52,9 +56,7 @@
             width: 440px;
             height: 1231px;
             margin: 0 auto;
-            background-color: transparent;
         }
-        /* 以下為主頁面元件，維持原樣 */
         .rect-6 {
             box-sizing: border-box;
             position: fixed;
@@ -81,10 +83,10 @@
         .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
         .rect-1 { position: absolute; width: 420px; height: 110px; left: 10px; top: 835px; background-color: #FFFFFF; border-radius: 42px; }
 
-        /* 關卡頁面：鎖定不能滾動 */
+        /* 關卡頁面 - 鎖死高度與捲動 */
         #stage-screen {
             display: none;
-            position: fixed; /* 改回固定，確保不隨頁面滾動 */
+            position: fixed; /* 讓它蓋在最上面且不動 */
             top: 0;
             left: 50%;
             width: 440px;
@@ -92,8 +94,8 @@
             margin-left: -220px;
             background-color: #AED7FF;
             z-index: 5000;
-            overflow: hidden; /* 內部也不能滾動 */
-            touch-action: none; /* 禁用手勢滑動 */
+            overflow: hidden; /* 禁止內部捲動 */
+            touch-action: none; /* 阻斷手機觸控捲動 */
         }
         .stage-nav { position: absolute; width: 440px; height: 100px; top: 40px; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
         .back-arrow { font-size: 30px; color: #FFFFFF; font-weight: 800; cursor: pointer; padding: 10px; }
@@ -116,7 +118,6 @@
 </head>
 <body>
     <div id="web-only-mask">
-        <div class="install-icon">📖</div>
         <h2>請安裝 APP 使用</h2>
         <p>點擊分享按鈕並選擇「加入主畫面」</p>
     </div>
@@ -139,10 +140,7 @@
         <div class="day-label" style="left: 250px;">三</div>
         <div class="day-label" style="left: 290px;">四</div>
         <div class="day-label" style="left: 330px;">五</div>
-        <div class="rect-7"></div>
-        <div class="rect-8"></div>
-        <div class="rect-9"></div>
-        <div class="rect-10"></div>
+        <div class="rect-7"></div><div class="rect-8"></div><div class="rect-9"></div><div class="rect-10"></div>
         <div class="rect-3"></div>
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
@@ -178,7 +176,6 @@
         const mask = document.getElementById('web-only-mask');
         const app = document.getElementById('app-content');
         const stage = document.getElementById('stage-screen');
-        const header = document.getElementById('sticky-header');
         const btnToday = document.getElementById('btn-today');
         const poolContainer = document.getElementById('word-pool');
         const answerArea = document.getElementById('answer-area');
@@ -193,11 +190,16 @@
             app.style.display = 'block';
         }
 
-        window.addEventListener('scroll', function() {
-            if (app.style.display === 'block') {
-                header.style.display = window.pageYOffset > 0 ? 'block' : 'none';
-            }
+        btnToday.addEventListener('click', function() {
+            document.body.classList.add('no-scroll'); // 進入關卡時鎖死 Body
+            stage.style.display = 'block';
+            initStage();
         });
+
+        function goBack() {
+            document.body.classList.remove('no-scroll'); // 離開關卡時恢復 Body
+            stage.style.display = 'none';
+        }
 
         function initStage() {
             poolContainer.innerHTML = '';
@@ -224,20 +226,6 @@
                 document.getElementById(poolId).classList.remove('used');
             };
             answerArea.appendChild(answerTile);
-        }
-
-        btnToday.addEventListener('click', function() {
-            app.style.display = 'none';
-            stage.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // 進入關卡，鎖死滾動
-            initStage();
-            window.scrollTo(0, 0);
-        });
-
-        function goBack() {
-            stage.style.display = 'none';
-            app.style.display = 'block';
-            document.body.style.overflow = 'auto'; // 回到主頁，恢復滾動
         }
 
         function showAnswer() { alert("正確答案：" + correctWords.join(" ")); }
