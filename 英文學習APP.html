@@ -44,7 +44,7 @@
         .install-icon {
             width: 80px;
             height: 80px;
-            background: white;
+            background: #FFFFFF;
             border-radius: 20px;
             margin-bottom: 20px;
             display: flex;
@@ -97,7 +97,7 @@
         }
         .text-streak {
             position: absolute;
-            width: 93px;
+            width: 150px;
             height: 18px;
             left: 80px;
             top: 130px;
@@ -268,7 +268,7 @@
         }
         window.addEventListener('scroll', function() {
             if (app.style.display === 'block') {
-                if (window.scrollY > 110) {
+                if (window.pageYOffset > 0) {
                     header.style.display = 'block';
                 } else {
                     header.style.display = 'none';
