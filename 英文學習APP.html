@@ -78,7 +78,7 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 42px;
             z-index: 4000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
         }
         .rect-2 {
             position: absolute;
@@ -270,7 +270,7 @@
             font-weight: 700;
             font-size: 28px;
             color: #333333;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
         .answer-area {
             width: 100%;
@@ -345,8 +345,31 @@
             justify-content: center;
             color: #FFFFFF;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 24px;
             cursor: pointer;
+        }
+        .mic-btn {
+            width: 95px;
+            height: 85px;
+            background-color: #FF85A2;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 32px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .mic-btn.active {
+            background-color: #FF0000;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         .confirm-btn {
             flex: 1;
@@ -419,6 +442,7 @@
         </div>
         <div class="bottom-actions">
             <div class="check-btn" onclick="playClickSound(); showAnswer()">👁</div>
+            <div id="mic-button" class="mic-btn" onclick="startSpeechRecognition()">🎙</div>
             <div class="confirm-btn" onclick="playClickSound(); checkFinal()">確認</div>
         </div>
     </div>
@@ -432,6 +456,7 @@
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
         const chineseTitle = document.getElementById('chinese-title');
+        const micButton = document.getElementById('mic-button');
 
         const questionList = [
             { chinese: "學習一門新語言非常有趣。", english: ["Learning", "a", "new", "language", "is", "fun"] },
@@ -442,6 +467,7 @@
         ];
 
         let currentQuestionIndex = 0;
+        let isListening = false;
 
         function playClickSound() {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -456,6 +482,50 @@
             gainNode.connect(audioContext.destination);
             oscillator.start();
             oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        function startSpeechRecognition() {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert("抱歉，您的瀏覽器不支援語音辨識功能。");
+                return;
+            }
+
+            playClickSound();
+            const recognition = new webkitSpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.onstart = function() {
+                isListening = true;
+                micButton.classList.add('active');
+            };
+
+            recognition.onresult = function(event) {
+                const speechResult = event.results[0][0].transcript.toLowerCase().replace(/[.,!]/g, "");
+                const correctFullAnswer = questionList[currentQuestionIndex].english.join(" ").toLowerCase();
+                
+                if (speechResult === correctFullAnswer) {
+                    playClickSound();
+                    alert("唸得真好！答案完全正確！");
+                    checkFinalBySpeech();
+                } else {
+                    alert("您說的是: " + speechResult + "\n請再試一次看看！");
+                }
+            };
+
+            recognition.onerror = function(event) {
+                console.log("語音辨識錯誤: ", event.error);
+                micButton.classList.remove('active');
+                isListening = false;
+            };
+
+            recognition.onend = function() {
+                micButton.classList.remove('active');
+                isListening = false;
+            };
+
+            recognition.start();
         }
 
         window.addEventListener('scroll', function() {
@@ -519,19 +589,27 @@
             const userAnswer = Array.from(answerArea.children).map(function(tile) { return tile.innerText; });
             const correctAnswer = questionList[currentQuestionIndex].english;
             if (userAnswer.join(" ") === correctAnswer.join(" ")) {
-                currentQuestionIndex = currentQuestionIndex + 1;
-                if (currentQuestionIndex < questionList.length) {
-                    loadNextQuestion();
-                } else {
-                    progressBar.style.width = "100%";
-                    progressText.innerText = "5/5";
-                    setTimeout(function() {
-                        alert("恭喜完成所有題目！");
-                        goBack();
-                    }, 300);
-                }
+                handleCorrectAnswer();
             } else {
-                alert("再試一次囉！");
+                alert("單字拼法再試一次囉！");
+            }
+        }
+
+        function checkFinalBySpeech() {
+            handleCorrectAnswer();
+        }
+
+        function handleCorrectAnswer() {
+            currentQuestionIndex = currentQuestionIndex + 1;
+            if (currentQuestionIndex < questionList.length) {
+                loadNextQuestion();
+            } else {
+                progressBar.style.width = "100%";
+                progressText.innerText = "5/5";
+                setTimeout(function() {
+                    alert("恭喜完成所有題目！");
+                    goBack();
+                }, 300);
             }
         }
 
