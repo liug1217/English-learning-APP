@@ -190,10 +190,11 @@
             top: 0;
             left: 50%;
             width: 440px;
-            height: 100%;
+            height: 956px;
             margin-left: -220px;
             background-color: #AED7FF;
             z-index: 5000;
+            overflow: hidden;
         }
         .stage-nav {
             position: absolute;
@@ -452,18 +453,14 @@
         const answerArea = document.getElementById('answer-area');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
-
         const correctWords = ["I", "am", "interested", "in", "this", "job"];
         const poolWords = ["interested", "I", "am", "this", "in", "job"];
-
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-
         if (!isMobile || isStandalone) {
             mask.style.display = 'none';
             app.style.display = 'block';
         }
-
         window.addEventListener('scroll', function() {
             if (app.style.display === 'block') {
                 if (window.pageYOffset > 0) {
@@ -473,7 +470,6 @@
                 }
             }
         }, { passive: true });
-
         function initStage() {
             poolContainer.innerHTML = '';
             answerArea.innerHTML = '';
@@ -489,7 +485,6 @@
                 poolContainer.appendChild(tile);
             });
         }
-
         function createAnswerTile(word, poolId) {
             const answerTile = document.createElement('div');
             answerTile.className = 'word-tile';
@@ -500,23 +495,19 @@
             };
             answerArea.appendChild(answerTile);
         }
-
         btnToday.addEventListener('click', function() {
             app.style.display = 'none';
             stage.style.display = 'block';
             initStage();
             window.scrollTo(0, 0);
         });
-
         function goBack() {
             stage.style.display = 'none';
             app.style.display = 'block';
         }
-
         function showAnswer() {
             alert("正確答案是：" + correctWords.join(" "));
         }
-
         function checkFinal() {
             const currentAnswer = Array.from(answerArea.children).map(t => t.innerText);
             if (currentAnswer.join(" ") === correctWords.join(" ")) {
