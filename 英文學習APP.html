@@ -187,6 +187,25 @@
             border-radius: 42px;
             z-index: 4000;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mic-btn {
+            width: 70px;
+            height: 70px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .mic-btn:active {
+            transform: scale(0.9);
         }
         #stage-screen {
             display: none;
@@ -403,7 +422,9 @@
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
         <div class="rect-5"></div>
-        <div class="rect-1"></div>
+        <div class="rect-1">
+            <div class="mic-btn" id="main-mic">🎙️</div>
+        </div>
     </div>
     <div id="stage-screen">
         <div class="stage-nav">
@@ -440,6 +461,7 @@
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
         const chineseDisplay = document.getElementById('chinese-display');
+        const mainMic = document.getElementById('main-mic');
 
         const questionList = [
             { chinese: "我對這份工作感興趣。", english: ["I", "am", "interested", "in", "this", "job"] },
@@ -467,15 +489,17 @@
             app.style.display = 'block';
         }
 
+        mainMic.onclick = function() {
+            alert("正在啟動語音辨識...");
+        };
+
         function loadQuestion() {
             const q = questionList[currentIdx];
             chineseDisplay.innerText = q.chinese;
             poolContainer.innerHTML = '';
             answerArea.innerHTML = '';
-            
             progressText.innerText = currentIdx + "/5";
             progressBar.style.width = (currentIdx / 5) * 100 + "%";
-
             let shuffled = [...q.english].sort(() => Math.random() - 0.5);
             shuffled.forEach((word, i) => {
                 const tile = document.createElement('div');
