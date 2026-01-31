@@ -341,7 +341,7 @@
             </div>
         </div>
         <div class="question-card">
-            <div class="chinese-text">我對這份工作感興趣。</div>
+            <div class="chinese-text">學習一門新語言非常有趣。</div>
             <div id="answer-area" class="answer-area"></div>
         </div>
         <div class="word-pool-container">
@@ -361,8 +361,10 @@
         const answerArea = document.getElementById('answer-area');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
-        const correctWords = ["I", "am", "interested", "in", "this", "job"];
-        const poolWords = ["interested", "I", "am", "this", "in", "job"];
+        
+        // 題目改動部分
+        const correctWords = ["Learning", "a", "new", "language", "is", "fun"];
+        const poolWords = ["language", "Learning", "new", "a", "is", "fun"];
 
         window.addEventListener('scroll', function() {
             if (window.scrollY > 20) {
