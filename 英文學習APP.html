@@ -66,12 +66,11 @@
             pointer-events: auto;
         }
         .rect-1 {
-            position: fixed;
+            position: absolute;
             width: 420px;
             height: 110px;
-            left: 50%;
+            left: 10px;
             top: 835px;
-            margin-left: -210px;
             background-color: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(25px) saturate(180%);
             -webkit-backdrop-filter: blur(25px) saturate(180%);
@@ -263,25 +262,15 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border: none;
         }
         .mic-btn-container.active {
             background-color: #FF85A2;
-            animation: pulse-mic 1.2s infinite;
-        }
-        @keyframes pulse-mic {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
         }
         .beta-label {
             font-size: 9px;
             font-weight: 800;
             color: #FF85A2;
             margin-top: -2px;
-        }
-        .mic-btn-container.active .beta-label {
-            color: #FFFFFF;
         }
         .word-pool-container {
             position: absolute;
@@ -497,10 +486,7 @@
         }
         function startMic() {
             const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!Speech) {
-                alert("您的裝置不支援語音功能");
-                return;
-            }
+            if (!Speech) return;
             const rec = new Speech();
             rec.lang = 'en-US';
             rec.onstart = function() { micTrigger.classList.add('active'); };
@@ -511,8 +497,6 @@
                 if (resultText === targetText) {
                     alert("發音正確！");
                     checkFinal();
-                } else {
-                    alert("聽起來像是: " + resultText + "\n請再試一次！");
                 }
             };
             rec.start();
