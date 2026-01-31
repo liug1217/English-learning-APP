@@ -290,10 +290,10 @@
             align-content: flex-start;
             gap: 10px;
         }
-        .word-pool-bg {
+        .word-pool-container {
             position: absolute;
             width: 440px;
-            height: 400px;
+            height: 376px;
             left: 0;
             top: 580px;
             background-color: #FFFFFF;
@@ -302,11 +302,8 @@
             z-index: 5001;
         }
         .word-pool {
-            position: absolute;
-            width: 440px;
+            width: 100%;
             height: 250px;
-            left: 0;
-            top: 580px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -314,7 +311,6 @@
             gap: 12px;
             padding: 30px;
             box-sizing: border-box;
-            z-index: 5002;
         }
         .word-tile {
             background-color: #FFFFFF;
@@ -338,14 +334,13 @@
         }
         .bottom-actions {
             position: absolute;
-            bottom: 40px;
-            width: 440px;
+            bottom: 30px;
+            width: 100%;
             display: flex;
             align-items: center;
             padding: 0 20px;
             box-sizing: border-box;
             gap: 15px;
-            z-index: 5003;
         }
         .check-btn {
             width: 95px;
@@ -433,14 +428,15 @@
             <div class="chinese-text">我對這份工作感興趣。</div>
             <div id="answer-area" class="answer-area"></div>
         </div>
-        <div class="word-pool-bg"></div>
-        <div id="word-pool" class="word-pool"></div>
-        <div class="bottom-actions">
-            <div class="check-btn" onclick="showAnswer()">
-                <span style="font-size: 24px; margin-bottom: 2px;">👁</span>
-                <span>觀看答案</span>
+        <div class="word-pool-container">
+            <div id="word-pool" class="word-pool"></div>
+            <div class="bottom-actions">
+                <div class="check-btn" onclick="showAnswer()">
+                    <span style="font-size: 24px; margin-bottom: 2px;">👁</span>
+                    <span>觀看答案</span>
+                </div>
+                <div class="confirm-btn" onclick="checkFinal()">確認</div>
             </div>
-            <div class="confirm-btn" onclick="checkFinal()">確認</div>
         </div>
     </div>
     <script>
