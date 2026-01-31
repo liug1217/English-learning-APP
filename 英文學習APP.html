@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=440, user-scalable=no">
+    <meta name="viewport" content="width=440, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#AED7FF">
@@ -21,8 +21,8 @@
             background-color: #AED7FF;
             font-family: var(--main-font);
             scrollbar-width: none;
+            -ms-overflow-style: none;
             -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
         }
         ::-webkit-scrollbar {
             display: none;
@@ -36,8 +36,23 @@
             background-color: #AED7FF;
             z-index: 9999;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .install-icon {
+            width: 80px;
+            height: 80px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
         }
         .main-viewport {
             display: none;
@@ -45,6 +60,7 @@
             width: 440px;
             height: 1231px;
             margin: 0 auto;
+            background-color: transparent;
         }
         .rect-6 {
             box-sizing: border-box;
@@ -57,27 +73,7 @@
             background-color: #FFFFFF;
             border-bottom: 1px solid #D9D9D9;
             z-index: 3000;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        .rect-6.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .rect-1 {
-            position: absolute;
-            width: 420px;
-            height: 110px;
-            left: 10px;
-            top: 835px;
-            background-color: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 42px;
-            z-index: 4000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: none;
         }
         .rect-2 {
             position: absolute;
@@ -94,6 +90,7 @@
             top: 140px;
             font-weight: 900;
             font-size: 45px;
+            color: #000000;
             z-index: 11;
         }
         .text-streak {
@@ -103,6 +100,7 @@
             top: 130px;
             font-weight: 800;
             font-size: 15px;
+            color: #000000;
             z-index: 10;
         }
         .ellipse {
@@ -114,10 +112,28 @@
             border-radius: 50%;
             z-index: 10;
         }
-        .rect-7 { position: absolute; width: 70px; height: 90px; left: 360px; top: 251px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
-        .rect-8 { position: absolute; width: 70px; height: 90px; left: 360px; top: 341px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
-        .rect-9 { position: absolute; width: 70px; height: 90px; left: 360px; top: 431px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
-        .rect-10 { position: absolute; width: 70px; height: 90px; left: 360px; top: 521px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .day-label {
+            position: absolute;
+            width: 12px;
+            top: 162px;
+            font-size: 12px;
+            color: #9A9A9A;
+            z-index: 11;
+            font-weight: 600;
+        }
+        .rect-7, .rect-8, .rect-9, .rect-10 {
+            position: absolute;
+            width: 70px;
+            height: 90px;
+            left: 360px;
+            background-color: #FFFFFF;
+            border-top-right-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+        .rect-7 { top: 251px; }
+        .rect-8 { top: 341px; }
+        .rect-9 { top: 431px; }
+        .rect-10 { top: 521px; }
         .rect-3 {
             position: absolute;
             width: 381px;
@@ -158,35 +174,45 @@
             background-color: #FFFFFF;
             border-radius: 30px;
         }
+        .rect-1 {
+            position: absolute;
+            width: 420px;
+            height: 110px;
+            left: 10px;
+            top: 835px;
+            background-color: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 42px;
+            z-index: 4000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
         #stage-screen {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            position: relative;
+            width: 440px;
+            height: 956px;
+            margin: 0 auto;
             background-color: #AED7FF;
-            z-index: 5000;
             overflow: hidden;
-            touch-action: none;
         }
         .stage-nav {
             position: absolute;
             width: 440px;
             height: 100px;
-            top: 20px;
-            left: 50%;
-            margin-left: -220px;
+            top: 40px;
             display: flex;
             align-items: center;
             padding: 0 20px;
             box-sizing: border-box;
         }
         .back-arrow {
-            font-size: 35px;
+            font-size: 30px;
             color: #FFFFFF;
             font-weight: 800;
             cursor: pointer;
+            padding: 10px;
         }
         .trophy-bar-bg {
             flex: 1;
@@ -195,6 +221,8 @@
             border-radius: 14px;
             margin: 0 15px;
             position: relative;
+            display: flex;
+            align-items: center;
         }
         .trophy-bar-fill {
             width: 0%;
@@ -214,6 +242,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .progress-badge {
             position: absolute;
@@ -226,13 +256,20 @@
             font-weight: 800;
             font-size: 13px;
         }
+        .heart-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #FFFFFF;
+            font-size: 22px;
+            font-weight: 800;
+        }
         .question-card {
             position: absolute;
             width: 400px;
             height: 420px;
-            left: 50%;
-            top: 110px;
-            margin-left: -200px;
+            left: 20px;
+            top: 130px;
             background-color: #FFFFFF;
             border-radius: 40px;
             padding: 40px;
@@ -242,7 +279,7 @@
             font-weight: 700;
             font-size: 28px;
             color: #333333;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
         .answer-area {
             width: 100%;
@@ -250,25 +287,32 @@
             border-bottom: 2px solid #E0E0E0;
             display: flex;
             flex-wrap: wrap;
+            align-content: flex-start;
             gap: 10px;
         }
         .word-pool-container {
             position: absolute;
             width: 440px;
-            height: 450px;
-            left: 50%;
-            top: 550px;
-            margin-left: -220px;
+            height: 400px;
+            left: 0;
+            top: 580px;
             background-color: #FFFFFF;
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
         }
         .word-pool {
-            padding: 30px;
+            position: absolute;
+            width: 440px;
+            height: 250px;
+            left: 0;
+            top: 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            align-content: center;
             gap: 12px;
+            padding: 30px;
+            box-sizing: border-box;
         }
         .word-tile {
             background-color: #FFFFFF;
@@ -280,9 +324,11 @@
             color: #333333;
             box-shadow: 0 4px 0px #E0E0E0;
             cursor: pointer;
+            user-select: none;
         }
         .word-tile.used {
             visibility: hidden;
+            pointer-events: none;
         }
         .bottom-actions {
             position: absolute;
@@ -295,7 +341,7 @@
             gap: 15px;
         }
         .check-btn {
-            width: 110px;
+            width: 95px;
             height: 85px;
             background-color: #B28DFF;
             border-radius: 25px;
@@ -304,6 +350,8 @@
             align-items: center;
             justify-content: center;
             color: #FFFFFF;
+            font-weight: 700;
+            font-size: 13px;
             cursor: pointer;
         }
         .confirm-btn {
@@ -317,17 +365,19 @@
             color: #FFFFFF;
             font-weight: 800;
             font-size: 26px;
-            box-shadow: 0 6px 0px #3A8CDD;
             cursor: pointer;
+            box-shadow: 0 6px 0px #3A8CDD;
         }
     </style>
 </head>
 <body>
     <div id="web-only-mask">
+        <div class="install-icon">📖</div>
         <h2>請安裝 APP 使用</h2>
+        <p>點擊分享按鈕並選擇「加入主畫面」</p>
     </div>
     <div id="app-content" class="main-viewport">
-        <div id="navbar" class="rect-6"></div>
+        <div id="sticky-header" class="rect-6"></div>
         <div class="rect-2"></div>
         <div class="fire-icon">🔥</div>
         <div class="text-streak">連續學習 0 天</div>
@@ -338,6 +388,13 @@
         <div class="ellipse" style="left: 241px;"></div>
         <div class="ellipse" style="left: 281px;"></div>
         <div class="ellipse" style="left: 321px;"></div>
+        <div class="day-label" style="left: 90px;">六</div>
+        <div class="day-label" style="left: 130px;">日</div>
+        <div class="day-label" style="left: 170px;">一</div>
+        <div class="day-label" style="left: 210px;">二</div>
+        <div class="day-label" style="left: 250px;">三</div>
+        <div class="day-label" style="left: 290px;">四</div>
+        <div class="day-label" style="left: 330px;">五</div>
         <div class="rect-7"></div>
         <div class="rect-8"></div>
         <div class="rect-9"></div>
@@ -346,7 +403,7 @@
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
         <div class="rect-5"></div>
-        <div id="tabbar" class="rect-1"></div>
+        <div class="rect-1"></div>
     </div>
     <div id="stage-screen">
         <div class="stage-nav">
@@ -356,33 +413,34 @@
                 <div class="trophy-bar-fill" id="progress-bar"></div>
                 <div class="progress-badge" id="progress-text">0/5</div>
             </div>
-            <div style="color:white; font-weight:800;">❤️ 5</div>
+            <div class="heart-container"><span>❤️</span><span>5</span></div>
         </div>
         <div class="question-card">
-            <div id="chinese-title" class="chinese-text"></div>
+            <div id="chinese-display" class="chinese-text"></div>
             <div id="answer-area" class="answer-area"></div>
         </div>
         <div class="word-pool-container">
             <div id="word-pool" class="word-pool"></div>
-            <div class="bottom-actions">
-                <div class="check-btn" onclick="showAnswer()">
-                    <span style="font-size: 24px;">👁</span>
-                    <label style="font-size: 13px; font-weight: 700;">觀看答案</label>
-                </div>
-                <div class="confirm-btn" onclick="checkFinal()">確認</div>
+        </div>
+        <div class="bottom-actions">
+            <div class="check-btn" onclick="showAnswer()">
+                <span style="font-size: 24px;">👁</span>
+                <span>觀看答案</span>
             </div>
+            <div class="confirm-btn" onclick="checkFinal()">確認</div>
         </div>
     </div>
     <script>
+        const mask = document.getElementById('web-only-mask');
         const app = document.getElementById('app-content');
         const stage = document.getElementById('stage-screen');
         const btnToday = document.getElementById('btn-today');
-        const navbar = document.getElementById('navbar');
         const poolContainer = document.getElementById('word-pool');
         const answerArea = document.getElementById('answer-area');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
-        const chineseTitle = document.getElementById('chinese-title');
+        const chineseDisplay = document.getElementById('chinese-display');
+
         const questionList = [
             { chinese: "我對這份工作感興趣。", english: ["I", "am", "interested", "in", "this", "job"] },
             { chinese: "學習一門新語言非常有趣。", english: ["Learning", "a", "new", "language", "is", "fun"] },
@@ -390,72 +448,87 @@
             { chinese: "天氣今天非常好。", english: ["The", "weather", "is", "great", "today"] },
             { chinese: "他喜歡在公園跑步。", english: ["He", "likes", "running", "in", "the", "park"] }
         ];
-        let currentQuestionIndex = 0;
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                navbar.classList.add('visible');
-            } else {
-                navbar.classList.remove('visible');
-            }
-        });
+
+        let currentIdx = 0;
+
+        function preventDefault(e) { e.preventDefault(); }
+        function disableScroll() {
+            window.addEventListener('wheel', preventDefault, { passive: false });
+            window.addEventListener('touchmove', preventDefault, { passive: false });
+        }
+        function enableScroll() {
+            window.removeEventListener('wheel', preventDefault);
+            window.removeEventListener('touchmove', preventDefault);
+        }
+
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
         if (isStandalone) {
-            document.getElementById('web-only-mask').style.display = 'none';
+            mask.style.display = 'none';
             app.style.display = 'block';
         }
+
         function loadQuestion() {
-            const data = questionList[currentQuestionIndex];
-            chineseTitle.innerText = data.chinese;
-            answerArea.innerHTML = '';
+            const q = questionList[currentIdx];
+            chineseDisplay.innerText = q.chinese;
             poolContainer.innerHTML = '';
-            progressText.innerText = currentQuestionIndex + "/" + questionList.length;
-            progressBar.style.width = (currentQuestionIndex / questionList.length) * 100 + "%";
-            const shuffled = [...data.english].sort(function() { return Math.random() - 0.5; });
-            shuffled.forEach(function(word) {
+            answerArea.innerHTML = '';
+            
+            progressText.innerText = currentIdx + "/5";
+            progressBar.style.width = (currentIdx / 5) * 100 + "%";
+
+            let shuffled = [...q.english].sort(() => Math.random() - 0.5);
+            shuffled.forEach((word, i) => {
                 const tile = document.createElement('div');
                 tile.className = 'word-tile';
                 tile.innerText = word;
+                tile.id = 'pool-' + i;
                 tile.onclick = function() {
-                    const ans = document.createElement('div');
-                    ans.className = 'word-tile';
-                    ans.innerText = word;
-                    ans.onclick = function() {
-                        ans.remove();
+                    const ansTile = document.createElement('div');
+                    ansTile.className = 'word-tile';
+                    ansTile.innerText = word;
+                    ansTile.onclick = function() {
+                        ansTile.remove();
                         tile.classList.remove('used');
                     };
-                    answerArea.appendChild(ans);
+                    answerArea.appendChild(ansTile);
                     tile.classList.add('used');
                 };
                 poolContainer.appendChild(tile);
             });
         }
-        btnToday.onclick = function() {
+
+        btnToday.addEventListener('click', function() {
+            window.scrollTo(0, 0); 
             app.style.display = 'none';
             stage.style.display = 'block';
-            currentQuestionIndex = 0;
+            disableScroll();
+            currentIdx = 0;
             loadQuestion();
-        };
+        });
+
         function goBack() {
+            enableScroll();
             stage.style.display = 'none';
             app.style.display = 'block';
+            window.scrollTo(0, 0);
         }
-        function showAnswer() {
-            alert("正確答案是：" + questionList[currentQuestionIndex].english.join(" "));
-        }
+
+        function showAnswer() { alert("正確答案：" + questionList[currentIdx].english.join(" ")); }
+        
         function checkFinal() {
-            const currentAnswer = Array.from(answerArea.children).map(function(t) { return t.innerText; }).join(" ");
-            const targetAnswer = questionList[currentQuestionIndex].english.join(" ");
-            if (currentAnswer === targetAnswer) {
-                currentQuestionIndex++;
-                if (currentQuestionIndex < questionList.length) {
+            const current = Array.from(answerArea.children).map(t => t.innerText);
+            const correct = questionList[currentIdx].english;
+            if (current.join(" ") === correct.join(" ")) {
+                currentIdx++;
+                if (currentIdx < 5) {
                     loadQuestion();
                 } else {
-                    alert("恭喜！你已完成所有練習。");
+                    progressBar.style.width = "100%";
+                    progressText.innerText = "5/5";
+                    alert("全部答對了！太棒了！");
                     goBack();
                 }
-            } else {
-                alert("順序不完全正確，請再檢查一下！");
-            }
+            } else { alert("順序不對哦，再試一次！"); }
         }
     </script>
 </body>
