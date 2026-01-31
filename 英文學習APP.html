@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=440, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=440, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#AED7FF">
@@ -22,6 +22,7 @@
             font-family: var(--main-font);
             scrollbar-width: none;
             -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
         }
         ::-webkit-scrollbar {
             display: none;
@@ -35,7 +36,6 @@
             background-color: #AED7FF;
             z-index: 9999;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
@@ -66,12 +66,11 @@
             pointer-events: auto;
         }
         .rect-1 {
-            position: fixed;
+            position: absolute;
             width: 420px;
             height: 110px;
-            left: 50%;
+            left: 10px;
             top: 835px;
-            margin-left: -210px;
             background-color: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(25px) saturate(180%);
             -webkit-backdrop-filter: blur(25px) saturate(180%);
@@ -164,8 +163,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background-color: #AED7FF;
             z-index: 5000;
             overflow: hidden;
@@ -175,7 +174,7 @@
             position: absolute;
             width: 440px;
             height: 100px;
-            top: 40px;
+            top: 20px;
             left: 50%;
             margin-left: -220px;
             display: flex;
@@ -184,11 +183,10 @@
             box-sizing: border-box;
         }
         .back-arrow {
-            font-size: 30px;
+            font-size: 35px;
             color: #FFFFFF;
             font-weight: 800;
             cursor: pointer;
-            padding: 10px;
         }
         .trophy-bar-bg {
             flex: 1;
@@ -233,7 +231,7 @@
             width: 400px;
             height: 420px;
             left: 50%;
-            top: 130px;
+            top: 110px;
             margin-left: -200px;
             background-color: #FFFFFF;
             border-radius: 40px;
@@ -257,9 +255,9 @@
         .word-pool-container {
             position: absolute;
             width: 440px;
-            height: 400px;
+            height: 450px;
             left: 50%;
-            top: 580px;
+            top: 550px;
             margin-left: -220px;
             background-color: #FFFFFF;
             border-top-left-radius: 40px;
@@ -297,7 +295,7 @@
             gap: 15px;
         }
         .check-btn {
-            width: 105px;
+            width: 110px;
             height: 85px;
             background-color: #B28DFF;
             border-radius: 25px;
@@ -369,7 +367,7 @@
             <div class="bottom-actions">
                 <div class="check-btn" onclick="showAnswer()">
                     <span style="font-size: 24px;">👁</span>
-                    <label style="font-size: 13px; font-weight: 700; cursor: pointer;">觀看答案</label>
+                    <label style="font-size: 13px; font-weight: 700;">觀看答案</label>
                 </div>
                 <div class="confirm-btn" onclick="checkFinal()">確認</div>
             </div>
@@ -432,14 +430,12 @@
             });
         }
         btnToday.onclick = function() {
-            document.body.style.overflow = 'hidden';
             app.style.display = 'none';
             stage.style.display = 'block';
             currentQuestionIndex = 0;
             loadQuestion();
         };
         function goBack() {
-            document.body.style.overflow = 'auto';
             stage.style.display = 'none';
             app.style.display = 'block';
         }
