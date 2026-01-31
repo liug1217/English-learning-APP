@@ -13,7 +13,6 @@
         }
         html {
             background-color: #AED7FF;
-            /* 防止整個 HTML 層級出現彈性滾動 */
             overflow: hidden;
             height: 100%;
         }
@@ -25,10 +24,11 @@
             background-color: #AED7FF;
             font-family: var(--main-font);
             -webkit-tap-highlight-color: transparent;
-            /* 預設主頁可以滾動，但我們會透過 JavaScript 動態控制 */
             overflow-y: auto;
             overflow-x: hidden;
             scrollbar-width: none;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
         }
         ::-webkit-scrollbar {
             display: none;
@@ -53,13 +53,12 @@
             height: 1231px;
             margin: 0 auto;
         }
-        /* 導覽列 */
         .rect-6 {
             position: fixed;
             top: 0;
             left: 50%;
             width: 440px;
-            height: 110px;
+            height: calc(110px + env(safe-area-inset-top));
             margin-left: -220px;
             background-color: #FFFFFF;
             border-bottom: 1px solid #D9D9D9;
@@ -67,19 +66,20 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s;
+            padding-top: env(safe-area-inset-top);
+            box-sizing: border-box;
         }
         .rect-6.visible {
             opacity: 1;
             visibility: visible;
         }
-        /* 底部導覽列 */
         .rect-1 {
             position: fixed;
             width: 420px;
             height: 110px;
             left: 50%;
             margin-left: -210px;
-            top: 835px;
+            bottom: calc(20px + env(safe-area-inset-bottom));
             background-color: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(25px) saturate(180%);
             -webkit-backdrop-filter: blur(25px) saturate(180%);
@@ -187,7 +187,7 @@
             background-color: #FFFFFF;
             border-radius: 30px;
         }
-        /* 關卡畫面 - 關鍵修正：固定高度且不允許滾動 */
+
         #stage-screen {
             display: none;
             position: fixed;
@@ -199,13 +199,15 @@
             background-color: #AED7FF;
             z-index: 6000;
             overflow: hidden;
-            touch-action: none; /* 禁用觸控滑動行為 */
+            touch-action: none;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            box-sizing: border-box;
         }
         .stage-nav {
-            position: absolute;
-            width: 440px;
+            position: relative;
+            width: 100%;
             height: 100px;
-            top: 40px;
             display: flex;
             align-items: center;
             padding: 0 20px;
@@ -269,11 +271,10 @@
             font-weight: 800;
         }
         .question-card {
-            position: absolute;
+            position: relative;
             width: 400px;
-            height: 420px;
-            left: 20px;
-            top: 130px;
+            height: 400px;
+            margin: 20px auto;
             background-color: #FFFFFF;
             border-radius: 40px;
             padding: 40px;
@@ -297,19 +298,17 @@
         .word-pool-container {
             position: absolute;
             width: 440px;
-            height: 400px;
+            height: calc(400px + env(safe-area-inset-bottom));
             left: 0;
-            top: 580px;
+            bottom: 0;
             background-color: #FFFFFF;
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
+            padding-bottom: env(safe-area-inset-bottom);
         }
         .word-pool {
-            position: absolute;
-            width: 440px;
+            width: 100%;
             height: 250px;
-            left: 0;
-            top: 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -335,8 +334,8 @@
         .word-tile.used { visibility: hidden; pointer-events: none; }
         .bottom-actions {
             position: absolute;
-            bottom: 40px;
-            width: 440px;
+            bottom: calc(30px + env(safe-area-inset-bottom));
+            width: 100%;
             display: flex;
             align-items: center;
             padding: 0 20px;
@@ -397,7 +396,6 @@
 </head>
 <body>
     <div id="web-only-mask"><h2>請安裝 APP 使用</h2></div>
-    
     <div id="app-content" class="main-viewport">
         <div id="navbar" class="rect-6"></div>
         <div class="rect-2"></div>
@@ -444,13 +442,13 @@
         </div>
         <div class="word-pool-container">
             <div id="word-pool" class="word-pool"></div>
-        </div>
-        <div class="bottom-actions">
-            <div class="check-btn" onclick="playClickSound(); showAnswer()">
-                <span>👁</span>
-                <label>答案</label>
+            <div class="bottom-actions">
+                <div class="check-btn" onclick="playClickSound(); showAnswer()">
+                    <span>👁</span>
+                    <label>答案</label>
+                </div>
+                <div class="confirm-btn" onclick="playClickSound(); checkFinal()">確認</div>
             </div>
-            <div class="confirm-btn" onclick="playClickSound(); checkFinal()">確認</div>
         </div>
     </div>
 
@@ -517,7 +515,9 @@
         }
 
         window.addEventListener('scroll', function() {
-            navbar.classList.toggle('visible', window.scrollY > 20);
+            if (stage.style.display !== 'block') {
+                navbar.classList.toggle('visible', window.scrollY > 20);
+            }
         });
 
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
@@ -530,7 +530,6 @@
             playClickSound();
             app.style.display = 'none';
             stage.style.display = 'block';
-            // 進入關卡：禁止背景滾動
             bodyElement.style.overflow = 'hidden';
             currentQuestionIndex = 0;
             loadNextQuestion();
@@ -539,7 +538,6 @@
         function goBack() { 
             stage.style.display = 'none'; 
             app.style.display = 'block'; 
-            // 離開關卡：恢復主選單滾動
             bodyElement.style.overflow = 'auto';
         }
 
