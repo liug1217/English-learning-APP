@@ -91,6 +91,28 @@
             border-radius: 50%;
             z-index: 10;
         }
+        .day-label {
+            position: absolute;
+            width: 12px;
+            top: 162px;
+            font-size: 12px;
+            color: #9A9A9A;
+            z-index: 11;
+            font-weight: 600;
+        }
+        .rect-7, .rect-8, .rect-9, .rect-10 {
+            position: absolute;
+            width: 70px;
+            height: 90px;
+            left: 360px;
+            background-color: #FFFFFF;
+            border-top-right-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+        .rect-7 { top: 251px; }
+        .rect-8 { top: 341px; }
+        .rect-9 { top: 431px; }
+        .rect-10 { top: 521px; }
         .rect-3 {
             position: absolute;
             width: 381px;
@@ -121,6 +143,15 @@
             color: #FFFFFF;
             z-index: 21;
             pointer-events: none;
+        }
+        .rect-5 {
+            position: absolute;
+            width: 420px;
+            height: 400px;
+            left: 10px;
+            top: 690px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
         }
         .rect-1 {
             position: absolute;
@@ -174,6 +205,7 @@
             height: 100%;
             background-color: #FFFFFF;
             border-radius: 14px;
+            transition: width 0.3s;
         }
         .question-card {
             position: absolute;
@@ -241,6 +273,7 @@
             padding: 10px 20px;
             font-weight: 600;
             font-size: 19px;
+            color: #333333;
             box-shadow: 0 4px 0px #E0E0E0;
             cursor: pointer;
         }
@@ -267,6 +300,7 @@
             justify-content: center;
             color: #FFFFFF;
             font-weight: 700;
+            font-size: 13px;
             cursor: pointer;
         }
         .confirm-btn {
@@ -287,21 +321,45 @@
 </head>
 <body>
     <div id="web-only-mask"><h2>請安裝 APP 使用</h2></div>
+    
     <div id="app-content" class="main-viewport">
         <div class="rect-6"></div>
         <div class="rect-2"></div>
         <div class="fire-icon">🔥</div>
         <div class="text-streak">連續學習 0 天</div>
+        
+        <div class="ellipse" style="left: 81px;"></div>
+        <div class="ellipse" style="left: 121px;"></div>
+        <div class="ellipse" style="left: 161px;"></div>
+        <div class="ellipse" style="left: 201px;"></div>
+        <div class="ellipse" style="left: 241px;"></div>
+        <div class="ellipse" style="left: 281px;"></div>
+        <div class="ellipse" style="left: 321px;"></div>
+        <div class="day-label" style="left: 90px;">六</div>
+        <div class="day-label" style="left: 130px;">日</div>
+        <div class="day-label" style="left: 170px;">一</div>
+        <div class="day-label" style="left: 210px;">二</div>
+        <div class="day-label" style="left: 250px;">三</div>
+        <div class="day-label" style="left: 290px;">四</div>
+        <div class="day-label" style="left: 330px;">五</div>
+
+        <div class="rect-7"></div>
+        <div class="rect-8"></div>
+        <div class="rect-9"></div>
+        <div class="rect-10"></div>
+
         <div class="rect-3"></div>
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
+        <div class="rect-5"></div>
         <div class="rect-1"></div>
     </div>
+
     <div id="stage-screen">
         <div class="stage-nav">
             <div class="back-arrow" onclick="goBack()">〈</div>
             <div class="trophy-bar-bg"><div id="progress-bar" class="trophy-bar-fill"></div></div>
-            <div style="color:white; font-weight:800;">❤️ 5</div>
+            <div style="color:white; font-weight:800; font-size: 22px; margin-left: 10px;">❤️ 5</div>
         </div>
         <div class="question-card">
             <div id="q-chinese" class="chinese-text"></div>
@@ -311,60 +369,97 @@
         </div>
         <div class="word-pool-container"><div id="word-pool" class="word-pool"></div></div>
         <div class="bottom-actions">
-            <div class="check-btn" onclick="showAnswer()"><span>👁</span><span>觀看答案</span></div>
+            <div class="check-btn" onclick="showAnswer()">
+                <span style="font-size: 24px;">👁</span>
+                <span>觀看答案</span>
+            </div>
             <div class="confirm-btn" onclick="checkAnswer()">確認</div>
         </div>
     </div>
+
     <script>
         const app = document.getElementById('app-content');
         const stage = document.getElementById('stage-screen');
         const questions = [
-            { c: "我喜歡在早上閱讀。", e: ["I", "like", "to", "read", "in", "the", "morning"] },
-            { c: "這是一個美麗的一天。", e: ["It", "is", "a", "beautiful", "day"] },
-            { c: "他正在廚房做飯。", e: ["He", "is", "cooking", "in", "the", "kitchen"] },
-            { c: "我們計畫明天去旅行。", e: ["We", "plan", "to", "travel", "tomorrow"] },
-            { c: "你想要喝點咖啡嗎？", e: ["Do", "you", "want", "some", "coffee"] }
+            { chinese: "我喜歡在早上閱讀。", english: ["I", "like", "to", "read", "in", "the", "morning"] },
+            { chinese: "這是一個美麗的一天。", english: ["It", "is", "a", "beautiful", "day"] },
+            { chinese: "他正在廚房做飯。", english: ["He", "is", "cooking", "in", "the", "kitchen"] },
+            { chinese: "我們計畫明天去旅行。", english: ["We", "plan", "to", "travel", "tomorrow"] },
+            { chinese: "你想要喝點咖啡嗎？", english: ["Do", "you", "want", "some", "coffee"] }
         ];
         let currentIndex = 0;
+
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-        if (isStandalone) { document.getElementById('web-only-mask').style.display = 'none'; app.style.display = 'block'; }
+        if (isStandalone) { 
+            document.getElementById('web-only-mask').style.display = 'none'; 
+            app.style.display = 'block'; 
+        }
+
         function loadQuestion() {
             const q = questions[currentIndex];
-            document.getElementById('q-chinese').innerText = q.c;
+            document.getElementById('q-chinese').innerText = q.chinese;
             document.getElementById('progress-bar').style.width = (currentIndex / 5) * 100 + "%";
             const pool = document.getElementById('word-pool');
             const area = document.getElementById('answer-area');
+            
             area.querySelectorAll('.word-tile').forEach(t => t.remove());
             pool.innerHTML = '';
-            [...q.e].sort(() => Math.random() - 0.5).forEach((w, i) => {
-                const t = document.createElement('div');
-                t.className = 'word-tile'; t.innerText = w;
-                t.onclick = () => {
-                    const at = document.createElement('div');
-                    at.className = 'word-tile'; at.innerText = w;
-                    at.onclick = () => { at.remove(); t.classList.remove('used'); };
-                    area.insertBefore(at, area.lastElementChild);
-                    t.classList.add('used');
+
+            const shuffled = [...q.english].sort(() => Math.random() - 0.5);
+            shuffled.forEach((word, i) => {
+                const tile = document.createElement('div');
+                tile.className = 'word-tile';
+                tile.innerText = word;
+                tile.onclick = function() {
+                    const ansTile = document.createElement('div');
+                    ansTile.className = 'word-tile';
+                    ansTile.innerText = word;
+                    ansTile.onclick = function() {
+                        ansTile.remove();
+                        tile.classList.remove('used');
+                    };
+                    area.insertBefore(ansTile, area.querySelector('.mic-btn'));
+                    tile.classList.add('used');
                 };
-                pool.appendChild(t);
+                pool.appendChild(tile);
             });
         }
-        document.getElementById('btn-today').onclick = () => { app.style.display = 'none'; stage.style.display = 'block'; loadQuestion(); };
-        function goBack() { stage.style.display = 'none'; app.style.display = 'block'; }
-        function showAnswer() { alert("答案：" + questions[currentIndex].e.join(" ")); }
+
+        document.getElementById('btn-today').onclick = () => { 
+            app.style.display = 'none'; 
+            stage.style.display = 'block'; 
+            loadQuestion(); 
+        };
+
+        function goBack() { 
+            stage.style.display = 'none'; 
+            app.style.display = 'block'; 
+        }
+
+        function showAnswer() { 
+            alert("正確答案：" + questions[currentIndex].english.join(" ")); 
+        }
+
         function startRecognition() {
             const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!Rec) return alert("不支援語音");
             const r = new Rec(); r.lang = 'en-US';
             r.onresult = (e) => {
                 const res = e.results[0][0].transcript.toLowerCase().replace(/[.!]/g, "");
-                if (res === questions[currentIndex].e.join(" ").toLowerCase()) { currentIndex++; if (currentIndex < 5) loadQuestion(); else goBack(); }
+                if (res === questions[currentIndex].english.join(" ").toLowerCase()) {
+                    currentIndex++;
+                    if (currentIndex < 5) loadQuestion(); else goBack();
+                } else alert("聽起來像：" + res);
             };
             r.start();
         }
+
         function checkAnswer() {
             const res = Array.from(document.getElementById('answer-area').querySelectorAll('.word-tile')).map(t => t.innerText).join(" ");
-            if (res === questions[currentIndex].e.join(" ")) { currentIndex++; if (currentIndex < 5) loadQuestion(); else goBack(); }
+            if (res === questions[currentIndex].english.join(" ")) {
+                currentIndex++;
+                if (currentIndex < 5) loadQuestion(); else { alert("全數完成！"); goBack(); }
+            } else alert("順序不正確！");
         }
     </script>
 </body>
