@@ -73,7 +73,7 @@
             background-color: #FFFFFF;
             border-bottom: 1px solid #D9D9D9;
             z-index: 3000;
-            display: none;
+            display: block;
         }
         .rect-2 {
             position: absolute;
@@ -175,17 +175,20 @@
             border-radius: 30px;
         }
         .rect-1 {
-            position: absolute;
+            position: fixed;
             width: 420px;
             height: 110px;
-            left: 10px;
+            left: 50%;
             top: 835px;
+            margin-left: -210px;
             background-color: #FFFFFF;
             border-radius: 42px;
+            z-index: 4000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         #stage-screen {
             display: none;
-            position: relative; /* 維持你原本的 relative */
+            position: relative;
             width: 440px;
             height: 956px;
             margin: 0 auto;
@@ -398,7 +401,7 @@
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
         <div class="rect-5"></div>
-        <div class="rect-1"></div>
+        <div id="tabbar" class="rect-1"></div>
     </div>
     <div id="stage-screen">
         <div class="stage-nav">
@@ -437,7 +440,6 @@
         const correctWords = ["I", "am", "interested", "in", "this", "job"];
         const poolWords = ["interested", "I", "am", "this", "in", "job"];
         
-        // 關鍵：用 JS 阻斷捲動事件，不改 CSS
         function preventDefault(e) { e.preventDefault(); }
         function disableScroll() {
             window.addEventListener('wheel', preventDefault, { passive: false });
@@ -485,12 +487,12 @@
             window.scrollTo(0, 0); 
             app.style.display = 'none';
             stage.style.display = 'block';
-            disableScroll(); // 進入關卡時，用 JS 鎖死手勢捲動
+            disableScroll(); 
             initStage();
         });
 
         function goBack() {
-            enableScroll(); // 返回主頁時恢復捲動
+            enableScroll(); 
             stage.style.display = 'none';
             app.style.display = 'block';
             window.scrollTo(0, 0);
