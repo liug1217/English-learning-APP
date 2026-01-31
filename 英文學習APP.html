@@ -24,12 +24,6 @@
             -ms-overflow-style: none;
             -webkit-tap-highlight-color: transparent;
         }
-        /* 新增：鎖定滾動用的樣式，不影響佈局 */
-        .lock-scroll {
-            overflow: hidden !important;
-            height: 100% !important;
-            position: fixed !important; 
-        }
         ::-webkit-scrollbar {
             display: none;
         }
@@ -191,13 +185,12 @@
         }
         #stage-screen {
             display: none;
-            position: relative;
+            position: relative; /* 維持你原本的 relative */
             width: 440px;
             height: 956px;
             margin: 0 auto;
             background-color: #AED7FF;
             overflow: hidden;
-            touch-action: none; /* 新增：從 CSS 層面阻斷觸控滾動 */
         }
         .stage-nav {
             position: absolute;
@@ -443,11 +436,24 @@
         const progressText = document.getElementById('progress-text');
         const correctWords = ["I", "am", "interested", "in", "this", "job"];
         const poolWords = ["interested", "I", "am", "this", "in", "job"];
+        
+        // 關鍵：用 JS 阻斷捲動事件，不改 CSS
+        function preventDefault(e) { e.preventDefault(); }
+        function disableScroll() {
+            window.addEventListener('wheel', preventDefault, { passive: false });
+            window.addEventListener('touchmove', preventDefault, { passive: false });
+        }
+        function enableScroll() {
+            window.removeEventListener('wheel', preventDefault);
+            window.removeEventListener('touchmove', preventDefault);
+        }
+
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
         if (isStandalone) {
             mask.style.display = 'none';
             app.style.display = 'block';
         }
+
         function initStage() {
             poolContainer.innerHTML = '';
             answerArea.innerHTML = '';
@@ -463,6 +469,7 @@
                 poolContainer.appendChild(tile);
             });
         }
+
         function createAnswerTile(word, poolId) {
             const answerTile = document.createElement('div');
             answerTile.className = 'word-tile';
@@ -473,19 +480,22 @@
             };
             answerArea.appendChild(answerTile);
         }
+
         btnToday.addEventListener('click', function() {
-            window.scrollTo(0, 0); // 置頂
-            document.body.classList.add('lock-scroll'); // 鎖定 body 滾動
+            window.scrollTo(0, 0); 
             app.style.display = 'none';
             stage.style.display = 'block';
+            disableScroll(); // 進入關卡時，用 JS 鎖死手勢捲動
             initStage();
         });
+
         function goBack() {
-            document.body.classList.remove('lock-scroll'); // 恢復 body 滾動
+            enableScroll(); // 返回主頁時恢復捲動
             stage.style.display = 'none';
             app.style.display = 'block';
             window.scrollTo(0, 0);
         }
+
         function showAnswer() { alert("正確答案：" + correctWords.join(" ")); }
         function checkFinal() {
             const current = Array.from(answerArea.children).map(t => t.innerText);
