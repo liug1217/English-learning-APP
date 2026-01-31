@@ -57,7 +57,13 @@
             background-color: #FFFFFF;
             border-bottom: 1px solid #D9D9D9;
             z-index: 5000;
-            display: block;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .rect-6.visible {
+            opacity: 1;
+            visibility: visible;
         }
         .rect-1 {
             position: fixed;
@@ -294,7 +300,7 @@
         <h2>請安裝 APP 使用</h2>
     </div>
     <div id="app-content" class="main-viewport">
-        <div class="rect-6"></div>
+        <div id="navbar" class="rect-6"></div>
         <div class="rect-2"></div>
         <div class="fire-icon">🔥</div>
         <div class="text-streak">連續學習 0 天</div>
@@ -350,15 +356,26 @@
         const app = document.getElementById('app-content');
         const stage = document.getElementById('stage-screen');
         const btnToday = document.getElementById('btn-today');
+        const navbar = document.getElementById('navbar');
         const poolContainer = document.getElementById('word-pool');
         const answerArea = document.getElementById('answer-area');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
         const correctWords = ["I", "am", "interested", "in", "this", "job"];
         const poolWords = ["interested", "I", "am", "this", "in", "job"];
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 20) {
+                navbar.classList.add('visible');
+            } else {
+                navbar.classList.remove('visible');
+            }
+        });
+
         function preventDefault(e) { e.preventDefault(); }
         function disableScroll() { window.addEventListener('touchmove', preventDefault, { passive: false }); }
         function enableScroll() { window.removeEventListener('touchmove', preventDefault); }
+
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
         if (isStandalone) {
             document.getElementById('web-only-mask').style.display = 'none';
