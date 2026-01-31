@@ -336,49 +336,25 @@
             gap: 15px;
         }
         .check-btn {
-            width: 95px;
+            width: 115px;
             height: 85px;
             background-color: #B28DFF;
             border-radius: 25px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             color: #FFFFFF;
-            font-weight: 700;
-            font-size: 24px;
             cursor: pointer;
         }
-        /* 麥克風新樣式：放在題目卡片內 */
-        .mic-container {
-            position: absolute;
-            right: 25px;
-            bottom: 25px;
-            width: 65px;
-            height: 65px;
-            background-color: #FFEDF1; /* 淡淡的底色 */
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .check-btn span {
+            font-size: 26px;
+        }
+        .check-btn label {
+            font-size: 13px;
+            font-weight: 800;
+            margin-top: 3px;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-        .mic-icon {
-            font-size: 30px;
-            color: #FF85A2;
-        }
-        .mic-container.active {
-            background-color: #FF85A2;
-            box-shadow: 0 0 15px rgba(255, 133, 162, 0.5);
-            animation: pulse-ring 1.2s infinite;
-        }
-        .mic-container.active .mic-icon {
-            color: #FFFFFF;
-        }
-        @keyframes pulse-ring {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
         }
         .confirm-btn {
             flex: 1;
@@ -393,6 +369,36 @@
             font-size: 26px;
             cursor: pointer;
             box-shadow: 0 6px 0px #3A8CDD;
+        }
+        .mic-container {
+            position: absolute;
+            right: 25px;
+            bottom: 25px;
+            width: 65px;
+            height: 65px;
+            background-color: #FFEDF1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .mic-icon {
+            font-size: 30px;
+            color: #FF85A2;
+        }
+        .mic-container.active {
+            background-color: #FF85A2;
+            animation: pulse-ring 1.2s infinite;
+        }
+        .mic-container.active .mic-icon {
+            color: #FFFFFF;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
@@ -453,7 +459,10 @@
             <div id="word-pool" class="word-pool"></div>
         </div>
         <div class="bottom-actions">
-            <div class="check-btn" onclick="playClickSound(); showAnswer()">👁</div>
+            <div class="check-btn" onclick="playClickSound(); showAnswer()">
+                <span>👁</span>
+                <label>觀看答案</label>
+            </div>
             <div class="confirm-btn" onclick="playClickSound(); checkFinal()">確認</div>
         </div>
     </div>
@@ -499,20 +508,15 @@
                 alert("抱歉，您的瀏覽器不支援語音辨識。");
                 return;
             }
-
             playClickSound();
             const recognition = new webkitSpeechRecognition();
             recognition.lang = 'en-US';
-            recognition.interimResults = false;
-
             recognition.onstart = function() {
                 micContainer.classList.add('active');
             };
-
             recognition.onresult = function(event) {
                 const speechResult = event.results[0][0].transcript.toLowerCase().replace(/[.,!]/g, "");
                 const correctFullAnswer = questionList[currentQuestionIndex].english.join(" ").toLowerCase();
-                
                 if (speechResult === correctFullAnswer) {
                     playClickSound();
                     alert("發音正確！");
@@ -521,11 +525,9 @@
                     alert("您說的是: " + speechResult + "\n請再試一次！");
                 }
             };
-
             recognition.onend = function() {
                 micContainer.classList.remove('active');
             };
-
             recognition.start();
         }
 
