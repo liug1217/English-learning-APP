@@ -43,17 +43,6 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        .install-icon {
-            width: 80px;
-            height: 80px;
-            background: #FFFFFF;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-        }
         .main-viewport {
             display: none;
             position: relative;
@@ -96,7 +85,6 @@
             top: 140px;
             font-weight: 900;
             font-size: 45px;
-            color: #000000;
             z-index: 11;
         }
         .text-streak {
@@ -106,7 +94,6 @@
             top: 130px;
             font-weight: 800;
             font-size: 15px;
-            color: #000000;
             z-index: 10;
         }
         .ellipse {
@@ -117,15 +104,6 @@
             background-color: #D9D9D9;
             border-radius: 50%;
             z-index: 10;
-        }
-        .day-label {
-            position: absolute;
-            width: 12px;
-            top: 162px;
-            font-size: 12px;
-            color: #9A9A9A;
-            z-index: 11;
-            font-weight: 600;
         }
         .rect-7, .rect-8, .rect-9, .rect-10 {
             position: absolute;
@@ -196,12 +174,16 @@
         }
         #stage-screen {
             display: none;
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 50%;
             width: 440px;
-            height: 1231px;
-            margin: 0 auto;
+            height: 100%;
+            margin-left: -220px;
             background-color: #AED7FF;
+            z-index: 5000;
             overflow: hidden;
+            touch-action: none;
         }
         .stage-nav {
             position: absolute;
@@ -218,7 +200,6 @@
             color: #FFFFFF;
             font-weight: 800;
             cursor: pointer;
-            padding: 10px;
         }
         .trophy-bar-bg {
             flex: 1;
@@ -227,8 +208,6 @@
             border-radius: 14px;
             margin: 0 15px;
             position: relative;
-            display: flex;
-            align-items: center;
         }
         .trophy-bar-fill {
             width: 0%;
@@ -236,39 +215,6 @@
             background-color: #FFFFFF;
             border-radius: 14px;
             transition: width 0.3s;
-        }
-        .trophy-icon {
-            position: absolute;
-            left: -10px;
-            top: -8px;
-            width: 44px;
-            height: 44px;
-            background-color: #FFFFFF;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .progress-badge {
-            position: absolute;
-            right: 6px;
-            padding: 2px 10px;
-            background-color: rgba(81, 168, 255, 0.2);
-            border: 1.5px solid #51A8FF;
-            border-radius: 10px;
-            color: #FFFFFF;
-            font-weight: 800;
-            font-size: 13px;
-        }
-        .heart-container {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #FFFFFF;
-            font-size: 22px;
-            font-weight: 800;
         }
         .question-card {
             position: absolute;
@@ -322,18 +268,11 @@
             border-top-right-radius: 40px;
         }
         .word-pool {
-            position: absolute;
-            width: 440px;
-            height: 250px;
-            left: 0;
-            top: 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-content: center;
             gap: 12px;
-            padding: 30px;
-            box-sizing: border-box;
+            padding: 40px 20px;
         }
         .word-tile {
             background-color: #FFFFFF;
@@ -345,7 +284,6 @@
             color: #333333;
             box-shadow: 0 4px 0px #E0E0E0;
             cursor: pointer;
-            user-select: none;
         }
         .word-tile.used {
             visibility: hidden;
@@ -392,34 +330,12 @@
     </style>
 </head>
 <body>
-    <div id="web-only-mask">
-        <div class="install-icon">📖</div>
-        <h2>請安裝 APP 使用</h2>
-        <p>點擊分享按鈕並選擇「加入主畫面」</p>
-    </div>
+    <div id="web-only-mask"><h2>請安裝 APP 使用</h2></div>
     <div id="app-content" class="main-viewport">
         <div id="sticky-header" class="rect-6"></div>
         <div class="rect-2"></div>
         <div class="fire-icon">🔥</div>
         <div class="text-streak">連續學習 0 天</div>
-        <div class="ellipse" style="left: 81px;"></div>
-        <div class="ellipse" style="left: 121px;"></div>
-        <div class="ellipse" style="left: 161px;"></div>
-        <div class="ellipse" style="left: 201px;"></div>
-        <div class="ellipse" style="left: 241px;"></div>
-        <div class="ellipse" style="left: 281px;"></div>
-        <div class="ellipse" style="left: 321px;"></div>
-        <div class="day-label" style="left: 90px;">六</div>
-        <div class="day-label" style="left: 130px;">日</div>
-        <div class="day-label" style="left: 170px;">一</div>
-        <div class="day-label" style="left: 210px;">二</div>
-        <div class="day-label" style="left: 250px;">三</div>
-        <div class="day-label" style="left: 290px;">四</div>
-        <div class="day-label" style="left: 330px;">五</div>
-        <div class="rect-7"></div>
-        <div class="rect-8"></div>
-        <div class="rect-9"></div>
-        <div class="rect-10"></div>
         <div class="rect-3"></div>
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
@@ -429,12 +345,8 @@
     <div id="stage-screen">
         <div class="stage-nav">
             <div class="back-arrow" onclick="goBack()">〈</div>
-            <div class="trophy-bar-bg">
-                <div class="trophy-icon">🏆</div>
-                <div class="trophy-bar-fill" id="progress-bar"></div>
-                <div class="progress-badge" id="progress-text">0/5</div>
-            </div>
-            <div class="heart-container"><span>❤️</span><span>5</span></div>
+            <div class="trophy-bar-bg"><div class="trophy-bar-fill" id="progress-bar"></div></div>
+            <div style="color:white; font-weight:800; font-size:22px; margin-left:10px;">❤️ 5</div>
         </div>
         <div class="question-card">
             <div id="q-chinese" class="chinese-text"></div>
@@ -454,17 +366,9 @@
         </div>
     </div>
     <script>
-        const mask = document.getElementById('web-only-mask');
         const app = document.getElementById('app-content');
         const stage = document.getElementById('stage-screen');
-        const btnToday = document.getElementById('btn-today');
-        const poolContainer = document.getElementById('word-pool');
-        const answerArea = document.getElementById('answer-area');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const questionText = document.getElementById('q-chinese');
-        const stickyHeader = document.getElementById('sticky-header');
-
+        const sticky = document.getElementById('sticky-header');
         const questions = [
             { chinese: "我喜歡在早上閱讀。", english: ["I", "like", "to", "read", "in", "the", "morning"] },
             { chinese: "這是一個美麗的一天。", english: ["It", "is", "a", "beautiful", "day"] },
@@ -475,87 +379,64 @@
         let currentIndex = 0;
 
         window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                stickyHeader.classList.add('visible');
-            } else {
-                stickyHeader.classList.remove('visible');
-            }
+            if (window.scrollY > 50) sticky.classList.add('visible');
+            else sticky.classList.remove('visible');
         });
 
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
         if (isStandalone) {
-            mask.style.display = 'none';
+            document.getElementById('web-only-mask').style.display = 'none';
             app.style.display = 'block';
         }
 
         function loadQuestion() {
             const q = questions[currentIndex];
-            questionText.innerText = q.chinese;
-            progressText.innerText = currentIndex + "/5";
-            progressBar.style.width = (currentIndex / 5) * 100 + "%";
-            answerArea.querySelectorAll('.word-tile').forEach(t => t.remove());
-            poolContainer.innerHTML = '';
-            const shuffled = [...q.english].sort(() => Math.random() - 0.5);
-            shuffled.forEach((word, i) => {
+            document.getElementById('q-chinese').innerText = q.chinese;
+            document.getElementById('progress-bar').style.width = (currentIndex / 5) * 100 + "%";
+            document.querySelectorAll('#answer-area .word-tile').forEach(t => t.remove());
+            const pool = document.getElementById('word-pool');
+            pool.innerHTML = '';
+            [...q.english].sort(() => Math.random() - 0.5).forEach((word, i) => {
                 const tile = document.createElement('div');
-                tile.className = 'word-tile';
-                tile.innerText = word;
-                tile.id = 'p-' + i;
+                tile.className = 'word-tile'; tile.innerText = word; tile.id = 'p-' + i;
                 tile.onclick = function() {
                     const ansTile = document.createElement('div');
-                    ansTile.className = 'word-tile';
-                    ansTile.innerText = word;
-                    ansTile.onclick = function() {
-                        ansTile.remove();
-                        tile.classList.remove('used');
-                    };
-                    answerArea.insertBefore(ansTile, answerArea.lastElementChild);
+                    ansTile.className = 'word-tile'; ansTile.innerText = word;
+                    ansTile.onclick = function() { ansTile.remove(); tile.classList.remove('used'); };
+                    document.getElementById('answer-area').insertBefore(ansTile, document.querySelector('.mic-btn'));
                     tile.classList.add('used');
                 };
-                poolContainer.appendChild(tile);
+                pool.appendChild(tile);
             });
         }
 
-        btnToday.onclick = function() {
-            app.style.display = 'none';
-            stage.style.display = 'block';
-            loadQuestion();
+        document.getElementById('btn-today').onclick = function() {
+            app.style.display = 'none'; stage.style.display = 'block';
+            window.scrollTo(0, 0); loadQuestion();
         };
 
-        function goBack() {
-            stage.style.display = 'none';
-            app.style.display = 'block';
-        }
+        function goBack() { stage.style.display = 'none'; app.style.display = 'block'; }
 
-        function showAnswer() {
-            alert("正確答案：" + questions[currentIndex].english.join(" "));
-        }
+        function showAnswer() { alert("答案：" + questions[currentIndex].english.join(" ")); }
 
         function startRecognition() {
             const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!Rec) return alert("不支援語音辨識");
-            const recognition = new Rec();
-            recognition.lang = 'en-US';
-            recognition.onresult = function(e) {
-                const result = e.results[0][0].transcript.toLowerCase().replace(/[.!]/g, "");
-                const target = questions[currentIndex].english.join(" ").toLowerCase();
-                if (result === target) {
-                    currentIndex++;
-                    if (currentIndex < 5) loadQuestion();
-                    else { alert("全數完成！"); goBack(); }
-                } else alert("聽起來像：" + result);
+            if (!Rec) return alert("不支援");
+            const r = new Rec(); r.lang = 'en-US';
+            r.onresult = function(e) {
+                const res = e.results[0][0].transcript.toLowerCase().replace(/[.!]/g, "");
+                if (res === questions[currentIndex].english.join(" ").toLowerCase()) {
+                    currentIndex++; if (currentIndex < 5) loadQuestion(); else { alert("完成"); goBack(); }
+                } else alert("聽起來像：" + res);
             };
-            recognition.start();
+            r.start();
         }
 
         function checkAnswer() {
-            const current = Array.from(answerArea.querySelectorAll('.word-tile')).map(t => t.innerText).join(" ");
-            const target = questions[currentIndex].english.join(" ");
-            if (current === target) {
-                currentIndex++;
-                if (currentIndex < 5) loadQuestion();
-                else { alert("完成！"); goBack(); }
-            } else alert("不正確");
+            const cur = Array.from(document.querySelectorAll('#answer-area .word-tile')).map(t => t.innerText).join(" ");
+            if (cur === questions[currentIndex].english.join(" ")) {
+                currentIndex++; if (currentIndex < 5) loadQuestion(); else { alert("完成"); goBack(); }
+            } else alert("錯了");
         }
     </script>
 </body>
