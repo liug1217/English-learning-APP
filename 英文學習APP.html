@@ -21,12 +21,6 @@
         }
         ::-webkit-scrollbar { display: none; }
 
-        #web-only-mask {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #AED7FF; z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-
         .main-viewport {
             display: none; position: relative;
             width: 440px; height: 1231px; margin: 0 auto;
@@ -41,23 +35,24 @@
         }
         .rect-6.visible { opacity: 1; pointer-events: auto; }
 
-        /* 矩形 1：回歸原本位置 + 玻璃效果 */
+        /* --- 修正重點：矩形 1 固定在底部 --- */
         .rect-1 {
-            position: absolute; /* 改回 absolute */
+            position: fixed; /* 改為固定定位 */
             width: 420px;
             height: 110px;
-            left: 10px;
-            top: 835px; /* 使用你指定的原始位置 */
+            left: 50%;
+            bottom: 30px; /* 距離底部固定距離，確保在不同機型都能看到 */
+            margin-left: -210px; /* 居中對齊：420/2 */
             background-color: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(25px) saturate(180%);
             -webkit-backdrop-filter: blur(25px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 42px;
             z-index: 4000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
-        /* 主畫面元素座標保持不變 */
+        /* 其他主畫面元素座標保持不變 */
         .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
         .fire-icon { position: absolute; left: 25px; top: 140px; font-weight: 900; font-size: 45px; z-index: 11; }
         .text-streak { position: absolute; width: 150px; left: 80px; top: 130px; font-weight: 800; font-size: 15px; z-index: 10; }
@@ -70,7 +65,7 @@
         .text-today { position: absolute; width: 120px; left: 126px; top: 555px; font-weight: 900; font-size: 30px; color: #FFFFFF; z-index: 21; pointer-events: none; }
         .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
 
-        /* 關卡畫面佈局 */
+        /* 關卡畫面 */
         #stage-screen {
             display: none; position: relative; width: 440px; height: 956px;
             margin: 0 auto; background-color: #AED7FF; overflow: hidden;
@@ -107,7 +102,7 @@
         .word-pool { padding: 30px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 12px; }
         .word-tile {
             background-color: #FFFFFF; border: 1px solid #E0E0E0; border-radius: 18px;
-            padding: 10px 20px; font-weight: 600; font-size: 19px; color: #333333; box-shadow: 0 4px 0px #E0E0E0; cursor: pointer; transition: transform 0.1s;
+            padding: 10px 20px; font-weight: 600; font-size: 19px; color: #333333; box-shadow: 0 4px 0px #E0E0E0; cursor: pointer;
         }
         .word-tile.used { visibility: hidden; pointer-events: none; }
 
@@ -126,7 +121,9 @@
     </style>
 </head>
 <body>
-    <div id="web-only-mask"><h2>請安裝 APP 使用</h2></div>
+    <div id="web-only-mask" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #AED7FF; z-index: 9999; display: flex; justify-content: center; align-items: center;">
+        <h2>請安裝 APP 使用</h2>
+    </div>
 
     <div id="app-content" class="main-viewport">
         <div id="navbar" class="rect-6"></div>
@@ -142,6 +139,7 @@
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
         <div class="rect-5"></div>
+        
         <div id="tabbar" class="rect-1"></div>
     </div>
 
@@ -184,7 +182,6 @@
         const chineseTitle = document.getElementById('chinese-title');
         const micContainer = document.getElementById('mic-container');
 
-        // 確保 5 個句子都在這裡
         const questionList = [
             { chinese: "我對這份工作感興趣。", english: ["I", "am", "interested", "in", "this", "job"] },
             { chinese: "學習一門新語言非常有趣。", english: ["Learning", "a", "new", "language", "is", "fun"] },
@@ -226,7 +223,7 @@
             let shuffled = [...data.english].sort(() => Math.random() - 0.5);
             shuffled.forEach((word, i) => {
                 const tile = document.createElement('div');
-                tile.className = 'word-tile'; tile.innerText = word; tile.id = 'w-' + i;
+                tile.className = 'word-tile'; tile.innerText = word;
                 tile.onclick = () => {
                     playClickSound();
                     const ans = document.createElement('div');
@@ -245,6 +242,7 @@
 
         function goBack() { stage.style.display = 'none'; app.style.display = 'block'; }
         function showAnswer() { alert("正確答案：" + questionList[currentQuestionIndex].english.join(" ")); }
+        
         function checkFinal() {
             const cur = Array.from(answerArea.children).map(t => t.innerText).join(" ");
             const target = questionList[currentQuestionIndex].english.join(" ");
@@ -252,7 +250,7 @@
                 currentQuestionIndex++;
                 if (currentQuestionIndex < questionList.length) loadQuestion();
                 else { alert("恭喜！全部完成！"); goBack(); }
-            } else { alert("順序不對哦，再試試看！"); }
+            } else { alert("順序不對哦！"); }
         }
 
         function startSpeechRecognition() {
@@ -263,7 +261,7 @@
                 const res = e.results[0][0].transcript.toLowerCase();
                 const target = questionList[currentQuestionIndex].english.join(" ").toLowerCase();
                 if (res === target) { alert("發音正確！"); checkFinal(); }
-                else alert("你說的是：" + res);
+                else alert("聽起來像：" + res);
             };
             rec.onend = () => micContainer.classList.remove('active');
             rec.start();
