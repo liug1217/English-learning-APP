@@ -11,29 +11,42 @@
         :root {
             --main-font: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-        html { background-color: #AED7FF; }
+        html {
+            background-color: #AED7FF;
+        }
         body {
-            margin: 0; padding: 0; width: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100%;
             background-color: #AED7FF;
             font-family: var(--main-font);
             scrollbar-width: none;
             -ms-overflow-style: none;
             -webkit-tap-highlight-color: transparent;
         }
-        ::-webkit-scrollbar { display: none; }
-        
+        ::-webkit-scrollbar {
+            display: none;
+        }
         #web-only-mask {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #AED7FF; z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #AED7FF;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-
         .main-viewport {
-            display: none; position: relative;
-            width: 440px; height: 1231px; margin: 0 auto;
+            display: none;
+            position: relative;
+            width: 440px;
+            height: 1231px;
+            margin: 0 auto;
         }
-
-        /* 矩形 1：固定定位 + 毛玻璃效果 */
         .rect-1 {
             position: fixed;
             width: 420px;
@@ -41,66 +54,327 @@
             left: 50%;
             margin-left: -210px;
             top: 835px;
-            background-color: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 42px;
             z-index: 4000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(255, 255, 255, 0.1);
         }
-
-        /* 其他主頁元件座標完全不變 */
-        .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
-        .fire-icon { position: absolute; left: 25px; top: 140px; font-weight: 900; font-size: 45px; color: #000000; z-index: 11; }
-        .text-streak { position: absolute; width: 150px; left: 80px; top: 130px; font-weight: 800; font-size: 15px; color: #000000; z-index: 10; }
-        .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
-        .day-label { position: absolute; width: 12px; top: 162px; font-size: 12px; color: #9A9A9A; z-index: 11; font-weight: 600; }
-        .rect-7, .rect-8, .rect-9, .rect-10 { position: absolute; width: 70px; height: 90px; left: 360px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
-        .rect-7 { top: 251px; } .rect-8 { top: 341px; } .rect-9 { top: 431px; } .rect-10 { top: 521px; }
-        .rect-3 { position: absolute; width: 381px; height: 400px; left: 10px; top: 251px; background-color: #FFFFFF; border-radius: 30px; }
-        .rect-4 { position: absolute; width: 312px; height: 85px; left: 30px; top: 530px; background-color: #51A8FF; border-radius: 30px; z-index: 20; cursor: pointer; }
-        .text-today { position: absolute; width: 120px; left: 126px; top: 555px; font-weight: 900; font-size: 30px; color: #FFFFFF; z-index: 21; pointer-events: none; }
-        .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
-
-        /* 關卡頁面維持 Relative，避免觸發安全區 */
+        .rect-2 {
+            position: absolute;
+            width: 420px;
+            height: 100px;
+            left: 10px;
+            top: 110px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        .fire-icon {
+            position: absolute;
+            left: 25px;
+            top: 140px;
+            font-weight: 900;
+            font-size: 45px;
+            color: #000000;
+            z-index: 11;
+        }
+        .text-streak {
+            position: absolute;
+            width: 150px;
+            left: 80px;
+            top: 130px;
+            font-weight: 800;
+            font-size: 15px;
+            color: #000000;
+            z-index: 10;
+        }
+        .ellipse {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 155px;
+            background-color: #D9D9D9;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .day-label {
+            position: absolute;
+            width: 12px;
+            top: 162px;
+            font-size: 12px;
+            color: #9A9A9A;
+            z-index: 11;
+            font-weight: 600;
+        }
+        .rect-7, .rect-8, .rect-9, .rect-10 {
+            position: absolute;
+            width: 70px;
+            height: 90px;
+            left: 360px;
+            background-color: #FFFFFF;
+            border-top-right-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+        .rect-7 { top: 251px; }
+        .rect-8 { top: 341px; }
+        .rect-9 { top: 431px; }
+        .rect-10 { top: 521px; }
+        .rect-3 {
+            position: absolute;
+            width: 381px;
+            height: 400px;
+            left: 10px;
+            top: 251px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+        .rect-4 {
+            position: absolute;
+            width: 312px;
+            height: 85px;
+            left: 30px;
+            top: 530px;
+            background-color: #51A8FF;
+            border-radius: 30px;
+            z-index: 20;
+            cursor: pointer;
+        }
+        .text-today {
+            position: absolute;
+            width: 120px;
+            left: 126px;
+            top: 555px;
+            font-weight: 900;
+            font-size: 30px;
+            color: #FFFFFF;
+            z-index: 21;
+            pointer-events: none;
+        }
+        .rect-5 {
+            position: absolute;
+            width: 420px;
+            height: 400px;
+            left: 10px;
+            top: 690px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
         #stage-screen {
-            display: none; position: relative;
-            width: 440px; height: 956px; margin: 0 auto;
-            background-color: #AED7FF; overflow: hidden;
+            display: none;
+            position: relative;
+            width: 440px;
+            height: 956px;
+            margin: 0 auto;
+            background-color: #AED7FF;
+            overflow: hidden;
         }
-        /* 關卡內部的 CSS 保持不變... (省略以縮短長度) */
-        .stage-nav { position: absolute; width: 440px; height: 100px; top: 40px; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
-        .back-arrow { font-size: 30px; color: #FFFFFF; font-weight: 800; cursor: pointer; padding: 10px; }
-        .trophy-bar-bg { flex: 1; height: 28px; background-color: rgba(255, 255, 255, 0.4); border-radius: 14px; margin: 0 15px; position: relative; display: flex; align-items: center; }
-        .trophy-bar-fill { width: 10%; height: 100%; background-color: #FFFFFF; border-radius: 14px; transition: width 0.3s; }
-        .trophy-icon { position: absolute; left: -10px; top: -8px; width: 44px; height: 44px; background-color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .progress-badge { position: absolute; right: 6px; padding: 2px 10px; background-color: rgba(81, 168, 255, 0.2); border: 1.5px solid #51A8FF; border-radius: 10px; color: #FFFFFF; font-weight: 800; font-size: 13px; }
-        .heart-container { display: flex; align-items: center; gap: 5px; color: #FFFFFF; font-size: 22px; font-weight: 800; }
-        .question-card { position: absolute; width: 400px; height: 420px; left: 20px; top: 130px; background-color: #FFFFFF; border-radius: 40px; padding: 40px; box-sizing: border-box; }
-        .chinese-text { font-weight: 700; font-size: 28px; color: #333333; margin-bottom: 40px; }
-        .answer-area { width: 100%; height: 150px; border-bottom: 2px solid #E0E0E0; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; }
-        .word-pool-container { position: absolute; width: 440px; height: 400px; left: 0; top: 580px; background-color: #FFFFFF; border-top-left-radius: 40px; border-top-right-radius: 40px; }
-        .word-pool { position: absolute; width: 440px; height: 250px; left: 0; top: 0; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 12px; padding: 30px; box-sizing: border-box; }
-        .word-tile { background-color: #FFFFFF; border: 1px solid #E0E0E0; border-radius: 18px; padding: 10px 20px; font-weight: 600; font-size: 19px; color: #333333; box-shadow: 0 4px 0px #E0E0E0; cursor: pointer; user-select: none; }
-        .word-tile.used { visibility: hidden; pointer-events: none; }
-        .bottom-actions { position: absolute; bottom: 40px; width: 440px; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; gap: 15px; }
-        .check-btn { width: 95px; height: 85px; background-color: #B28DFF; border-radius: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 700; font-size: 13px; cursor: pointer; }
-        .confirm-btn { flex: 1; height: 85px; background-color: #51A8FF; border-radius: 25px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 800; font-size: 26px; cursor: pointer; box-shadow: 0 6px 0px #3A8CDD; }
+        .stage-nav {
+            position: absolute;
+            width: 440px;
+            height: 100px;
+            top: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .back-arrow {
+            font-size: 30px;
+            color: #FFFFFF;
+            font-weight: 800;
+            cursor: pointer;
+            padding: 10px;
+        }
+        .trophy-bar-bg {
+            flex: 1;
+            height: 28px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            margin: 0 15px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .trophy-bar-fill {
+            width: 10%;
+            height: 100%;
+            background-color: #FFFFFF;
+            border-radius: 14px;
+            transition: width 0.3s;
+        }
+        .trophy-icon {
+            position: absolute;
+            left: -10px;
+            top: -8px;
+            width: 44px;
+            height: 44px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .progress-badge {
+            position: absolute;
+            right: 6px;
+            padding: 2px 10px;
+            background-color: rgba(81, 168, 255, 0.2);
+            border: 1.5px solid #51A8FF;
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 13px;
+        }
+        .heart-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #FFFFFF;
+            font-size: 22px;
+            font-weight: 800;
+        }
+        .question-card {
+            position: absolute;
+            width: 400px;
+            height: 420px;
+            left: 20px;
+            top: 130px;
+            background-color: #FFFFFF;
+            border-radius: 40px;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        .chinese-text {
+            font-weight: 700;
+            font-size: 28px;
+            color: #333333;
+            margin-bottom: 40px;
+        }
+        .answer-area {
+            width: 100%;
+            height: 150px;
+            border-bottom: 2px solid #E0E0E0;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 10px;
+        }
+        .word-pool-container {
+            position: absolute;
+            width: 440px;
+            height: 400px;
+            left: 0;
+            top: 580px;
+            background-color: #FFFFFF;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+        .word-pool {
+            position: absolute;
+            width: 440px;
+            height: 250px;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            gap: 12px;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+        .word-tile {
+            background-color: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            border-radius: 18px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 19px;
+            color: #333333;
+            box-shadow: 0 4px 0px #E0E0E0;
+            cursor: pointer;
+            user-select: none;
+        }
+        .word-tile.used {
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .bottom-actions {
+            position: absolute;
+            bottom: 40px;
+            width: 440px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            gap: 15px;
+        }
+        .check-btn {
+            width: 95px;
+            height: 85px;
+            background-color: #B28DFF;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .confirm-btn {
+            flex: 1;
+            height: 85px;
+            background-color: #51A8FF;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 26px;
+            cursor: pointer;
+            box-shadow: 0 6px 0px #3A8CDD;
+        }
     </style>
 </head>
 <body>
-    <div id="web-only-mask"><h2>請安裝 APP 使用</h2></div>
+    <div id="web-only-mask">
+        <h2>請安裝 APP 使用</h2>
+    </div>
     <div id="app-content" class="main-viewport">
-        <div class="rect-2"></div><div class="fire-icon">🔥</div><div class="text-streak">連續學習 0 天</div>
-        <div class="ellipse" style="left: 81px;"></div><div class="ellipse" style="left: 121px;"></div><div class="ellipse" style="left: 161px;"></div><div class="ellipse" style="left: 201px;"></div><div class="ellipse" style="left: 241px;"></div><div class="ellipse" style="left: 281px;"></div><div class="ellipse" style="left: 321px;"></div>
-        <div class="day-label" style="left: 90px;">六</div><div class="day-label" style="left: 130px;">日</div><div class="day-label" style="left: 170px;">一</div><div class="day-label" style="left: 210px;">二</div><div class="day-label" style="left: 250px;">三</div><div class="day-label" style="left: 290px;">四</div><div class="day-label" style="left: 330px;">五</div>
-        <div class="rect-7"></div><div class="rect-8"></div><div class="rect-9"></div><div class="rect-10"></div>
+        <div class="rect-2"></div>
+        <div class="fire-icon">🔥</div>
+        <div class="text-streak">連續學習 0 天</div>
+        <div class="ellipse" style="left: 81px;"></div>
+        <div class="ellipse" style="left: 121px;"></div>
+        <div class="ellipse" style="left: 161px;"></div>
+        <div class="ellipse" style="left: 201px;"></div>
+        <div class="ellipse" style="left: 241px;"></div>
+        <div class="ellipse" style="left: 281px;"></div>
+        <div class="ellipse" style="left: 321px;"></div>
+        <div class="day-label" style="left: 90px;">六</div>
+        <div class="day-label" style="left: 130px;">日</div>
+        <div class="day-label" style="left: 170px;">一</div>
+        <div class="day-label" style="left: 210px;">二</div>
+        <div class="day-label" style="left: 250px;">三</div>
+        <div class="day-label" style="left: 290px;">四</div>
+        <div class="day-label" style="left: 330px;">五</div>
+        <div class="rect-7"></div>
+        <div class="rect-8"></div>
+        <div class="rect-9"></div>
+        <div class="rect-10"></div>
         <div class="rect-3"></div>
-        <div id="btn-today" class="rect-4"></div><div class="text-today">今日單字</div>
+        <div id="btn-today" class="rect-4"></div>
+        <div class="text-today">今日單字</div>
         <div class="rect-5"></div>
-        <div class="rect-1"></div> </div>
-
+        <div class="rect-1"></div>
+    </div>
     <div id="stage-screen">
         <div class="stage-nav">
             <div class="back-arrow" onclick="goBack()">〈</div>
@@ -109,73 +383,95 @@
                 <div class="trophy-bar-fill" id="progress-bar"></div>
                 <div class="progress-badge" id="progress-text">0/1</div>
             </div>
-            <div class="heart-container"><span>❤️</span><span>5</span></div>
+            <div class="heart-container">
+                <span>❤️</span>
+                <span>5</span>
+            </div>
         </div>
         <div class="question-card">
             <div class="chinese-text">我對這份工作感興趣。</div>
             <div id="answer-area" class="answer-area"></div>
         </div>
-        <div class="word-pool-container"><div id="word-pool" class="word-pool"></div></div>
+        <div class="word-pool-container">
+            <div id="word-pool" class="word-pool"></div>
+        </div>
         <div class="bottom-actions">
             <div class="check-btn" onclick="showAnswer()">👁 答案</div>
             <div class="confirm-btn" onclick="checkFinal()">確認</div>
         </div>
     </div>
-
     <script>
         const app = document.getElementById('app-content');
         const stage = document.getElementById('stage-screen');
         const btnToday = document.getElementById('btn-today');
-
-        // 禁止捲動邏輯
-        function preventDefault(e) { e.preventDefault(); }
-        function disableScroll() { window.addEventListener('touchmove', preventDefault, { passive: false }); }
-        function enableScroll() { window.removeEventListener('touchmove', preventDefault); }
-
+        const poolContainer = document.getElementById('word-pool');
+        const answerArea = document.getElementById('answer-area');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const correctWords = ["I", "am", "interested", "in", "this", "job"];
+        const poolWords = ["interested", "I", "am", "this", "in", "job"];
+        function preventDefault(e) {
+            e.preventDefault();
+        }
+        function disableScroll() {
+            window.addEventListener('touchmove', preventDefault, { passive: false });
+        }
+        function enableScroll() {
+            window.removeEventListener('touchmove', preventDefault);
+        }
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
         if (isStandalone) {
             document.getElementById('web-only-mask').style.display = 'none';
             app.style.display = 'block';
         }
-
         btnToday.addEventListener('click', function() {
-            window.scrollTo(0, 0); 
+            window.scrollTo(0, 0);
             app.style.display = 'none';
             stage.style.display = 'block';
             disableScroll();
             initStage();
         });
-
         function goBack() {
             enableScroll();
             stage.style.display = 'none';
             app.style.display = 'block';
         }
-
-        // 初始化關卡邏輯... (initStage, checkFinal 等)
-        const correctWords = ["I", "am", "interested", "in", "this", "job"];
-        const poolWords = ["interested", "I", "am", "this", "in", "job"];
         function initStage() {
-            const poolContainer = document.getElementById('word-pool');
-            const answerArea = document.getElementById('answer-area');
-            poolContainer.innerHTML = ''; answerArea.innerHTML = '';
+            poolContainer.innerHTML = '';
+            answerArea.innerHTML = '';
             poolWords.forEach((word, index) => {
                 const tile = document.createElement('div');
-                tile.className = 'word-tile'; tile.innerText = word; tile.id = 'p-' + index;
-                tile.onclick = () => {
+                tile.className = 'word-tile';
+                tile.innerText = word;
+                tile.id = 'p-' + index;
+                tile.onclick = function() {
                     const aTile = document.createElement('div');
-                    aTile.className = 'word-tile'; aTile.innerText = word;
-                    aTile.onclick = () => { aTile.remove(); tile.classList.remove('used'); };
-                    answerArea.appendChild(aTile); tile.classList.add('used');
+                    aTile.className = 'word-tile';
+                    aTile.innerText = word;
+                    aTile.onclick = function() {
+                        aTile.remove();
+                        tile.classList.remove('used');
+                    };
+                    answerArea.appendChild(aTile);
+                    tile.classList.add('used');
                 };
                 poolContainer.appendChild(tile);
             });
         }
         function checkFinal() {
-            const current = Array.from(document.getElementById('answer-area').children).map(t => t.innerText);
-            if (current.join(" ") === correctWords.join(" ")) { alert("正確！"); goBack(); } else { alert("再試一次"); }
+            const current = Array.from(answerArea.children).map(t => t.innerText);
+            if (current.join(" ") === correctWords.join(" ")) {
+                progressBar.style.width = "100%";
+                progressText.innerText = "1/1";
+                alert("正確！");
+                goBack();
+            } else {
+                alert("再試一次");
+            }
         }
-        function showAnswer() { alert(correctWords.join(" ")); }
+        function showAnswer() {
+            alert(correctWords.join(" "));
+        }
     </script>
 </body>
 </html>
