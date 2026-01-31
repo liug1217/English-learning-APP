@@ -17,12 +17,12 @@
         body {
             margin: 0;
             padding: 0;
-            width: 100%;
+            width: 440px;
             background-color: #AED7FF;
             font-family: var(--main-font);
             scrollbar-width: none;
-            -ms-overflow-style: none;
             -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
         }
         ::-webkit-scrollbar {
             display: none;
@@ -40,19 +40,6 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .install-icon {
-            width: 80px;
-            height: 80px;
-            background: #FFFFFF;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
         }
         .main-viewport {
             display: none;
@@ -60,9 +47,7 @@
             width: 440px;
             height: 1231px;
             margin: 0 auto;
-            background-color: transparent;
         }
-        /* 矩形 6：滑動顯示，改為純白不透明 */
         .rect-6 {
             box-sizing: border-box;
             position: fixed;
@@ -71,17 +56,31 @@
             width: 440px;
             height: 110px;
             margin-left: -220px;
-            background-color: #FFFFFF; /* 純白不透明 */
+            background-color: #FFFFFF;
             border-bottom: 1px solid #D9D9D9;
             z-index: 3000;
-            display: block;
-            opacity: 0; /* 初始隱藏 */
+            opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
         }
         .rect-6.visible {
             opacity: 1;
             pointer-events: auto;
+        }
+        .rect-1 {
+            position: fixed;
+            width: 420px;
+            height: 110px;
+            left: 50%;
+            top: 835px;
+            margin-left: -210px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 42px;
+            z-index: 4000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
         .rect-2 {
             position: absolute;
@@ -98,7 +97,6 @@
             top: 140px;
             font-weight: 900;
             font-size: 45px;
-            color: #000000;
             z-index: 11;
         }
         .text-streak {
@@ -108,7 +106,6 @@
             top: 130px;
             font-weight: 800;
             font-size: 15px;
-            color: #000000;
             z-index: 10;
         }
         .ellipse {
@@ -119,15 +116,6 @@
             background-color: #D9D9D9;
             border-radius: 50%;
             z-index: 10;
-        }
-        .day-label {
-            position: absolute;
-            width: 12px;
-            top: 162px;
-            font-size: 12px;
-            color: #9A9A9A;
-            z-index: 11;
-            font-weight: 600;
         }
         .rect-7, .rect-8, .rect-9, .rect-10 {
             position: absolute;
@@ -182,56 +170,176 @@
             background-color: #FFFFFF;
             border-radius: 30px;
         }
-        /* 矩形 1：固定位置 + 液態玻璃效果 */
-        .rect-1 {
-            position: fixed;
-            width: 420px;
-            height: 110px;
-            left: 50%;
-            top: 835px;
-            margin-left: -210px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 42px;
-            z-index: 4000;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
         #stage-screen {
             display: none;
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 50%;
             width: 440px;
-            height: 956px;
-            margin: 0 auto;
+            height: 100%;
+            margin-left: -220px;
             background-color: #AED7FF;
+            z-index: 5000;
             overflow: hidden;
+            touch-action: none;
         }
-        /* ...其餘關卡樣式維持原樣... */
-        .stage-nav { position: absolute; width: 440px; height: 100px; top: 40px; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
-        .back-arrow { font-size: 30px; color: #FFFFFF; font-weight: 800; cursor: pointer; padding: 10px; }
-        .trophy-bar-bg { flex: 1; height: 28px; background-color: rgba(255, 255, 255, 0.4); border-radius: 14px; margin: 0 15px; position: relative; display: flex; align-items: center; }
-        .trophy-bar-fill { width: 10%; height: 100%; background-color: #FFFFFF; border-radius: 14px; transition: width 0.3s; }
-        .trophy-icon { position: absolute; left: -10px; top: -8px; width: 44px; height: 44px; background-color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .progress-badge { position: absolute; right: 6px; padding: 2px 10px; background-color: rgba(81, 168, 255, 0.2); border: 1.5px solid #51A8FF; border-radius: 10px; color: #FFFFFF; font-weight: 800; font-size: 13px; }
-        .heart-container { display: flex; align-items: center; gap: 5px; color: #FFFFFF; font-size: 22px; font-weight: 800; }
-        .question-card { position: absolute; width: 400px; height: 420px; left: 20px; top: 130px; background-color: #FFFFFF; border-radius: 40px; padding: 40px; box-sizing: border-box; }
-        .chinese-text { font-weight: 700; font-size: 28px; color: #333333; margin-bottom: 40px; }
-        .answer-area { width: 100%; height: 150px; border-bottom: 2px solid #E0E0E0; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; }
-        .word-pool-container { position: absolute; width: 440px; height: 400px; left: 0; top: 580px; background-color: #FFFFFF; border-top-left-radius: 40px; border-top-right-radius: 40px; }
-        .word-pool { position: absolute; width: 440px; height: 250px; left: 0; top: 0; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 12px; padding: 30px; box-sizing: border-box; }
-        .word-tile { background-color: #FFFFFF; border: 1px solid #E0E0E0; border-radius: 18px; padding: 10px 20px; font-weight: 600; font-size: 19px; color: #333333; box-shadow: 0 4px 0px #E0E0E0; cursor: pointer; user-select: none; }
-        .word-tile.used { visibility: hidden; pointer-events: none; }
-        .bottom-actions { position: absolute; bottom: 40px; width: 440px; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; gap: 15px; }
-        .check-btn { width: 95px; height: 85px; background-color: #B28DFF; border-radius: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 700; font-size: 13px; cursor: pointer; }
-        .confirm-btn { flex: 1; height: 85px; background-color: #51A8FF; border-radius: 25px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 800; font-size: 26px; cursor: pointer; box-shadow: 0 6px 0px #3A8CDD; }
+        .stage-nav {
+            position: absolute;
+            width: 440px;
+            height: 100px;
+            top: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .back-arrow {
+            font-size: 30px;
+            color: #FFFFFF;
+            font-weight: 800;
+            cursor: pointer;
+            padding: 10px;
+        }
+        .trophy-bar-bg {
+            flex: 1;
+            height: 28px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            margin: 0 15px;
+            position: relative;
+        }
+        .trophy-bar-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #FFFFFF;
+            border-radius: 14px;
+            transition: width 0.3s;
+        }
+        .progress-badge {
+            position: absolute;
+            right: 6px;
+            top: 4px;
+            padding: 2px 10px;
+            background-color: rgba(81, 168, 255, 0.2);
+            border: 1.5px solid #51A8FF;
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 13px;
+        }
+        .question-card {
+            position: absolute;
+            width: 400px;
+            height: 420px;
+            left: 20px;
+            top: 140px;
+            background-color: #FFFFFF;
+            border-radius: 40px;
+            padding: 35px;
+            box-sizing: border-box;
+        }
+        .chinese-text {
+            font-weight: 700;
+            font-size: 26px;
+            color: #333333;
+            margin-bottom: 30px;
+        }
+        .answer-area {
+            width: 100%;
+            height: 180px;
+            border-bottom: 2px solid #E0E0E0;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 10px;
+            position: relative;
+        }
+        .mic-btn {
+            position: absolute;
+            right: 0;
+            bottom: 10px;
+            width: 60px;
+            height: 60px;
+            background-color: #FFEDF1;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .beta-tag {
+            position: absolute;
+            top: -8px;
+            right: -5px;
+            background-color: #51A8FF;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: 900;
+        }
+        .word-pool-container {
+            position: absolute;
+            width: 440px;
+            height: 450px;
+            left: 0;
+            top: 580px;
+            background-color: #FFFFFF;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+        .word-pool {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            padding: 40px 20px;
+        }
+        .word-tile {
+            background-color: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            border-radius: 18px;
+            padding: 12px 22px;
+            font-weight: 600;
+            font-size: 19px;
+            color: #333333;
+            box-shadow: 0 4px 0px #E0E0E0;
+            cursor: pointer;
+        }
+        .word-tile.used {
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .bottom-actions {
+            position: absolute;
+            bottom: 40px;
+            width: 440px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            gap: 15px;
+        }
+        .confirm-btn {
+            flex: 1;
+            height: 85px;
+            background-color: #51A8FF;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 26px;
+            box-shadow: 0 6px 0px #3A8CDD;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div id="web-only-mask">
-        <div class="install-icon">📖</div>
         <h2>請安裝 APP 使用</h2>
-        <p>點擊分享按鈕並選擇「加入主畫面」</p>
     </div>
     <div id="app-content" class="main-viewport">
         <div id="sticky-header" class="rect-6"></div>
@@ -245,13 +353,6 @@
         <div class="ellipse" style="left: 241px;"></div>
         <div class="ellipse" style="left: 281px;"></div>
         <div class="ellipse" style="left: 321px;"></div>
-        <div class="day-label" style="left: 90px;">六</div>
-        <div class="day-label" style="left: 130px;">日</div>
-        <div class="day-label" style="left: 170px;">一</div>
-        <div class="day-label" style="left: 210px;">二</div>
-        <div class="day-label" style="left: 250px;">三</div>
-        <div class="day-label" style="left: 290px;">四</div>
-        <div class="day-label" style="left: 330px;">五</div>
         <div class="rect-7"></div>
         <div class="rect-8"></div>
         <div class="rect-9"></div>
@@ -262,125 +363,133 @@
         <div class="rect-5"></div>
         <div class="rect-1"></div>
     </div>
-
     <div id="stage-screen">
         <div class="stage-nav">
             <div class="back-arrow" onclick="goBack()">〈</div>
             <div class="trophy-bar-bg">
-                <div class="trophy-icon">🏆</div>
                 <div class="trophy-bar-fill" id="progress-bar"></div>
-                <div class="progress-badge" id="progress-text">0/1</div>
+                <div class="progress-badge" id="progress-text">0/5</div>
             </div>
-            <div class="heart-container"><span>❤️</span><span>5</span></div>
+            <div style="color:white; font-weight:800; font-size:22px;">❤️ 5</div>
         </div>
         <div class="question-card">
-            <div class="chinese-text">我對這份工作感興趣。</div>
-            <div id="answer-area" class="answer-area"></div>
+            <div id="q-chinese" class="chinese-text"></div>
+            <div id="answer-area" class="answer-area">
+                <button class="mic-btn" onclick="startRecognition()">
+                    <span class="beta-tag">Beta</span>
+                    <span style="font-size: 24px;">🎙️</span>
+                </button>
+            </div>
         </div>
         <div class="word-pool-container">
             <div id="word-pool" class="word-pool"></div>
         </div>
         <div class="bottom-actions">
-            <div class="check-btn" onclick="showAnswer()">
-                <span style="font-size: 24px;">👁</span>
-                <span>觀看答案</span>
-            </div>
-            <div class="confirm-btn" onclick="checkFinal()">確認</div>
+            <div class="confirm-btn" onclick="checkAnswer()">確認</div>
         </div>
     </div>
-
     <script>
-        const mask = document.getElementById('web-only-mask');
-        const app = document.getElementById('app-content');
-        const stage = document.getElementById('stage-screen');
-        const btnToday = document.getElementById('btn-today');
-        const poolContainer = document.getElementById('word-pool');
+        const appContent = document.getElementById('app-content');
+        const stageScreen = document.getElementById('stage-screen');
+        const stickyHeader = document.getElementById('sticky-header');
+        const wordPool = document.getElementById('word-pool');
         const answerArea = document.getElementById('answer-area');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
-        const stickyHeader = document.getElementById('sticky-header');
-        const correctWords = ["I", "am", "interested", "in", "this", "job"];
-        const poolWords = ["interested", "I", "am", "this", "in", "job"];
-        
-        // 滑動顯示矩形 6 邏輯
+        const questionChinese = document.getElementById('q-chinese');
+        const questions = [
+            { chinese: "我喜歡在早上閱讀。", english: ["I", "like", "to", "read", "in", "the", "morning"] },
+            { chinese: "這是一個美麗的一天。", english: ["It", "is", "a", "beautiful", "day"] },
+            { chinese: "他正在廚房做飯。", english: ["He", "is", "cooking", "in", "the", "kitchen"] },
+            { chinese: "我們計畫明天去旅行。", english: ["We", "plan", "to", "travel", "tomorrow"] },
+            { chinese: "你想要喝點咖啡嗎？", english: ["Do", "you", "want", "some", "coffee"] }
+        ];
+        let currentQuestionIndex = 0;
         window.addEventListener('scroll', function() {
             if (window.scrollY > 50) {
-                stickyHeader.style.opacity = "1";
-                stickyHeader.style.pointerEvents = "auto";
+                stickyHeader.classList.add('visible');
             } else {
-                stickyHeader.style.opacity = "0";
-                stickyHeader.style.pointerEvents = "none";
+                stickyHeader.classList.remove('visible');
             }
         });
-
-        // 其餘 JS 功能維持不變...
-        function preventDefault(e) { e.preventDefault(); }
-        function disableScroll() {
-            window.addEventListener('wheel', preventDefault, { passive: false });
-            window.addEventListener('touchmove', preventDefault, { passive: false });
-        }
-        function enableScroll() {
-            window.removeEventListener('wheel', preventDefault);
-            window.removeEventListener('touchmove', preventDefault);
-        }
-
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
         if (isStandalone) {
-            mask.style.display = 'none';
-            app.style.display = 'block';
+            document.getElementById('web-only-mask').style.display = 'none';
+            appContent.style.display = 'block';
         }
-
-        function initStage() {
-            poolContainer.innerHTML = '';
-            answerArea.innerHTML = '';
-            poolWords.forEach((word, index) => {
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            questionChinese.innerText = currentQuestion.chinese;
+            progressText.innerText = currentQuestionIndex + "/5";
+            progressBar.style.width = (currentQuestionIndex / 5) * 100 + "%";
+            answerArea.querySelectorAll('.word-tile').forEach(tile => tile.remove());
+            wordPool.innerHTML = '';
+            const shuffledWords = [...currentQuestion.english].sort(() => Math.random() - 0.5);
+            shuffledWords.forEach((word, index) => {
                 const tile = document.createElement('div');
                 tile.className = 'word-tile';
                 tile.innerText = word;
                 tile.id = 'pool-word-' + index;
                 tile.onclick = function() {
-                    createAnswerTile(word, tile.id);
+                    const answerTile = document.createElement('div');
+                    answerTile.className = 'word-tile';
+                    answerTile.innerText = word;
+                    answerTile.onclick = function() {
+                        answerTile.remove();
+                        tile.classList.remove('used');
+                    };
+                    answerArea.insertBefore(answerTile, answerArea.lastElementChild);
                     tile.classList.add('used');
                 };
-                poolContainer.appendChild(tile);
+                wordPool.appendChild(tile);
             });
         }
-
-        function createAnswerTile(word, poolId) {
-            const answerTile = document.createElement('div');
-            answerTile.className = 'word-tile';
-            answerTile.innerText = word;
-            answerTile.onclick = function() {
-                answerTile.remove();
-                document.getElementById(poolId).classList.remove('used');
-            };
-            answerArea.appendChild(answerTile);
-        }
-
-        btnToday.addEventListener('click', function() {
-            window.scrollTo(0, 0); 
-            app.style.display = 'none';
-            stage.style.display = 'block';
-            disableScroll();
-            initStage();
-        });
-
+        document.getElementById('btn-today').onclick = function() {
+            stageScreen.style.display = 'block';
+            loadQuestion();
+        };
         function goBack() {
-            enableScroll();
-            stage.style.display = 'none';
-            app.style.display = 'block';
-            window.scrollTo(0, 0);
+            stageScreen.style.display = 'none';
         }
-
-        function showAnswer() { alert("正確答案：" + correctWords.join(" ")); }
-        function checkFinal() {
-            const current = Array.from(answerArea.children).map(t => t.innerText);
-            if (current.join(" ") === correctWords.join(" ")) {
-                progressBar.style.width = "100%";
-                progressText.innerText = "1/1";
-                alert("恭喜答對！");
-                goBack();
-            } else { alert("順序有誤！"); }
+        function startRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert("瀏覽器不支援語音辨識");
+                return;
+            }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.onresult = function(event) {
+                const result = event.results[0][0].transcript.toLowerCase().replace(/[.!]/g, "");
+                const target = questions[currentQuestionIndex].english.join(" ").toLowerCase();
+                if (result === target) {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < 5) {
+                        loadQuestion();
+                    } else {
+                        alert("全數完成！");
+                        goBack();
+                    }
+                } else {
+                    alert("語音內容：" + result);
+                }
+            };
+            recognition.start();
+        }
+        function checkAnswer() {
+            const currentAnswer = Array.from(answerArea.querySelectorAll('.word-tile')).map(tile => tile.innerText).join(" ");
+            const targetAnswer = questions[currentQuestionIndex].english.join(" ");
+            if (currentAnswer === targetAnswer) {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < 5) {
+                    loadQuestion();
+                } else {
+                    alert("恭喜完成所有關卡！");
+                    goBack();
+                }
+            } else {
+                alert("答案不正確");
+            }
         }
     </script>
 </body>
