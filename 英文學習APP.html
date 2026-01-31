@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=440, user-scalable=no">
+    <meta name="viewport" content="width=440, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#AED7FF">
@@ -13,20 +13,16 @@
         }
         html {
             background-color: #AED7FF;
-            overflow: hidden;
-            height: 100%;
         }
         body {
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
             background-color: #AED7FF;
             font-family: var(--main-font);
-            -webkit-tap-highlight-color: transparent;
-            overflow-y: auto;
-            overflow-x: hidden;
             scrollbar-width: none;
+            -ms-overflow-style: none;
+            -webkit-tap-highlight-color: transparent;
         }
         ::-webkit-scrollbar {
             display: none;
@@ -43,6 +39,20 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .install-icon {
+            width: 80px;
+            height: 80px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
         }
         .main-viewport {
             display: none;
@@ -50,8 +60,10 @@
             width: 440px;
             height: 1231px;
             margin: 0 auto;
+            background-color: transparent;
         }
         .rect-6 {
+            box-sizing: border-box;
             position: fixed;
             top: 0;
             left: 50%;
@@ -60,29 +72,8 @@
             margin-left: -220px;
             background-color: #FFFFFF;
             border-bottom: 1px solid #D9D9D9;
-            z-index: 5000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
-        .rect-6.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        .rect-1 {
-            position: fixed;
-            width: 420px;
-            height: 110px;
-            left: 50%;
-            margin-left: -210px;
-            top: 835px;
-            background-color: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 42px;
-            z-index: 4000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            z-index: 3000;
+            display: none;
         }
         .rect-2 {
             position: absolute;
@@ -183,25 +174,29 @@
             background-color: #FFFFFF;
             border-radius: 30px;
         }
-
+        .rect-1 {
+            position: absolute;
+            width: 420px;
+            height: 110px;
+            left: 10px;
+            top: 835px;
+            background-color: #FFFFFF;
+            border-radius: 42px;
+        }
         #stage-screen {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative; /* 維持你原本的 relative */
             width: 440px;
-            height: 100vh;
+            height: 956px;
+            margin: 0 auto;
             background-color: #AED7FF;
-            z-index: 6000;
             overflow: hidden;
-            touch-action: none;
         }
         .stage-nav {
             position: absolute;
             width: 440px;
             height: 100px;
-            top: 10px;
+            top: 40px;
             display: flex;
             align-items: center;
             padding: 0 20px;
@@ -225,7 +220,7 @@
             align-items: center;
         }
         .trophy-bar-fill {
-            width: 0%;
+            width: 10%;
             height: 100%;
             background-color: #FFFFFF;
             border-radius: 14px;
@@ -269,7 +264,7 @@
             width: 400px;
             height: 420px;
             left: 20px;
-            top: 90px;
+            top: 130px;
             background-color: #FFFFFF;
             border-radius: 40px;
             padding: 40px;
@@ -279,7 +274,7 @@
             font-weight: 700;
             font-size: 28px;
             color: #333333;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
         .answer-area {
             width: 100%;
@@ -295,7 +290,7 @@
             width: 440px;
             height: 400px;
             left: 0;
-            top: 520px;
+            top: 580px;
             background-color: #FFFFFF;
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
@@ -325,13 +320,14 @@
             box-shadow: 0 4px 0px #E0E0E0;
             cursor: pointer;
             user-select: none;
-            transition: transform 0.1s;
         }
-        .word-tile:active { transform: translateY(2px); }
-        .word-tile.used { visibility: hidden; pointer-events: none; }
+        .word-tile.used {
+            visibility: hidden;
+            pointer-events: none;
+        }
         .bottom-actions {
             position: absolute;
-            bottom: 20px;
+            bottom: 40px;
             width: 440px;
             display: flex;
             align-items: center;
@@ -340,7 +336,7 @@
             gap: 15px;
         }
         .check-btn {
-            width: 105px;
+            width: 95px;
             height: 85px;
             background-color: #B28DFF;
             border-radius: 25px;
@@ -349,10 +345,10 @@
             align-items: center;
             justify-content: center;
             color: #FFFFFF;
+            font-weight: 700;
+            font-size: 13px;
             cursor: pointer;
         }
-        .check-btn span { font-size: 26px; }
-        .check-btn label { font-size: 14px; font-weight: 700; margin-top: 2px; cursor: pointer; }
         .confirm-btn {
             flex: 1;
             height: 85px;
@@ -367,34 +363,16 @@
             cursor: pointer;
             box-shadow: 0 6px 0px #3A8CDD;
         }
-        .mic-container {
-            position: absolute;
-            right: 25px;
-            bottom: 25px;
-            width: 65px;
-            height: 65px;
-            background-color: #FFEDF1;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .mic-icon { font-size: 30px; color: #FF85A2; }
-        .mic-container.active { background-color: #FF85A2; animation: pulse-ring 1.2s infinite; }
-        .mic-container.active .mic-icon { color: #FFFFFF; }
-        @keyframes pulse-ring {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
     </style>
 </head>
 <body>
-    <div id="web-only-mask"><h2>請安裝 APP 使用</h2></div>
+    <div id="web-only-mask">
+        <div class="install-icon">📖</div>
+        <h2>請安裝 APP 使用</h2>
+        <p>點擊分享按鈕並選擇「加入主畫面」</p>
+    </div>
     <div id="app-content" class="main-viewport">
-        <div id="navbar" class="rect-6"></div>
+        <div id="sticky-header" class="rect-6"></div>
         <div class="rect-2"></div>
         <div class="fire-icon">🔥</div>
         <div class="text-streak">連續學習 0 天</div>
@@ -412,184 +390,122 @@
         <div class="day-label" style="left: 250px;">三</div>
         <div class="day-label" style="left: 290px;">四</div>
         <div class="day-label" style="left: 330px;">五</div>
-        <div class="rect-7"></div><div class="rect-8"></div><div class="rect-9"></div><div class="rect-10"></div>
+        <div class="rect-7"></div>
+        <div class="rect-8"></div>
+        <div class="rect-9"></div>
+        <div class="rect-10"></div>
         <div class="rect-3"></div>
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
         <div class="rect-5"></div>
         <div class="rect-1"></div>
     </div>
-
     <div id="stage-screen">
         <div class="stage-nav">
-            <div class="back-arrow" onclick="playClickSound(); goBack()">〈</div>
+            <div class="back-arrow" onclick="goBack()">〈</div>
             <div class="trophy-bar-bg">
                 <div class="trophy-icon">🏆</div>
-                <div id="progress-bar" class="trophy-bar-fill"></div>
-                <div id="progress-text" class="progress-badge">0/5</div>
+                <div class="trophy-bar-fill" id="progress-bar"></div>
+                <div class="progress-badge" id="progress-text">0/1</div>
             </div>
             <div class="heart-container"><span>❤️</span><span>5</span></div>
         </div>
         <div class="question-card">
-            <div id="chinese-title" class="chinese-text">載入中...</div>
+            <div class="chinese-text">我對這份工作感興趣。</div>
             <div id="answer-area" class="answer-area"></div>
-            <div id="mic-container" class="mic-container" onclick="startSpeechRecognition()">
-                <span class="mic-icon">🎙</span>
-            </div>
         </div>
         <div class="word-pool-container">
             <div id="word-pool" class="word-pool"></div>
-            <div class="bottom-actions">
-                <div class="check-btn" onclick="playClickSound(); showAnswer()">
-                    <span>👁</span>
-                    <label>答案</label>
-                </div>
-                <div class="confirm-btn" onclick="playClickSound(); checkFinal()">確認</div>
+        </div>
+        <div class="bottom-actions">
+            <div class="check-btn" onclick="showAnswer()">
+                <span style="font-size: 24px;">👁</span>
+                <span>觀看答案</span>
             </div>
+            <div class="confirm-btn" onclick="checkFinal()">確認</div>
         </div>
     </div>
-
     <script>
-        const bodyElement = document.body;
+        const mask = document.getElementById('web-only-mask');
         const app = document.getElementById('app-content');
         const stage = document.getElementById('stage-screen');
         const btnToday = document.getElementById('btn-today');
-        const navbar = document.getElementById('navbar');
         const poolContainer = document.getElementById('word-pool');
         const answerArea = document.getElementById('answer-area');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
-        const chineseTitle = document.getElementById('chinese-title');
-        const micContainer = document.getElementById('mic-container');
-
-        const questionList = [
-            { chinese: "學習一門新語言非常有趣。", english: ["Learning", "a", "new", "language", "is", "fun"] },
-            { chinese: "我每天早上喝咖啡。", english: ["I", "drink", "coffee", "every", "morning"] },
-            { chinese: "這本書非常有用。", english: ["This", "book", "is", "very", "useful"] },
-            { chinese: "天氣今天非常好。", english: ["The", "weather", "is", "great", "today"] },
-            { chinese: "他喜歡在公園跑步。", english: ["He", "likes", "running", "in", "the", "park"] }
-        ];
-
-        let currentQuestionIndex = 0;
-
-        function playClickSound() {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(1500, audioContext.currentTime + 0.05);
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.1);
+        const correctWords = ["I", "am", "interested", "in", "this", "job"];
+        const poolWords = ["interested", "I", "am", "this", "in", "job"];
+        
+        // 關鍵：用 JS 阻斷捲動事件，不改 CSS
+        function preventDefault(e) { e.preventDefault(); }
+        function disableScroll() {
+            window.addEventListener('wheel', preventDefault, { passive: false });
+            window.addEventListener('touchmove', preventDefault, { passive: false });
         }
-
-        function startSpeechRecognition() {
-            if (!('webkitSpeechRecognition' in window)) {
-                alert("抱歉，您的瀏覽器不支援語音辨識。");
-                return;
-            }
-            playClickSound();
-            const recognition = new webkitSpeechRecognition();
-            recognition.lang = 'en-US';
-            recognition.onstart = function() { micContainer.classList.add('active'); };
-            recognition.onresult = function(event) {
-                const speechResult = event.results[0][0].transcript.toLowerCase().replace(/[.,!]/g, "");
-                const correctFullAnswer = questionList[currentQuestionIndex].english.join(" ").toLowerCase();
-                if (speechResult === correctFullAnswer) {
-                    playClickSound();
-                    alert("發音正確！");
-                    handleCorrectAnswer();
-                } else {
-                    alert("您說的是: " + speechResult + "\n請再試一次！");
-                }
-            };
-            recognition.onend = function() { micContainer.classList.remove('active'); };
-            recognition.start();
+        function enableScroll() {
+            window.removeEventListener('wheel', preventDefault);
+            window.removeEventListener('touchmove', preventDefault);
         }
-
-        window.addEventListener('scroll', function() {
-            if (stage.style.display !== 'block') {
-                navbar.classList.toggle('visible', window.scrollY > 20);
-            }
-        });
 
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
         if (isStandalone) {
-            document.getElementById('web-only-mask').style.display = 'none';
+            mask.style.display = 'none';
             app.style.display = 'block';
         }
 
-        btnToday.addEventListener('click', function() {
-            playClickSound();
-            app.style.display = 'none';
-            stage.style.display = 'block';
-            bodyElement.style.overflow = 'hidden';
-            currentQuestionIndex = 0;
-            loadNextQuestion();
-        });
-
-        function goBack() { 
-            stage.style.display = 'none'; 
-            app.style.display = 'block'; 
-            bodyElement.style.overflow = 'auto';
-        }
-
-        function loadNextQuestion() {
-            const currentData = questionList[currentQuestionIndex];
-            chineseTitle.innerText = currentData.chinese;
-            answerArea.innerHTML = '';
+        function initStage() {
             poolContainer.innerHTML = '';
-            progressText.innerText = currentQuestionIndex + "/" + questionList.length;
-            progressBar.style.width = (currentQuestionIndex / questionList.length) * 100 + "%";
-
-            let shuffledWords = [...currentData.english].sort(function() { return Math.random() - 0.5; });
-            shuffledWords.forEach(function(wordText) {
-                const wordTile = document.createElement('div');
-                wordTile.className = 'word-tile';
-                wordTile.innerText = wordText;
-                wordTile.onclick = function() {
-                    playClickSound();
-                    const selectedTile = document.createElement('div');
-                    selectedTile.className = 'word-tile';
-                    selectedTile.innerText = wordText;
-                    selectedTile.onclick = function() {
-                        playClickSound();
-                        selectedTile.remove();
-                        wordTile.classList.remove('used');
-                    };
-                    answerArea.appendChild(selectedTile);
-                    wordTile.classList.add('used');
+            answerArea.innerHTML = '';
+            poolWords.forEach((word, index) => {
+                const tile = document.createElement('div');
+                tile.className = 'word-tile';
+                tile.innerText = word;
+                tile.id = 'pool-word-' + index;
+                tile.onclick = function() {
+                    createAnswerTile(word, tile.id);
+                    tile.classList.add('used');
                 };
-                poolContainer.appendChild(wordTile);
+                poolContainer.appendChild(tile);
             });
         }
 
+        function createAnswerTile(word, poolId) {
+            const answerTile = document.createElement('div');
+            answerTile.className = 'word-tile';
+            answerTile.innerText = word;
+            answerTile.onclick = function() {
+                answerTile.remove();
+                document.getElementById(poolId).classList.remove('used');
+            };
+            answerArea.appendChild(answerTile);
+        }
+
+        btnToday.addEventListener('click', function() {
+            window.scrollTo(0, 0); 
+            app.style.display = 'none';
+            stage.style.display = 'block';
+            disableScroll(); // 進入關卡時，用 JS 鎖死手勢捲動
+            initStage();
+        });
+
+        function goBack() {
+            enableScroll(); // 返回主頁時恢復捲動
+            stage.style.display = 'none';
+            app.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showAnswer() { alert("正確答案：" + correctWords.join(" ")); }
         function checkFinal() {
-            const userAnswer = Array.from(answerArea.children).map(function(tile) { return tile.innerText; });
-            const correctAnswer = questionList[currentQuestionIndex].english;
-            if (userAnswer.join(" ") === correctAnswer.join(" ")) {
-                handleCorrectAnswer();
-            } else {
-                alert("組合錯誤，再試一次！");
-            }
-        }
-
-        function handleCorrectAnswer() {
-            currentQuestionIndex = currentQuestionIndex + 1;
-            if (currentQuestionIndex < questionList.length) {
-                loadNextQuestion();
-            } else {
+            const current = Array.from(answerArea.children).map(t => t.innerText);
+            if (current.join(" ") === correctWords.join(" ")) {
                 progressBar.style.width = "100%";
-                progressText.innerText = "5/5";
-                setTimeout(function() { alert("太棒了！過關！"); goBack(); }, 300);
-            }
+                progressText.innerText = "1/1";
+                alert("恭喜答對！");
+                goBack();
+            } else { alert("順序有誤！"); }
         }
-
-        function showAnswer() { alert(questionList[currentQuestionIndex].english.join(" ")); }
     </script>
 </body>
 </html>
