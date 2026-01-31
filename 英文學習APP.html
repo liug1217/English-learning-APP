@@ -25,7 +25,6 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #AED7FF; z-index: 9999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; padding: 20px; box-sizing: border-box;
         }
 
         .main-viewport {
@@ -42,12 +41,15 @@
         }
         .rect-6.visible { opacity: 1; pointer-events: auto; }
 
-        /* 矩形 1：毛玻璃導覽列 */
+        /* 矩形 1：回歸原本位置 + 玻璃效果 */
         .rect-1 {
-            position: fixed; width: 420px; height: 110px;
-            left: 50%; bottom: 30px; margin-left: -210px;
-            background-color: rgba(255, 255, 255, 0.45); /* 半透明 */
-            backdrop-filter: blur(25px) saturate(180%); /* 玻璃效果核心 */
+            position: absolute; /* 改回 absolute */
+            width: 420px;
+            height: 110px;
+            left: 10px;
+            top: 835px; /* 使用你指定的原始位置 */
+            background-color: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px) saturate(180%);
             -webkit-backdrop-filter: blur(25px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 42px;
@@ -55,7 +57,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
         }
 
-        /* 主畫面元素 */
+        /* 主畫面元素座標保持不變 */
         .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
         .fire-icon { position: absolute; left: 25px; top: 140px; font-weight: 900; font-size: 45px; z-index: 11; }
         .text-streak { position: absolute; width: 150px; left: 80px; top: 130px; font-weight: 800; font-size: 15px; z-index: 10; }
@@ -68,7 +70,7 @@
         .text-today { position: absolute; width: 120px; left: 126px; top: 555px; font-weight: 900; font-size: 30px; color: #FFFFFF; z-index: 21; pointer-events: none; }
         .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
 
-        /* 關卡畫面 */
+        /* 關卡畫面佈局 */
         #stage-screen {
             display: none; position: relative; width: 440px; height: 956px;
             margin: 0 auto; background-color: #AED7FF; overflow: hidden;
@@ -77,11 +79,12 @@
             position: absolute; width: 440px; height: 100px; top: 40px;
             display: flex; align-items: center; padding: 0 20px; box-sizing: border-box;
         }
-        .back-arrow { font-size: 30px; color: #FFFFFF; font-weight: 800; cursor: pointer; }
-        .trophy-bar-bg { flex: 1; height: 28px; background-color: rgba(255, 255, 255, 0.4); border-radius: 14px; margin: 0 15px; position: relative; }
+        .back-arrow { font-size: 30px; color: #FFFFFF; font-weight: 800; cursor: pointer; padding: 10px; }
+        .trophy-bar-bg { flex: 1; height: 28px; background-color: rgba(255, 255, 255, 0.4); border-radius: 14px; margin: 0 15px; position: relative; display: flex; align-items: center; }
         .trophy-bar-fill { width: 0%; height: 100%; background-color: #FFFFFF; border-radius: 14px; transition: width 0.3s; }
         .trophy-icon { position: absolute; left: -10px; top: -8px; width: 44px; height: 44px; background-color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .progress-badge { position: absolute; right: 6px; top: 4px; padding: 2px 10px; background-color: rgba(81, 168, 255, 0.2); border: 1.5px solid #51A8FF; border-radius: 10px; color: #FFFFFF; font-weight: 800; font-size: 13px; }
+        .progress-badge { position: absolute; right: 6px; padding: 2px 10px; background-color: rgba(81, 168, 255, 0.2); border: 1.5px solid #51A8FF; border-radius: 10px; color: #FFFFFF; font-weight: 800; font-size: 13px; }
+        .heart-container { display: flex; align-items: center; gap: 5px; color: #FFFFFF; font-size: 22px; font-weight: 800; }
         
         .question-card {
             position: absolute; width: 400px; height: 420px; left: 20px; top: 130px;
@@ -92,7 +95,7 @@
         
         .mic-container {
             position: absolute; right: 25px; bottom: 25px; width: 65px; height: 65px;
-            background-color: #FFEDF1; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            background-color: #FFEDF1; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
         .mic-container.active { background-color: #FF85A2; animation: pulse-ring 1.2s infinite; }
         @keyframes pulse-ring { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
@@ -101,10 +104,10 @@
             position: absolute; width: 440px; height: 400px; left: 0; top: 580px;
             background-color: #FFFFFF; border-top-left-radius: 40px; border-top-right-radius: 40px;
         }
-        .word-pool { padding: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+        .word-pool { padding: 30px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 12px; }
         .word-tile {
             background-color: #FFFFFF; border: 1px solid #E0E0E0; border-radius: 18px;
-            padding: 10px 20px; font-weight: 600; font-size: 19px; box-shadow: 0 4px 0px #E0E0E0; cursor: pointer;
+            padding: 10px 20px; font-weight: 600; font-size: 19px; color: #333333; box-shadow: 0 4px 0px #E0E0E0; cursor: pointer; transition: transform 0.1s;
         }
         .word-tile.used { visibility: hidden; pointer-events: none; }
 
@@ -118,7 +121,7 @@
         .confirm-btn {
             flex: 1; height: 85px; background-color: #51A8FF; border-radius: 25px;
             display: flex; align-items: center; justify-content: center; color: #FFFFFF;
-            font-weight: 800; font-size: 26px; box-shadow: 0 6px 0px #3A8CDD; cursor: pointer;
+            font-weight: 800; font-size: 26px; cursor: pointer; box-shadow: 0 6px 0px #3A8CDD;
         }
     </style>
 </head>
@@ -139,7 +142,8 @@
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
         <div class="rect-5"></div>
-        <div id="tabbar" class="rect-1"></div> </div>
+        <div id="tabbar" class="rect-1"></div>
+    </div>
 
     <div id="stage-screen">
         <div class="stage-nav">
@@ -180,6 +184,7 @@
         const chineseTitle = document.getElementById('chinese-title');
         const micContainer = document.getElementById('mic-container');
 
+        // 確保 5 個句子都在這裡
         const questionList = [
             { chinese: "我對這份工作感興趣。", english: ["I", "am", "interested", "in", "this", "job"] },
             { chinese: "學習一門新語言非常有趣。", english: ["Learning", "a", "new", "language", "is", "fun"] },
@@ -218,7 +223,8 @@
             progressText.innerText = currentQuestionIndex + "/" + questionList.length;
             progressBar.style.width = (currentQuestionIndex / questionList.length) * 100 + "%";
 
-            [...data.english].sort(() => Math.random() - 0.5).forEach((word, i) => {
+            let shuffled = [...data.english].sort(() => Math.random() - 0.5);
+            shuffled.forEach((word, i) => {
                 const tile = document.createElement('div');
                 tile.className = 'word-tile'; tile.innerText = word; tile.id = 'w-' + i;
                 tile.onclick = () => {
@@ -235,7 +241,6 @@
         btnToday.onclick = () => {
             playClickSound(); app.style.display = 'none'; stage.style.display = 'block';
             currentQuestionIndex = 0; loadQuestion();
-            window.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
         };
 
         function goBack() { stage.style.display = 'none'; app.style.display = 'block'; }
@@ -246,8 +251,8 @@
             if (cur === target) {
                 currentQuestionIndex++;
                 if (currentQuestionIndex < questionList.length) loadQuestion();
-                else { alert("過關！"); goBack(); }
-            } else { alert("順序不對哦！"); }
+                else { alert("恭喜！全部完成！"); goBack(); }
+            } else { alert("順序不對哦，再試試看！"); }
         }
 
         function startSpeechRecognition() {
