@@ -7,6 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#AED7FF">
     <title>英文學習APP</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
             --main-font: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -175,7 +176,6 @@
             border-radius: 30px;
         }
 
-        /* 矩形 1 保留你原本的 CSS 結構 */
         .rect-1 {
             position: fixed;
             width: 420px;
@@ -207,8 +207,9 @@
         }
 
         .nav-icon {
-            font-size: 24px;
+            font-size: 30px; /* 調整 Icon 大小 */
             margin-bottom: 4px;
+            color: #333333;
         }
 
         .nav-text {
@@ -217,6 +218,7 @@
             color: #333333;
         }
 
+        .nav-item.active .nav-icon, 
         .nav-item.active .nav-text {
             color: #51A8FF;
         }
@@ -487,23 +489,23 @@
         
         <div class="rect-1">
             <div class="nav-item active">
-                <div class="nav-icon">🏠</div>
+                <i class="material-icons nav-icon">home</i>
                 <div class="nav-text">主頁面</div>
             </div>
             <div class="nav-item">
-                <div class="nav-icon">📊</div>
+                <i class="material-icons nav-icon">insert_chart</i>
                 <div class="nav-text">統計</div>
             </div>
             <div class="nav-item">
-                <div class="nav-icon">📚</div>
+                <i class="material-icons nav-icon">import_contacts</i>
                 <div class="nav-text">題庫</div>
             </div>
             <div class="nav-item">
-                <div class="nav-icon">🏅</div>
+                <i class="material-icons nav-icon">military_tech</i>
                 <div class="nav-text">成就</div>
             </div>
             <div class="nav-item">
-                <div class="nav-icon">⚙️</div>
+                <i class="material-icons nav-icon">settings</i>
                 <div class="nav-text">設定</div>
             </div>
         </div>
