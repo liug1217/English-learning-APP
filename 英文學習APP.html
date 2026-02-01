@@ -189,6 +189,35 @@
             border-radius: 42px;
             z-index: 4000;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            width: 70px;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 11px;
+            font-weight: 800;
+            color: #333333;
+        }
+
+        .nav-item.active .nav-text {
+            color: #51A8FF;
         }
 
         #stage-screen {
@@ -454,7 +483,29 @@
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
         <div class="rect-5"></div>
-        <div class="rect-1"></div>
+        
+        <div class="rect-1">
+            <div class="nav-item active">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-text">主頁面</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">📊</div>
+                <div class="nav-text">統計</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">📚</div>
+                <div class="nav-text">題庫</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">🏅</div>
+                <div class="nav-text">成就</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">⚙️</div>
+                <div class="nav-text">設定</div>
+            </div>
+        </div>
     </div>
 
     <div id="stage-screen">
