@@ -62,7 +62,6 @@
             margin: 0 auto;
             background-color: transparent;
         }
-        /* 矩形 6：預設隱藏，向下捲動才顯示 */
         .rect-6 {
             box-sizing: border-box;
             position: fixed;
@@ -74,7 +73,7 @@
             background-color: #FFFFFF;
             border-bottom: 1px solid #D9D9D9;
             z-index: 3000;
-            display: none; /* 由 JS 控制顯示 */
+            display: none;
         }
         .rect-2 {
             position: absolute;
@@ -175,7 +174,6 @@
             background-color: #FFFFFF;
             border-radius: 30px;
         }
-        /* 矩形 1：改為固定在螢幕上不隨捲動消失 */
         .rect-1 {
             position: fixed;
             width: 420px;
@@ -289,35 +287,38 @@
             flex-wrap: wrap;
             align-content: flex-start;
             gap: 10px;
-            position: relative; /* 為了定位麥克風 */
+            position: relative;
         }
-        /* 麥克風按鈕定位 */
+
+        /* 麥克風更新：更大、更低、不壓線 */
         .mic-btn-container {
             position: absolute;
             right: 0;
-            bottom: -55px; /* 在底線下方 */
+            bottom: -75px; /* 再往下移，完全避開底線 */
             display: flex;
             flex-direction: column;
             align-items: center;
             cursor: pointer;
         }
         .mic-icon {
-            font-size: 30px;
-            background: #f0f0f0;
-            width: 50px;
-            height: 50px;
+            font-size: 38px; /* 圖示加大 */
+            background: #f8f8f8;
+            width: 65px;  /* 按鈕加大 */
+            height: 65px; /* 按鈕加大 */
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid #E0E0E0;
         }
         .beta-tag {
-            font-size: 10px;
+            font-size: 11px;
             color: #51A8FF;
-            font-weight: bold;
-            margin-top: 2px;
+            font-weight: 900;
+            margin-top: 4px;
         }
+
         .word-pool-container {
             position: absolute;
             width: 440px;
@@ -467,13 +468,9 @@
         const correctWords = ["I", "am", "interested", "in", "this", "job"];
         const poolWords = ["interested", "I", "am", "this", "in", "job"];
         
-        // 矩形 6 滾動監聽
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                header.style.display = 'block';
-            } else {
-                header.style.display = 'none';
-            }
+            if (window.scrollY > 100) { header.style.display = 'block'; }
+            else { header.style.display = 'none'; }
         });
 
         function preventDefault(e) { e.preventDefault(); }
@@ -494,7 +491,6 @@
 
         function initStage() {
             poolContainer.innerHTML = '';
-            // 清空 answerArea 但保留 mic 按鈕
             const mic = answerArea.querySelector('.mic-btn-container');
             answerArea.innerHTML = '';
             answerArea.appendChild(mic);
@@ -520,7 +516,6 @@
                 answerTile.remove();
                 document.getElementById(poolId).classList.remove('used');
             };
-            // 插入在麥克風按鈕之前
             answerArea.insertBefore(answerTile, answerArea.querySelector('.mic-btn-container'));
         }
 
@@ -541,26 +536,16 @@
 
         function showAnswer() { alert("正確答案：" + correctWords.join(" ")); }
 
-        // 全新語音辨識功能
         function startSpeechRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                alert("此瀏覽器不支援語音功能");
-                return;
-            }
+            if (!SpeechRecognition) { alert("此瀏覽器不支援語音功能"); return; }
             const recognition = new SpeechRecognition();
             recognition.lang = 'en-US';
-            recognition.onstart = () => { console.log("Voice recording started"); };
             recognition.onresult = (event) => {
                 const result = event.results[0][0].transcript.toLowerCase().replace(/[.,!?;:]/g, "");
                 const target = correctWords.join(" ").toLowerCase();
-                
-                if (result === target) {
-                    alert("語音辨識成功！答案正確！");
-                    checkFinal(true);
-                } else {
-                    alert("辨識結果：" + result + "\n再試一次看看！");
-                }
+                if (result === target) { alert("語音辨識成功！答案正確！"); checkFinal(true); }
+                else { alert("辨識結果：" + result + "\n再試一次！"); }
             };
             recognition.start();
         }
