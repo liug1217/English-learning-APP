@@ -6,22 +6,23 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#AED7FF">
-    <title>核心學習英文應用程式 Core Learn English Application</title>
+    <title>英文學習應用程式系統 English Learning System</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
-            --main-font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --main-background-color: #AED7FF;
-            --white-color: #FFFFFF;
-            --primary-blue-color: #51A8FF;
-            --shadow-blue-color: #3A8CDD;
-            --text-dark-color: #333333;
-            --text-grey-color: #9A9A9A;
-            --border-light-color: #D9D9D9;
+            --main-application-font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --background-sky-blue: #AED7FF;
+            --pure-white-color: #FFFFFF;
+            --action-blue-color: #51A8FF;
+            --action-shadow-color: #3A8CDD;
+            --dark-text-color: #333333;
+            --grey-text-color: #9A9A9A;
+            --divider-light-color: #D9D9D9;
         }
 
         html {
-            background-color: var(--main-background-color);
+            background-color: var(--background-sky-blue);
+            overflow: hidden; /* 全域禁止滾動 */
         }
 
         body {
@@ -34,87 +35,44 @@
             padding-left: 0px;
             padding-right: 0px;
             width: 100%;
-            background-color: var(--main-background-color);
-            font-family: var(--main-font-family);
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            height: 100vh;
+            background-color: var(--background-sky-blue);
+            font-family: var(--main-application-font-family);
             -webkit-tap-highlight-color: rgba(0,0,0,0);
+            overflow: hidden; /* 確保主體不晃動 */
         }
 
         /* 註冊畫面區塊 */
-        #registration-overlay-screen {
+        #registration-overlay-container {
             position: fixed;
             top: 0px;
             left: 0px;
             width: 100%;
             height: 100%;
-            background-color: var(--main-background-color);
+            background-color: var(--background-sky-blue);
             z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .registration-container-card {
+        .registration-card-box {
             width: 360px;
-            background-color: var(--white-color);
+            background-color: var(--pure-white-color);
             padding-top: 50px;
             padding-bottom: 50px;
             padding-left: 30px;
             padding-right: 30px;
-            border-top-left-radius: 40px;
-            border-top-right-radius: 40px;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
+            border-radius: 40px;
             text-align: center;
             box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.15);
         }
 
-        .registration-hero-icon {
-            font-size: 70px;
-            background-color: #F0F7FF;
-            width: 110px;
-            height: 110px;
-            line-height: 110px;
-            border-top-left-radius: 50%;
-            border-top-right-radius: 50%;
-            border-bottom-left-radius: 50%;
-            border-bottom-right-radius: 50%;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 25px;
-        }
-
-        .registration-main-title {
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--text-dark-color);
-            margin-bottom: 12px;
-        }
-
-        .registration-sub-description {
-            font-size: 15px;
-            color: #888888;
-            margin-bottom: 35px;
-            line-height: 1.5;
-        }
-
-        .registration-nickname-input-field {
+        .registration-input-style {
             width: 100%;
-            padding-top: 20px;
-            padding-bottom: 20px;
-            padding-left: 20px;
-            padding-right: 20px;
-            border-top-width: 2.5px;
-            border-bottom-width: 2.5px;
-            border-left-width: 2.5px;
-            border-right-width: 2.5px;
-            border-style: solid;
-            border-color: #F0F0F0;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
+            padding: 20px;
+            border: 2.5px solid #F0F0F0;
+            border-radius: 20px;
             font-size: 17px;
             font-weight: 600;
             box-sizing: border-box;
@@ -122,25 +80,21 @@
             margin-bottom: 30px;
         }
 
-        .registration-submit-action-button {
+        .registration-confirm-button {
             width: 100%;
-            padding-top: 22px;
-            padding-bottom: 22px;
-            background-color: var(--primary-blue-color);
-            color: var(--white-color);
-            border-style: none;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
+            padding: 22px;
+            background-color: var(--action-blue-color);
+            color: var(--pure-white-color);
+            border: none;
+            border-radius: 20px;
             font-size: 19px;
             font-weight: 900;
             cursor: pointer;
-            box-shadow: 0px 6px 0px var(--shadow-blue-color);
+            box-shadow: 0px 6px 0px var(--action-shadow-color);
         }
 
-        /* 矩形 6 頂部欄位 */
-        .rectangle-number-six {
+        /* 矩形 6：僅在主頁面顯示 */
+        #rectangle-number-six-header {
             box-sizing: border-box;
             position: fixed;
             top: 0px;
@@ -148,40 +102,74 @@
             width: 440px;
             height: 110px;
             margin-left: -220px;
-            background-color: var(--white-color);
-            border-bottom-width: 1px;
-            border-bottom-style: solid;
-            border-bottom-color: var(--border-light-color);
+            background-color: var(--pure-white-color);
+            border-bottom: 1px solid var(--divider-light-color);
             z-index: 3000;
+            display: block; /* 預設顯示 */
+            overflow: hidden;
+        }
+
+        /* 矩形 6 的滾動顯示區域 */
+        .rectangle-six-scroll-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-left: 20px;
+            padding-right: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .rectangle-six-scroll-wrapper::-webkit-scrollbar {
+            display: none; /* 隱藏滾動條 */
+        }
+
+        .header-tag-item {
+            display: inline-block;
+            padding: 10px 25px;
+            margin-right: 15px;
+            background-color: #F0F0F0;
+            border-radius: 20px;
+            font-weight: 800;
+            color: var(--dark-text-color);
         }
 
         .main-application-viewport {
             display: none;
             position: relative;
             width: 440px;
-            height: 1231px;
+            height: 100vh;
             margin-left: auto;
             margin-right: auto;
+            overflow: hidden;
         }
 
-        /* 主頁面元件 (矩形 2-10) */
-        .rectangle-number-two { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: var(--white-color); border-radius: 30px; }
+        /* 主頁面佈局 */
+        #view-page-home-content {
+            width: 440px;
+            height: 100vh;
+            position: relative;
+            overflow-y: auto; /* 僅主頁面允許滾動 */
+        }
+
+        .rectangle-number-two { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: var(--pure-white-color); border-radius: 30px; }
         .fire-status-icon { position: absolute; left: 25px; top: 140px; font-weight: 900; font-size: 45px; z-index: 11; }
         .text-streak-count { position: absolute; width: 150px; left: 80px; top: 130px; font-weight: 800; font-size: 15px; z-index: 10; }
         .ellipse-day-indicator { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
-        .label-day-of-week { position: absolute; width: 12px; top: 162px; font-size: 12px; color: var(--text-grey-color); z-index: 11; font-weight: 600; }
         
-        .rectangle-number-seven { position: absolute; width: 70px; height: 90px; left: 360px; top: 251px; background-color: var(--white-color); border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
-        .rectangle-number-eight { position: absolute; width: 70px; height: 90px; left: 360px; top: 341px; background-color: var(--white-color); border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
-        .rectangle-number-nine { position: absolute; width: 70px; height: 90px; left: 360px; top: 431px; background-color: var(--white-color); border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
-        .rectangle-number-ten { position: absolute; width: 70px; height: 90px; left: 360px; top: 521px; background-color: var(--white-color); border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rectangle-number-seven { position: absolute; width: 70px; height: 90px; left: 360px; top: 251px; background-color: var(--pure-white-color); border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rectangle-number-eight { position: absolute; width: 70px; height: 90px; left: 360px; top: 341px; background-color: var(--pure-white-color); border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rectangle-number-nine { position: absolute; width: 70px; height: 90px; left: 360px; top: 431px; background-color: var(--pure-white-color); border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rectangle-number-ten { position: absolute; width: 70px; height: 90px; left: 360px; top: 521px; background-color: var(--pure-white-color); border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
         
-        .rectangle-number-three { position: absolute; width: 381px; height: 400px; left: 10px; top: 251px; background-color: var(--white-color); border-radius: 30px; }
-        .rectangle-number-four-button { position: absolute; width: 312px; height: 85px; left: 30px; top: 530px; background-color: var(--primary-blue-color); border-radius: 30px; z-index: 20; cursor: pointer; box-shadow: 0px 6px 0px var(--shadow-blue-color); }
-        .text-label-today-lesson { position: absolute; width: 120px; left: 126px; top: 555px; font-weight: 900; font-size: 30px; color: var(--white-color); z-index: 21; pointer-events: none; }
-        .rectangle-number-five { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: var(--white-color); border-radius: 30px; }
+        .rectangle-number-three { position: absolute; width: 381px; height: 400px; left: 10px; top: 251px; background-color: var(--pure-white-color); border-radius: 30px; }
+        .rectangle-number-four-button { position: absolute; width: 312px; height: 85px; left: 30px; top: 530px; background-color: var(--action-blue-color); border-radius: 30px; z-index: 20; cursor: pointer; box-shadow: 0px 6px 0px var(--action-shadow-color); }
+        .text-label-today-lesson { position: absolute; width: 120px; left: 126px; top: 555px; font-weight: 900; font-size: 30px; color: var(--pure-white-color); z-index: 21; pointer-events: none; }
+        .rectangle-number-five { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: var(--pure-white-color); border-radius: 30px; }
         
-        /* 底部導覽列矩形 1 */
+        /* 底部導覽列 */
         .rectangle-number-one-navigation {
             position: fixed;
             width: 420px;
@@ -191,104 +179,105 @@
             margin-left: -210px;
             background-color: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-top-width: 1px;
-            border-bottom-width: 1px;
-            border-left-width: 1px;
-            border-right-width: 1px;
-            border-style: solid;
-            border-color: rgba(255, 255, 255, 0.5);
-            border-top-left-radius: 42px;
-            border-top-right-radius: 42px;
-            border-bottom-left-radius: 42px;
-            border-bottom-right-radius: 42px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 42px;
             z-index: 4000;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding-left: 10px;
-            padding-right: 10px;
-            box-sizing: border-box;
         }
 
-        .navigation-tab-item { display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; width: 70px; }
-        .navigation-tab-icon { font-size: 30px; margin-bottom: 4px; color: var(--text-dark-color); }
-        .navigation-tab-text { font-size: 11px; font-weight: 800; color: var(--text-dark-color); }
-        .navigation-tab-item.is-active .navigation-tab-icon { color: var(--primary-blue-color); }
-        .navigation-tab-item.is-active .navigation-tab-text { color: var(--primary-blue-color); }
+        .navigation-tab-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .navigation-tab-item.is-active i, .navigation-tab-item.is-active div { color: var(--action-blue-color); }
 
-        /* 子頁面通用樣式 */
-        .sub-application-page-view { display: none; position: absolute; top: 110px; left: 0px; width: 440px; height: 725px; padding-top: 25px; padding-bottom: 25px; padding-left: 25px; padding-right: 25px; box-sizing: border-box; overflow-y: auto; }
-        .sub-page-title-header { font-size: 30px; font-weight: 900; color: var(--white-color); margin-bottom: 25px; display: flex; align-items: center; gap: 12px; text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); }
-        .sub-page-card-container { background-color: var(--white-color); border-radius: 30px; padding-top: 30px; padding-bottom: 30px; padding-left: 30px; padding-right: 30px; margin-bottom: 25px; box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05); }
+        /* 子頁面（全部固定不滾動） */
+        .sub-application-page-view {
+            display: none;
+            position: absolute;
+            top: 10px; /* 因為矩形6隱藏了，所以稍微往上靠 */
+            left: 0px;
+            width: 440px;
+            height: 820px; /* 固定高度 */
+            padding: 25px;
+            box-sizing: border-box;
+            overflow: hidden; /* 固定不能移動 */
+        }
 
-        /* 加大版設定開關 */
-        .toggle-switch-component-large {
-            width: 100px;
-            height: 50px;
+        /* 修正後的設定開關尺寸 */
+        .toggle-switch-optimized {
+            width: 65px; /* 不大不小剛剛好 */
+            height: 34px;
             background-color: #E0E0E0;
-            border-radius: 30px;
+            border-radius: 20px;
             position: relative;
             cursor: pointer;
-            transition-duration: 0.3s;
+            transition: 0.3s;
         }
 
-        .toggle-switch-component-large.is-on {
+        .toggle-switch-optimized.is-on {
             background-color: #07C160;
         }
 
-        .toggle-switch-handle-circle {
+        .toggle-handle-optimized {
             position: absolute;
-            width: 42px;
-            height: 42px;
-            background-color: var(--white-color);
+            width: 28px;
+            height: 28px;
+            background-color: white;
             border-radius: 50%;
-            top: 4px;
-            left: 4px;
-            transition-duration: 0.3s;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            top: 3px;
+            left: 3px;
+            transition: 0.3s;
+            box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
         }
 
-        .toggle-switch-component-large.is-on .toggle-switch-handle-circle {
-            left: 54px;
+        .toggle-switch-optimized.is-on .toggle-handle-optimized {
+            left: 34px;
         }
 
-        /* 關卡畫面樣式 */
-        #stage-gameplay-screen { display: none; position: relative; width: 440px; height: 956px; margin-left: auto; margin-right: auto; background-color: var(--main-background-color); overflow: hidden; }
-        .stage-top-navigation-bar { position: absolute; width: 440px; height: 100px; top: 40px; display: flex; align-items: center; padding-left: 20px; padding-right: 20px; box-sizing: border-box; }
-        .stage-back-arrow-button { font-size: 32px; color: var(--white-color); font-weight: 800; cursor: pointer; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px; }
-        .stage-progress-track-background { flex: 1; height: 30px; background-color: rgba(255, 255, 255, 0.4); border-radius: 15px; margin-left: 20px; margin-right: 20px; position: relative; overflow: hidden; }
-        .stage-progress-track-fill-bar { width: 0%; height: 100%; background-color: var(--white-color); border-radius: 15px; transition: width 0.4s; }
-        .stage-question-display-card { position: absolute; width: 400px; height: 420px; left: 20px; top: 130px; background-color: var(--white-color); border-radius: 40px; padding-top: 45px; padding-bottom: 45px; padding-left: 45px; padding-right: 45px; box-sizing: border-box; }
-        .stage-chinese-text-content { font-size: 28px; font-weight: 800; color: var(--text-dark-color); margin-bottom: 40px; }
-        .stage-answer-drop-zone { display: flex; flex-wrap: wrap; gap: 12px; border-bottom-width: 2.5px; border-bottom-style: solid; border-bottom-color: #F0F0F0; min-height: 110px; padding-bottom: 10px; }
-        .stage-word-pool-bottom-container { position: absolute; width: 440px; height: 400px; left: 0px; top: 580px; background-color: var(--white-color); border-top-left-radius: 50px; border-top-right-radius: 50px; }
-        .stage-word-pool-grid-layout { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 14px; padding-top: 40px; padding-bottom: 40px; padding-left: 40px; padding-right: 40px; }
-        .stage-word-clickable-tile { background-color: var(--white-color); border-top-width: 1.5px; border-bottom-width: 1.5px; border-left-width: 1.5px; border-right-width: 1.5px; border-style: solid; border-color: #EAEAEA; border-radius: 20px; padding-top: 12px; padding-bottom: 12px; padding-left: 22px; padding-right: 22px; font-weight: 700; font-size: 20px; color: var(--text-dark-color); box-shadow: 0px 5px 0px #EAEAEA; cursor: pointer; }
-        .stage-word-clickable-tile.is-already-used { visibility: hidden; }
-        .stage-final-verify-action-button { position: absolute; bottom: 45px; left: 50%; transform: translateX(-50%); width: 380px; height: 85px; background-color: var(--primary-blue-color); border-radius: 30px; display: flex; align-items: center; justify-content: center; color: var(--white-color); font-weight: 900; font-size: 26px; cursor: pointer; box-shadow: 0px 8px 0px var(--shadow-blue-color); }
+        /* 原始版關卡介面還原 */
+        #stage-gameplay-screen { 
+            display: none; 
+            position: relative; 
+            width: 440px; 
+            height: 956px; 
+            margin: 0 auto; 
+            background-color: var(--background-sky-blue); 
+        }
+        .back-arrow { font-size: 32px; color: white; position: absolute; left: 20px; top: 50px; cursor: pointer; }
+        .question-box { position: absolute; width: 400px; height: 420px; left: 20px; top: 130px; background: white; border-radius: 40px; padding: 40px; box-sizing: border-box; }
+        .word-pool { position: absolute; width: 440px; height: 400px; left: 0; top: 580px; background: white; border-top-left-radius: 40px; border-top-right-radius: 40px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 10px; padding: 20px; }
+        .word-tile { padding: 10px 20px; background: white; border: 1px solid #E0E0E0; border-radius: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px #E0E0E0; }
+        .word-tile.used { visibility: hidden; }
+        .verify-btn { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); width: 300px; height: 80px; background: var(--action-blue-color); color: white; border-radius: 25px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; box-shadow: 0 6px var(--action-shadow-color); cursor: pointer; }
+
     </style>
 </head>
 <body>
 
-    <div id="registration-overlay-screen">
-        <div class="registration-container-card">
-            <div class="registration-hero-icon">🎯</div>
-            <div class="registration-main-title">核心學習 Core Learn</div>
-            <div class="registration-sub-description">歡迎加入！請先建立您的學習暱稱以開始今日的英文單字冒險任務。</div>
-            <input type="text" id="user-nickname-text-input" class="registration-nickname-input-field" placeholder="請在此輸入您的暱稱...">
-            <button class="registration-submit-action-button" onclick="handleApplicationStartFlow()">開始學習任務</button>
+    <div id="registration-overlay-container">
+        <div class="registration-card-box">
+            <h2 style="margin-bottom: 10px;">核心學習 Core Learn</h2>
+            <p style="color: #888; margin-bottom: 30px;">請輸入暱稱開始</p>
+            <input type="text" id="nickname-input" class="registration-input-style" placeholder="學習者暱稱">
+            <button class="registration-confirm-button" onclick="startApp()">進入系統</button>
         </div>
     </div>
 
-    <div id="application-main-content-wrapper" class="main-application-viewport">
-        <div id="header-rectangle-six" class="rectangle-number-six"></div>
+    <div id="application-content-area" class="main-application-viewport">
+        <div id="rectangle-number-six-header">
+            <div class="rectangle-six-scroll-wrapper">
+                <div class="header-tag-item">推薦學習</div>
+                <div class="header-tag-item">熱門單字</div>
+                <div class="header-tag-item">核心課程</div>
+                <div class="header-tag-item">進階語法</div>
+                <div class="header-tag-item">聽力訓練</div>
+            </div>
+        </div>
         
         <div id="view-page-home-content">
             <div class="rectangle-number-two"></div>
             <div class="fire-status-icon">🔥</div>
             <div class="text-streak-count">連續學習 0 天</div>
-            
             <div class="ellipse-day-indicator" style="left: 81px;"></div>
             <div class="ellipse-day-indicator" style="left: 121px;"></div>
             <div class="ellipse-day-indicator" style="left: 161px;"></div>
@@ -297,362 +286,127 @@
             <div class="ellipse-day-indicator" style="left: 281px;"></div>
             <div class="ellipse-day-indicator" style="left: 321px;"></div>
             
-            <div class="label-day-of-week" style="left: 90px;">六</div>
-            <div class="label-day-of-week" style="left: 130px;">日</div>
-            <div class="label-day-of-week" style="left: 170px;">一</div>
-            <div class="label-day-of-week" style="left: 210px;">二</div>
-            <div class="label-day-of-week" style="left: 250px;">三</div>
-            <div class="label-day-of-week" style="left: 290px;">四</div>
-            <div class="label-day-of-week" style="left: 330px;">五</div>
-            
             <div class="rectangle-number-seven"></div>
             <div class="rectangle-number-eight"></div>
             <div class="rectangle-number-nine"></div>
             <div class="rectangle-number-ten"></div>
             
             <div class="rectangle-number-three"></div>
-            <div id="home-action-button-today" class="rectangle-number-four-button"></div>
+            <div id="action-trigger-quiz" class="rectangle-number-four-button"></div>
             <div class="text-label-today-lesson">今日單字</div>
             <div class="rectangle-number-five"></div>
         </div>
 
         <div id="view-page-statistics-content" class="sub-application-page-view">
-            <div class="sub-page-title-header"><i class="material-icons">insert_chart</i>學習數據統計分析</div>
-            <div class="sub-page-card-container">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: center;">
-                    <div style="padding-top: 10px; padding-bottom: 10px;">
-                        <div style="font-size: 26px; font-weight: 900; color: var(--primary-blue-color);">0</div>
-                        <div style="font-size: 14px; font-weight: 700;">挑戰總次數</div>
-                    </div>
-                    <div style="padding-top: 10px; padding-bottom: 10px;">
-                        <div style="font-size: 26px; font-weight: 900; color: var(--primary-blue-color);">0%</div>
-                        <div style="font-size: 14px; font-weight: 700;">平均正確率</div>
-                    </div>
-                </div>
-            </div>
-            <div class="sub-page-card-container">
-                <div style="font-weight: 800; margin-bottom: 15px;">每週學習分佈</div>
-                <div style="height: 100px; display: flex; align-items: flex-end; justify-content: space-between; padding-left: 10px; padding-right: 10px;">
-                    <div style="width: 20px; height: 10%; background-color: #E0E0E0; border-radius: 5px;"></div>
-                    <div style="width: 20px; height: 30%; background-color: #E0E0E0; border-radius: 5px;"></div>
-                    <div style="width: 20px; height: 15%; background-color: #E0E0E0; border-radius: 5px;"></div>
-                    <div style="width: 20px; height: 60%; background-color: #E0E0E0; border-radius: 5px;"></div>
-                    <div style="width: 20px; height: 40%; background-color: #E0E0E0; border-radius: 5px;"></div>
-                    <div style="width: 20px; height: 80%; background-color: var(--primary-blue-color); border-radius: 5px;"></div>
-                    <div style="width: 20px; height: 20%; background-color: #E0E0E0; border-radius: 5px;"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-page-library-content" class="sub-application-page-view">
-            <div class="sub-page-title-header"><i class="material-icons">import_contacts</i>核心題庫資源</div>
-            <div class="sub-page-card-container" style="color: #999999; text-align: center; padding-top: 60px; padding-bottom: 60px;">
-                <i class="material-icons" style="font-size: 60px; margin-bottom: 15px;">folder_open</i>
-                <div style="font-weight: 700; font-size: 18px;">目前尚無已儲存的單字庫</div>
-                <div style="font-size: 14px; margin-top: 10px;">完成今日挑戰後，單字將自動歸檔至此。</div>
-            </div>
-        </div>
-
-        <div id="view-page-achievement-content" class="sub-application-page-view">
-            <div class="sub-page-title-header"><i class="material-icons">military_tech</i>個人成就與榮譽</div>
-            <div class="sub-page-card-container">
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center;">
-                    <div style="opacity: 0.25;">
-                        <div style="font-size: 45px; margin-bottom: 5px;">🏅</div>
-                        <div style="font-size: 12px; font-weight: 800;">初試啼聲</div>
-                    </div>
-                    <div style="opacity: 0.25;">
-                        <div style="font-size: 45px; margin-bottom: 5px;">🚀</div>
-                        <div style="font-size: 12px; font-weight: 800;">單字先鋒</div>
-                    </div>
-                    <div style="opacity: 0.25;">
-                        <div style="font-size: 45px; margin-bottom: 5px;">🔥</div>
-                        <div style="font-size: 12px; font-weight: 800;">狂熱學徒</div>
-                    </div>
-                    <div style="opacity: 0.25; margin-top: 20px;">
-                        <div style="font-size: 45px; margin-bottom: 5px;">💎</div>
-                        <div style="font-size: 12px; font-weight: 800;">語言專家</div>
-                    </div>
-                    <div style="opacity: 0.25; margin-top: 20px;">
-                        <div style="font-size: 45px; margin-bottom: 5px;">👑</div>
-                        <div style="font-size: 12px; font-weight: 800;">至尊王者</div>
-                    </div>
-                    <div style="opacity: 0.25; margin-top: 20px;">
-                        <div style="font-size: 45px; margin-bottom: 5px;">🌟</div>
-                        <div style="font-size: 12px; font-weight: 800;">明日之星</div>
-                    </div>
-                </div>
+            <h1 style="color: white;">學習統計</h1>
+            <div style="background: white; border-radius: 20px; padding: 20px;">
+                <p>完成進度：0%</p>
+                <p>正確率：0%</p>
             </div>
         </div>
 
         <div id="view-page-settings-content" class="sub-application-page-view">
-            <div class="sub-page-title-header"><i class="material-icons">settings</i>應用程式偏好設定</div>
-            <div class="sub-page-card-container">
-                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 15px; padding-bottom: 15px; border-bottom: 1px solid #F0F0F0;">
-                    <div style="display: flex; flex-direction: column;">
-                        <span style="font-weight: 800; font-size: 18px; color: var(--text-dark-color);">練習提醒音效</span>
-                        <span style="font-size: 12px; color: #888888;">在正確或錯誤時播放提示聲</span>
-                    </div>
-                    <div id="toggle-audio-setting" class="toggle-switch-component-large is-on" onclick="this.classList.toggle('is-on')">
-                        <div class="toggle-switch-handle-circle"></div>
+            <h1 style="color: white;">系統設定</h1>
+            <div style="background: white; border-radius: 20px; padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <span style="font-weight: 800;">音效開關</span>
+                    <div class="toggle-switch-optimized is-on" onclick="this.classList.toggle('is-on')">
+                        <div class="toggle-handle-optimized"></div>
                     </div>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 15px; padding-bottom: 15px;">
-                    <div style="display: flex; flex-direction: column;">
-                        <span style="font-weight: 800; font-size: 18px; color: var(--text-dark-color);">深色模式介面</span>
-                        <span style="font-size: 12px; color: #888888;">切換為適合夜間閱讀的色彩</span>
-                    </div>
-                    <div id="toggle-dark-mode-setting" class="toggle-switch-component-large" onclick="this.classList.toggle('is-on')">
-                        <div class="toggle-switch-handle-circle"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="sub-page-card-container" style="padding-top: 20px; padding-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-weight: 800; color: var(--text-dark-color);">目前的版本號碼</span>
-                    <span style="font-weight: 600; color: #888888;">Version 2.4.0 (BETA)</span>
+                    <span style="font-weight: 800;">護眼模式</span>
+                    <div class="toggle-switch-optimized" onclick="this.classList.toggle('is-on')">
+                        <div class="toggle-handle-optimized"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="sub-page-card-container" style="background-color: #FFF5F5; border: 1px solid #FFE0E0; cursor: pointer;" onclick="window.location.reload()">
-                <div style="color: #FF4B4B; font-weight: 900; text-align: center; font-size: 18px;">登出目前的學習帳戶</div>
             </div>
         </div>
 
-        <div id="bottom-navigation-rectangle-one" class="rectangle-number-one-navigation">
-            <div id="nav-item-home" class="navigation-tab-item is-active" onclick="handleNavigationTabSwitchFlow(0)">
-                <i class="material-icons navigation-tab-icon">home</i>
-                <div class="navigation-tab-text">主頁面</div>
+        <div class="rectangle-number-one-navigation">
+            <div class="navigation-tab-item is-active" onclick="switchNav(0)">
+                <i class="material-icons">home</i><div>主頁面</div>
             </div>
-            <div id="nav-item-stats" class="navigation-tab-item" onclick="handleNavigationTabSwitchFlow(1)">
-                <i class="material-icons navigation-tab-icon">insert_chart</i>
-                <div class="navigation-tab-text">數據統計</div>
+            <div class="navigation-tab-item" onclick="switchNav(1)">
+                <i class="material-icons">insert_chart</i><div>統計</div>
             </div>
-            <div id="nav-item-library" class="navigation-tab-item" onclick="handleNavigationTabSwitchFlow(2)">
-                <i class="material-icons navigation-tab-icon">import_contacts</i>
-                <div class="navigation-tab-text">題庫庫存</div>
-            </div>
-            <div id="nav-item-achieve" class="navigation-tab-item" onclick="handleNavigationTabSwitchFlow(3)">
-                <i class="material-icons navigation-tab-icon">military_tech</i>
-                <div class="navigation-tab-text">成就榮譽</div>
-            </div>
-            <div id="nav-item-settings" class="navigation-tab-item" onclick="handleNavigationTabSwitchFlow(4)">
-                <i class="material-icons navigation-tab-icon">settings</i>
-                <div class="navigation-tab-text">設定選項</div>
+            <div class="navigation-tab-item" onclick="switchNav(2)">
+                <i class="material-icons">settings</i><div>設定</div>
             </div>
         </div>
     </div>
 
     <div id="stage-gameplay-screen">
-        <div class="stage-top-navigation-bar">
-            <div class="stage-back-arrow-button" onclick="handleExitGameplayStageFlow()">〈</div>
-            <div class="stage-progress-track-background">
-                <div id="stage-progress-track-fill-bar-element" class="stage-progress-track-fill-bar"></div>
-            </div>
-            <div style="color: var(--white-color); font-weight: 900; font-size: 22px; display: flex; align-items: center; gap: 5px;">
-                <span>❤️</span>
-                <span id="stage-health-points-display">5</span>
-            </div>
+        <div class="back-arrow" onclick="exitQuiz()">〈</div>
+        <div class="question-box">
+            <h2 id="q-chinese">我對這份工作感興趣。</h2>
+            <div id="ans-area" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; border-bottom: 1px solid #EEE; min-height: 50px;"></div>
         </div>
-        <div class="stage-question-display-card">
-            <div id="stage-chinese-translation-text-element" class="stage-chinese-text-content">正在準備題目中...</div>
-            <div id="stage-answer-drop-zone-element" class="stage-answer-drop-zone"></div>
-        </div>
-        <div class="stage-word-pool-bottom-container">
-            <div id="stage-word-pool-grid-layout-element" class="stage-word-pool-grid-layout"></div>
-        </div>
-        <div id="stage-verify-answer-button" class="stage-final-verify-action-button" onclick="handleVerifyUserAnswerFlow()">驗證我的答案</div>
+        <div class="word-pool" id="pool-area"></div>
+        <div class="verify-btn" onclick="checkAns()">驗證答案</div>
     </div>
 
     <script>
-        /**
-         * 應用程式全域常數定義與題庫資料
-         */
-        const coreQuestionDatabase = [
-            { 
-                chinese_text: "我對這份工作感興趣。", 
-                english_word_array: ["I", "am", "interested", "in", "this", "job"] 
-            },
-            { 
-                chinese_text: "天氣今天很好。", 
-                english_word_array: ["The", "weather", "is", "nice", "today"] 
-            },
-            {
-                chinese_text: "我想喝一杯咖啡。",
-                english_word_array: ["I", "want", "to", "drink", "a", "cup", "of", "coffee"]
-            }
-        ];
+        let quizData = { q: "我對這份工作感興趣。", a: ["I", "am", "interested", "in", "this", "job"] };
 
-        /**
-         * 應用程式執行狀態變數
-         */
-        let currentActiveQuestionIndex = 0;
-        let currentUserCurrentNickname = "";
-        let currentActiveNavigationIndex = 0;
-
-        /**
-         * 初始化應用程式並處理註冊流程
-         */
-        function handleApplicationStartFlow() {
-            const nicknameInputElement = document.getElementById('user-nickname-text-input');
-            const nicknameValue = nicknameInputElement.value.trim();
-
-            if (nicknameValue === "") {
-                window.alert("系統提示：請務必輸入您的學習暱稱，這將作為您的存檔識別。");
-                return;
-            }
-
-            currentUserCurrentNickname = nicknameValue;
-            
-            // 隱藏註冊畫面，顯示主應用程式
-            const registrationOverlay = document.getElementById('registration-overlay-screen');
-            const mainApplicationWrapper = document.getElementById('application-main-content-wrapper');
-            
-            registrationOverlay.style.display = 'none';
-            mainApplicationWrapper.style.display = 'block';
-            
-            console.log("應用程式初始化完成，使用者：" + currentUserCurrentNickname);
+        function startApp() {
+            if(document.getElementById('nickname-input').value === "") return alert("請輸入暱稱");
+            document.getElementById('registration-overlay-container').style.display = 'none';
+            document.getElementById('application-content-area').style.display = 'block';
         }
 
-        /**
-         * 處理底部導覽列切換流程
-         */
-        function handleNavigationTabSwitchFlow(targetTabIndex) {
-            const pageViewIdentifiers = [
-                'view-page-home-content', 
-                'view-page-statistics-content', 
-                'view-page-library-content', 
-                'view-page-achievement-content', 
-                'view-page-settings-content'
-            ];
+        function switchNav(idx) {
+            const header = document.getElementById('rectangle-number-six-header');
+            const pages = ['view-page-home-content', 'view-page-statistics-content', 'view-page-settings-content'];
+            const navs = document.querySelectorAll('.navigation-tab-item');
             
-            const navigationItemElements = [
-                document.getElementById('nav-item-home'),
-                document.getElementById('nav-item-stats'),
-                document.getElementById('nav-item-library'),
-                document.getElementById('nav-item-achieve'),
-                document.getElementById('nav-item-settings')
-            ];
+            pages.forEach((p, i) => {
+                document.getElementById(p).style.display = (i === idx) ? 'block' : 'none';
+                navs[i].classList.toggle('is-active', i === idx);
+            });
 
-            // 遍歷所有頁面與導覽項目進行切換
-            for (let i = 0; i < pageViewIdentifiers.length; i++) {
-                const currentPageElement = document.getElementById(pageViewIdentifiers[i]);
-                const currentNavItem = navigationItemElements[i];
-
-                if (i === targetTabIndex) {
-                    currentPageElement.style.display = 'block';
-                    currentNavItem.classList.add('is-active');
-                } else {
-                    currentPageElement.style.display = 'none';
-                    currentNavItem.classList.remove('is-active');
-                }
-            }
-            
-            currentActiveNavigationIndex = targetTabIndex;
+            // 關鍵更新：只有在主頁面（idx 為 0）時顯示矩形 6
+            header.style.display = (idx === 0) ? 'block' : 'none';
         }
 
-        /**
-         * 點擊今日單字按鈕，進入遊戲關卡
-         */
-        document.getElementById('home-action-button-today').onclick = function() {
-            const mainWrapper = document.getElementById('application-main-content-wrapper');
-            const stageScreen = document.getElementById('stage-gameplay-screen');
-            
-            mainWrapper.style.display = 'none';
-            stageScreen.style.display = 'block';
-            
-            currentActiveQuestionIndex = 0;
-            handleLoadQuestionToStageFlow();
+        document.getElementById('action-trigger-quiz').onclick = function() {
+            document.getElementById('application-content-area').style.display = 'none';
+            document.getElementById('stage-gameplay-screen').style.display = 'block';
+            initQuiz();
         };
 
-        /**
-         * 載入題目資料至遊戲畫面
-         */
-        function handleLoadQuestionToStageFlow() {
-            const currentData = coreQuestionDatabase[currentActiveQuestionIndex];
-            
-            const chineseDisplay = document.getElementById('stage-chinese-translation-text-element');
-            const wordPoolLayout = document.getElementById('stage-word-pool-grid-layout-element');
-            const answerDropZone = document.getElementById('stage-answer-drop-zone-element');
-            const progressBarFill = document.getElementById('stage-progress-track-fill-bar-element');
-            
-            // 更新進度條
-            const progressPercentage = (currentActiveQuestionIndex / coreQuestionDatabase.length) * 100;
-            progressBarFill.style.width = progressPercentage + '%';
-            
-            // 清除舊資料
-            chineseDisplay.innerText = currentData.chinese_text;
-            wordPoolLayout.innerHTML = '';
-            answerDropZone.innerHTML = '';
-            
-            // 建立單字選項
-            currentData.english_word_array.forEach(function(wordString) {
-                const wordTileElement = document.createElement('div');
-                wordTileElement.className = 'stage-word-clickable-tile';
-                wordTileElement.innerText = wordString;
-                
-                wordTileElement.onclick = function() {
-                    // 建立選中的單字放置到回答區
-                    const placedWordElement = document.createElement('div');
-                    placedWordElement.className = 'stage-word-clickable-tile';
-                    placedWordElement.innerText = wordString;
-                    
-                    placedWordElement.onclick = function() {
-                        placedWordElement.remove();
-                        wordTileElement.classList.remove('is-already-used');
-                    };
-                    
-                    answerDropZone.appendChild(placedWordElement);
-                    wordTileElement.classList.add('is-already-used');
+        function initQuiz() {
+            const pool = document.getElementById('pool-area');
+            const ans = document.getElementById('ans-area');
+            pool.innerHTML = ''; ans.innerHTML = '';
+            quizData.a.forEach(w => {
+                const tile = document.createElement('div');
+                tile.className = 'word-tile';
+                tile.innerText = w;
+                tile.onclick = function() {
+                    if(tile.classList.contains('used')) return;
+                    const clone = tile.cloneNode(true);
+                    clone.onclick = function() { clone.remove(); tile.classList.remove('used'); };
+                    ans.appendChild(clone);
+                    tile.classList.add('used');
                 };
-                
-                wordPoolLayout.appendChild(wordTileElement);
+                pool.appendChild(tile);
             });
         }
 
-        /**
-         * 驗證使用者輸入的答案是否正確
-         */
-        function handleVerifyUserAnswerFlow() {
-            const dropZoneElement = document.getElementById('stage-answer-drop-zone-element');
-            const currentSelectedWords = Array.from(dropZoneElement.children).map(function(child) {
-                return child.innerText;
-            });
-            
-            const targetAnswerArray = coreQuestionDatabase[currentActiveQuestionIndex].english_word_array;
-            
-            const userString = currentSelectedWords.join(' ');
-            const targetString = targetAnswerArray.join(' ');
-            
-            if (userString === targetString) {
-                currentActiveQuestionIndex = currentActiveQuestionIndex + 1;
-                
-                if (currentActiveQuestionIndex < coreQuestionDatabase.length) {
-                    handleLoadQuestionToStageFlow();
-                } else {
-                    document.getElementById('stage-progress-track-fill-bar-element').style.width = '100%';
-                    
-                    window.setTimeout(function() {
-                        window.alert("完美達成！您已成功完成今日所有的英文單字練習。");
-                        handleExitGameplayStageFlow();
-                    }, 400);
-                }
+        function checkAns() {
+            const user = Array.from(document.getElementById('ans-area').children).map(e => e.innerText).join(' ');
+            if(user === quizData.a.join(' ')) {
+                alert("正確！");
+                exitQuiz();
             } else {
-                window.alert("答案有誤，請仔細檢查英文語法順序後再試一次！");
+                alert("錯誤，再試試看。");
             }
         }
 
-        /**
-         * 退出關卡畫面回到主頁面
-         */
-        function handleExitGameplayStageFlow() {
-            const stageScreen = document.getElementById('stage-gameplay-screen');
-            const mainWrapper = document.getElementById('application-main-content-wrapper');
-            
-            stageScreen.style.display = 'none';
-            mainWrapper.style.display = 'block';
-            
-            // 回到主頁面時預設切換回 Home
-            handleNavigationTabSwitchFlow(0);
+        function exitQuiz() {
+            document.getElementById('stage-gameplay-screen').style.display = 'none';
+            document.getElementById('application-content-area').style.display = 'block';
         }
     </script>
 </body>
