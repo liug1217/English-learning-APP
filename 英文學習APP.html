@@ -10,8 +10,8 @@
     <style>
         :root {
             --main-font: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --primary-blue: #51A8FF;
-            --nav-gray: #8E8E93;
+            --nav-active: #51A8FF;
+            --nav-inactive: #333333;
         }
 
         html {
@@ -79,12 +79,12 @@
             border-radius: 30px;
         }
 
-        .fire-icon-svg {
+        .fire-icon {
             position: absolute;
             left: 25px;
-            top: 135px;
-            width: 45px;
-            height: 45px;
+            top: 140px;
+            font-weight: 900;
+            font-size: 45px;
             z-index: 11;
         }
 
@@ -207,30 +207,50 @@
             width: 70px;
         }
 
-        .nav-icon-svg {
+        .icon-box {
             width: 28px;
             height: 28px;
-            margin-bottom: 4px;
-            stroke: var(--nav-gray);
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
+            margin-bottom: 5px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .nav-text {
             font-size: 11px;
             font-weight: 800;
-            color: var(--nav-gray);
-        }
-
-        .nav-item.active .nav-icon-svg {
-            stroke: var(--primary-blue);
+            color: var(--nav-inactive);
         }
 
         .nav-item.active .nav-text {
-            color: var(--primary-blue);
+            color: var(--nav-active);
         }
+
+        .draw-home { width: 20px; height: 18px; border: 2.5px solid var(--nav-inactive); border-top: none; position: relative; }
+        .draw-home::after { content: ""; position: absolute; top: -10px; left: -5px; width: 0; height: 0; border-left: 12.5px solid transparent; border-right: 12.5px solid transparent; border-bottom: 10px solid var(--nav-inactive); }
+        .nav-item.active .draw-home { border-color: var(--nav-active); }
+        .nav-item.active .draw-home::after { border-bottom-color: var(--nav-active); }
+
+        .draw-stats { display: flex; align-items: flex-end; gap: 2.5px; width: 20px; height: 18px; }
+        .draw-stats span { width: 5px; background-color: var(--nav-inactive); border-radius: 1px; }
+        .nav-item.active .draw-stats span { background-color: var(--nav-active); }
+
+        .draw-book { width: 18px; height: 22px; border: 2.5px solid var(--nav-inactive); border-radius: 2px; position: relative; }
+        .draw-book::before { content: ""; position: absolute; top: 4px; left: 3px; width: 7px; height: 2px; background: var(--nav-inactive); }
+        .draw-book::after { content: ""; position: absolute; top: 9px; left: 3px; width: 7px; height: 2px; background: var(--nav-inactive); }
+        .nav-item.active .draw-book { border-color: var(--nav-active); }
+        .nav-item.active .draw-book::before, .nav-item.active .draw-book::after { background: var(--nav-active); }
+
+        .draw-medal { width: 16px; height: 16px; border: 2.5px solid var(--nav-inactive); border-radius: 50%; position: relative; }
+        .draw-medal::after { content: ""; position: absolute; top: 14px; left: 1px; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 8px solid var(--nav-inactive); }
+        .nav-item.active .draw-medal { border-color: var(--nav-active); }
+        .nav-item.active .draw-medal::after { border-top-color: var(--nav-active); }
+
+        .draw-cog { width: 18px; height: 18px; border: 4px dotted var(--nav-inactive); border-radius: 50%; position: relative; }
+        .draw-cog::after { content: ""; position: absolute; width: 8px; height: 8px; border: 2.5px solid var(--nav-inactive); border-radius: 50%; }
+        .nav-item.active .draw-cog { border-color: var(--nav-active); }
+        .nav-item.active .draw-cog::after { border-color: var(--nav-active); }
 
         #stage-screen {
             display: none;
@@ -280,17 +300,15 @@
             transition: width 0.3s;
         }
 
-        .trophy-icon-stage {
+        .trophy-icon {
             position: absolute;
             left: -10px;
             top: -8px;
-            width: 44px;
-            height: 44px;
+            width: 44px; height: 44px;
             background-color: #FFFFFF;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
@@ -307,155 +325,79 @@
         }
 
         .heart-container {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #FFFFFF;
-            font-size: 20px;
-            font-weight: 800;
+            display: flex; align-items: center; gap: 5px;
+            color: #FFFFFF; font-size: 22px; font-weight: 800;
         }
         
         .question-card {
             position: absolute;
-            width: 400px;
-            height: 420px;
-            left: 20px;
-            top: 130px;
+            width: 400px; height: 420px;
+            left: 20px; top: 130px;
             background-color: #FFFFFF;
             border-radius: 40px;
-            padding: 40px;
-            box-sizing: border-box;
+            padding: 40px; box-sizing: border-box;
         }
 
-        .chinese-text {
-            font-weight: 700;
-            font-size: 28px;
-            color: #333333;
-            margin-bottom: 40px;
-        }
-
+        .chinese-text { font-weight: 700; font-size: 28px; color: #333333; margin-bottom: 40px; }
         .answer-area {
-            width: 100%;
-            height: 150px;
+            width: 100%; height: 150px;
             border-bottom: 2px solid #E0E0E0;
-            display: flex;
-            flex-wrap: wrap;
-            align-content: flex-start;
-            gap: 10px;
+            display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px;
             position: relative;
         }
 
         .mic-btn-container {
-            position: absolute;
-            right: 0;
-            bottom: -85px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
+            position: absolute; right: 0; bottom: -85px;
+            display: flex; flex-direction: column; align-items: center; cursor: pointer;
         }
 
-        .mic-icon-box {
+        .mic-icon {
+            font-size: 40px; 
             background: #f8f8f8;
-            width: 70px;  
-            height: 70px; 
+            width: 70px; height: 70px; 
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             border: 2px solid #E0E0E0;
         }
 
-        .beta-tag {
-            font-size: 11px;
-            color: #51A8FF;
-            font-weight: 900;
-            margin-top: 5px;
-        }
+        .beta-tag { font-size: 11px; color: #51A8FF; font-weight: 900; margin-top: 5px; }
 
         .word-pool-container {
-            position: absolute;
-            width: 440px;
-            height: 400px;
-            left: 0;
-            top: 580px;
-            background-color: #FFFFFF;
-            border-top-left-radius: 40px;
-            border-top-right-radius: 40px;
+            position: absolute; width: 440px; height: 400px; left: 0; top: 580px;
+            background-color: #FFFFFF; border-top-left-radius: 40px; border-top-right-radius: 40px;
         }
 
         .word-pool {
-            position: absolute;
-            width: 440px;
-            height: 250px;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-content: center;
-            gap: 12px;
-            padding: 30px;
-            box-sizing: border-box;
+            position: absolute; width: 440px; height: 250px; left: 0; top: 0;
+            display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 12px; padding: 30px; box-sizing: border-box;
         }
 
         .word-tile {
-            background-color: #FFFFFF;
-            border: 1px solid #E0E0E0;
-            border-radius: 18px;
-            padding: 10px 20px;
-            font-weight: 600;
-            font-size: 19px;
-            color: #333333;
-            box-shadow: 0 4px 0px #E0E0E0;
-            cursor: pointer;
-            user-select: none;
+            background-color: #FFFFFF; border: 1px solid #E0E0E0; border-radius: 18px;
+            padding: 10px 20px; font-weight: 600; font-size: 19px; color: #333333;
+            box-shadow: 0 4px 0px #E0E0E0; cursor: pointer; user-select: none;
         }
 
-        .word-tile.used {
-            visibility: hidden;
-            pointer-events: none;
-        }
+        .word-tile.used { visibility: hidden; pointer-events: none; }
         
         .bottom-actions {
-            position: absolute;
-            bottom: 40px;
-            width: 440px;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            box-sizing: border-box;
-            gap: 15px;
+            position: absolute; bottom: 40px; width: 440px;
+            display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; gap: 15px;
         }
 
         .check-btn {
-            width: 95px;
-            height: 85px;
-            background-color: #B28DFF;
-            border-radius: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #FFFFFF;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
+            width: 95px; height: 85px;
+            background-color: #B28DFF; border-radius: 25px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #FFFFFF; font-weight: 700; font-size: 13px; cursor: pointer;
         }
 
         .confirm-btn {
-            flex: 1;
-            height: 85px;
-            background-color: #51A8FF;
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #FFFFFF;
-            font-weight: 800;
-            font-size: 26px;
-            cursor: pointer;
+            flex: 1; height: 85px;
+            background-color: #51A8FF; border-radius: 25px;
+            display: flex; align-items: center; justify-content: center;
+            color: #FFFFFF; font-weight: 800; font-size: 26px; cursor: pointer;
             box-shadow: 0 6px 0px #3A8CDD;
         }
     </style>
@@ -469,12 +411,7 @@
     <div id="app-content" class="main-viewport">
         <div id="sticky-header" class="rect-6"></div>
         <div class="rect-2"></div>
-        
-        <svg class="fire-icon-svg" viewBox="0 0 24 24" fill="#FF5B00">
-            <path d="M12 2C12 2 7 5 7 10C7 13.5 9 15.5 10 16.5C10.5 17 11.5 18 11.5 19.5C11.5 20.5 11 21.5 10 22C11.5 22.5 13.5 22.5 15 21C16.5 19.5 17 17.5 17 15.5C17 12.5 15 10 12 2Z" />
-            <path d="M12 8C12 8 9.5 10 9.5 13C9.5 14.5 10.5 15.5 11 16.5C11.5 17.5 11.5 18.5 11 19.5C12 19 13 18 13.5 16.5C14 15 13.5 13.5 13.5 12C13.5 10.5 13 9 12 8Z" fill="#FFA500" />
-        </svg>
-
+        <div class="fire-icon">🔥</div>
         <div class="text-streak">連續學習 0 天</div>
         <div class="ellipse" style="left: 81px;"></div>
         <div class="ellipse" style="left: 121px;"></div>
@@ -501,23 +438,23 @@
         
         <div class="rect-1">
             <div class="nav-item active">
-                <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <div class="icon-box"><div class="draw-home"></div></div>
                 <div class="nav-text">主頁面</div>
             </div>
             <div class="nav-item">
-                <svg class="nav-icon-svg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                <div class="icon-box"><div class="draw-stats"><span style="height:10px"></span><span style="height:18px"></span><span style="height:14px"></span></div></div>
                 <div class="nav-text">統計</div>
             </div>
             <div class="nav-item">
-                <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                <div class="icon-box"><div class="draw-book"></div></div>
                 <div class="nav-text">題庫</div>
             </div>
             <div class="nav-item">
-                <svg class="nav-icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                <div class="icon-box"><div class="draw-medal"></div></div>
                 <div class="nav-text">成就</div>
             </div>
             <div class="nav-item">
-                <svg class="nav-icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <div class="icon-box"><div class="draw-cog"></div></div>
                 <div class="nav-text">設定</div>
             </div>
         </div>
@@ -527,24 +464,17 @@
         <div class="stage-nav">
             <div class="back-arrow" onclick="goBack()">〈</div>
             <div class="trophy-bar-bg">
-                <div class="trophy-icon-stage">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFD700"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 10.63 21 8.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
-                </div>
+                <div class="trophy-icon">🏆</div>
                 <div class="trophy-bar-fill" id="progress-bar"></div>
                 <div class="progress-badge" id="progress-text">0/5</div>
             </div>
-            <div class="heart-container">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF4B4B"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                <span>5</span>
-            </div>
+            <div class="heart-container"><span>❤️</span><span>5</span></div>
         </div>
         <div class="question-card">
             <div id="chinese-text" class="chinese-text">載入中...</div>
             <div id="answer-area" class="answer-area">
                 <div class="mic-btn-container" onclick="startSpeechRecognition()">
-                    <div class="mic-icon-box">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-                    </div>
+                    <div class="mic-icon">🎙️</div>
                     <div class="beta-tag">BETA</div>
                 </div>
             </div>
@@ -554,8 +484,8 @@
         </div>
         <div class="bottom-actions">
             <div class="check-btn" onclick="showAnswer()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                <span style="margin-top:5px">看答案</span>
+                <span style="font-size: 24px;">👁</span>
+                <span>觀看答案</span>
             </div>
             <div class="confirm-btn" onclick="checkFinal()">確認</div>
         </div>
@@ -583,58 +513,15 @@
             { q: "妳想要喝咖啡嗎？", a: ["Do", "you", "want", "to", "drink", "coffee"] },
             { q: "我迷路了。", a: ["I", "am", "lost"] },
             { q: "請幫我一下。", a: ["Please", "help", "me"] },
-            { q: "我很高興見到你。", a: ["I", "am", "glad", "to", "see", "you"] },
-            { q: "他跑得很快。", a: ["He", "runs", "very", "fast"] },
-            { q: "現在幾點了？", a: ["What", "time", "is", "it", "now"] },
-            { q: "這份沙拉很好吃。", a: ["This", "salad", "tastes", "good"] },
-            { q: "你家在哪裡？", a: ["Where", "is", "your", "house"] },
-            { q: "我忘記帶鑰匙了。", a: ["I", "forgot", "to", "bring", "keys"] },
-            { q: "這是一支新手機。", a: ["This", "is", "a", "new", "phone"] },
-            { q: "天快黑了。", a: ["It", "is", "getting", "dark"] },
-            { q: "這是我第一次來這裡。", a: ["This", "is", "my", "first", "time", "here"] },
-            { q: "音樂很大聲。", a: ["The", "music", "is", "very", "loud"] },
-            { q: "我需要多點時間。", a: ["I", "need", "more", "time"] },
-            { q: "這是一個秘密。", a: ["This", "is", "a", "secret"] },
-            { q: "你準備好了嗎？", a: ["Are", "you", "ready"] },
-            { q: "這條路通往哪裡？", a: ["Where", "does", "this", "road", "lead"] },
-            { q: "門是鎖著的。", a: ["The", "door", "is", "locked"] },
-            { q: "他在睡覺。", a: ["He", "is", "sleeping"] },
-            { q: "我有一隻貓。", a: ["I", "have", "a", "cat"] },
-            { q: "電影快開始了。", a: ["The", "movie", "is", "starting", "soon"] },
-            { q: "蘋果是紅色的。", a: ["Apples", "are", "red"] },
-            { q: "你在做什麼？", a: ["What", "are", "you", "doing"] },
-            { q: "謝謝你的幫忙。", a: ["Thank", "you", "for", "your", "help"] },
-            { q: "這件衣服很適合你。", a: ["This", "outfit", "suits", "you", "well"] },
-            { q: "明天會下雨。", a: ["It", "will", "rain", "tomorrow"] },
-            { q: "我正在吃午飯。", a: ["I", "am", "having", "lunch"] },
-            { q: "那隻狗在叫。", a: ["That", "dog", "is", "barking"] },
-            { q: "我很累。", a: ["I", "am", "very", "tired"] },
-            { q: "太陽升起來了。", a: ["The", "sun", "is", "rising"] },
-            { q: "這雙鞋太小了。", a: ["These", "shoes", "are", "too", "small"] },
-            { q: "請關掉燈。", a: ["Please", "turn", "off", "the", "light"] },
-            { q: "她在彈鋼琴。", a: ["She", "is", "playing", "the", "piano"] },
-            { q: "我不明白。", a: ["I", "do", "not", "understand"] },
-            { q: "這是一個好主意。", a: ["That", "is", "a", "good", "idea"] },
-            { q: "別擔心。", a: ["Do", "not", "worry"] },
-            { q: "水很涼快。", a: ["The", "water", "is", "cool"] },
-            { q: "他在學校。", a: ["He", "is", "at", "school"] },
-            { q: "你想去哪裡？", a: ["Where", "do", "you", "want", "to", "go"] },
-            { q: "這花很香。", a: ["This", "flower", "smells", "sweet"] },
-            { q: "我感冒了。", a: ["I", "have", "a", "cold"] },
-            { q: "火車站很遠。", a: ["The", "train", "station", "is", "far"] },
-            { q: "那是我的朋友。", a: ["That", "is", "my", "friend"] },
-            { q: "今天是星期一。", a: ["Today", "is", "Monday"] }
+            { q: "我很高興見到你。", a: ["I", "am", "glad", "to", "see", "you"] }
         ];
 
         let currentSessionQuestions = [];
         let currentIndex = 0;
 
         window.addEventListener('scroll', function() {
-            if (window.scrollY > 0) {
-                header.style.display = 'block';
-            } else {
-                header.style.display = 'none';
-            }
+            if (window.scrollY > 0) { header.style.display = 'block'; } 
+            else { header.style.display = 'none'; }
         });
 
         function preventDefault(e) { e.preventDefault(); }
@@ -664,25 +551,21 @@
         function loadQuestion() {
             const currentData = currentSessionQuestions[currentIndex];
             chineseLabel.innerText = currentData.q;
-            
             poolContainer.innerHTML = '';
             const mic = answerArea.querySelector('.mic-btn-container');
             answerArea.innerHTML = '';
             answerArea.appendChild(mic);
-
             const shuffledWords = shuffle([...currentData.a]);
             shuffledWords.forEach(function(word, index) {
                 const tile = document.createElement('div');
                 tile.className = 'word-tile';
                 tile.innerText = word;
-                tile.dataset.id = 'pool-' + index;
                 tile.onclick = function() {
                     createAnswerTile(word, tile);
                     tile.classList.add('used');
                 };
                 poolContainer.appendChild(tile);
             });
-
             updateProgressUI();
         }
 
@@ -720,53 +603,32 @@
             window.scrollTo(0, 0);
         }
 
-        function showAnswer() {
-            alert("正確答案：" + currentSessionQuestions[currentIndex].a.join(" "));
-        }
+        function showAnswer() { alert("正確答案：" + currentSessionQuestions[currentIndex].a.join(" ")); }
 
         function startSpeechRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                alert("此瀏覽器不支援語音功能");
-                return;
-            }
+            if (!SpeechRecognition) { alert("此瀏覽器不支援語音功能"); return; }
             const recognition = new SpeechRecognition();
             recognition.lang = 'en-US';
             recognition.onresult = function(event) {
                 const result = event.results[0][0].transcript.toLowerCase().replace(/[.,!?;:]/g, "");
                 const target = currentSessionQuestions[currentIndex].a.join(" ").toLowerCase();
-                if (result === target) {
-                    alert("語音辨識成功！答案正確！");
-                    nextQuestion();
-                } else {
-                    alert("辨識結果：" + result + "\n再試一次！");
-                }
+                if (result === target) { nextQuestion(); } 
+                else { alert("辨識結果：" + result + "\n再試一次！"); }
             };
             recognition.start();
         }
 
         function checkFinal() {
-            const current = Array.from(answerArea.querySelectorAll('.word-tile')).map(function(t) {
-                return t.innerText;
-            });
-            const target = currentSessionQuestions[currentIndex].a;
-            if (current.join(" ") === target.join(" ")) {
-                nextQuestion();
-            } else {
-                alert("順序有誤！");
-            }
+            const current = Array.from(answerArea.querySelectorAll('.word-tile')).map(function(t) { return t.innerText; });
+            if (current.join(" ") === currentSessionQuestions[currentIndex].a.join(" ")) { nextQuestion(); } 
+            else { alert("順序有誤！"); }
         }
 
         function nextQuestion() {
             currentIndex++;
-            if (currentIndex < 5) {
-                loadQuestion();
-            } else {
-                progressBar.style.width = '100%';
-                progressText.innerText = '5/5';
-                alert("恭喜完成今日 5 題練習！");
-                goBack();
-            }
+            if (currentIndex < 5) { loadQuestion(); } 
+            else { alert("恭喜完成！"); goBack(); }
         }
     </script>
 </body>
