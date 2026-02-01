@@ -10,8 +10,6 @@
     <style>
         :root {
             --main-font: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --nav-active-color: #51A8FF;
-            --nav-inactive-color: #8E8E93;
         }
 
         html {
@@ -79,6 +77,60 @@
             border-radius: 30px;
         }
 
+        .fire-icon {
+            position: absolute;
+            left: 25px;
+            top: 140px;
+            font-weight: 900;
+            font-size: 45px;
+            z-index: 11;
+        }
+
+        .text-streak {
+            position: absolute;
+            width: 150px;
+            left: 80px;
+            top: 130px;
+            font-weight: 800;
+            font-size: 15px;
+            z-index: 10;
+        }
+        
+        .ellipse {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 155px;
+            background-color: #D9D9D9;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .day-label {
+            position: absolute;
+            width: 12px;
+            top: 162px;
+            font-size: 12px;
+            color: #9A9A9A;
+            z-index: 11;
+            font-weight: 600;
+        }
+
+        .rect-7, .rect-8, .rect-9, .rect-10 {
+            position: absolute;
+            width: 70px;
+            height: 90px;
+            left: 360px;
+            background-color: #FFFFFF;
+            border-top-right-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+
+        .rect-7 { top: 251px; }
+        .rect-8 { top: 341px; }
+        .rect-9 { top: 431px; }
+        .rect-10 { top: 521px; }
+        
         .rect-3 {
             position: absolute;
             width: 381px;
@@ -113,6 +165,17 @@
             pointer-events: none;
         }
 
+        .rect-5 {
+            position: absolute;
+            width: 420px;
+            height: 400px;
+            left: 10px;
+            top: 690px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+        }
+
+        /* 矩形 1 保留你原本的 CSS 結構 */
         .rect-1 {
             position: fixed;
             width: 420px;
@@ -140,49 +203,22 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            width: 75px;
-            height: 100%;
+            width: 70px;
         }
 
-        .custom-icon {
-            width: 28px;
-            height: 28px;
-            margin-bottom: 6px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
         }
-
-        .icon-shape {
-            border: 2.5px solid var(--nav-inactive-color);
-            transition: all 0.2s ease;
-        }
-
-        .nav-item.active .icon-shape {
-            border-color: var(--nav-active-color);
-        }
-
-        .icon-home { width: 20px; height: 18px; border-radius: 4px; }
-        .icon-stats { width: 18px; height: 18px; border-bottom: 2.5px solid var(--nav-inactive-color); border-left: 2.5px solid var(--nav-inactive-color); border-right: none; border-top: none; }
-        .icon-stats::before { content: ""; position: absolute; bottom: 3px; left: 4px; width: 4px; height: 8px; background: var(--nav-inactive-color); }
-        .icon-stats::after { content: ""; position: absolute; bottom: 3px; left: 10px; width: 4px; height: 12px; background: var(--nav-inactive-color); }
-        .icon-book { width: 18px; height: 22px; border-radius: 2px; border-right: 5px solid var(--nav-inactive-color); }
-        .icon-medal { width: 16px; height: 16px; border-radius: 50%; }
-        .icon-settings { width: 20px; height: 20px; border-radius: 50%; border-style: dashed; }
-
-        .nav-item.active .icon-stats::before, .nav-item.active .icon-stats::after { background: var(--nav-active-color); }
-        .nav-item.active .icon-book { border-right-color: var(--nav-active-color); }
 
         .nav-text {
             font-size: 11px;
             font-weight: 800;
-            color: var(--nav-inactive-color);
-            transition: color 0.2s ease;
+            color: #333333;
         }
 
         .nav-item.active .nav-text {
-            color: var(--nav-active-color);
+            color: #51A8FF;
         }
 
         #stage-screen {
@@ -233,6 +269,21 @@
             transition: width 0.3s;
         }
 
+        .trophy-icon {
+            position: absolute;
+            left: -10px;
+            top: -8px;
+            width: 44px;
+            height: 44px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
         .progress-badge {
             position: absolute;
             right: 6px;
@@ -245,6 +296,15 @@
             font-size: 13px;
         }
 
+        .heart-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #FFFFFF;
+            font-size: 22px;
+            font-weight: 800;
+        }
+        
         .question-card {
             position: absolute;
             width: 400px;
@@ -285,10 +345,11 @@
             cursor: pointer;
         }
 
-        .mic-icon-svg {
-            width: 70px;
-            height: 70px;
+        .mic-icon {
+            font-size: 40px; 
             background: #f8f8f8;
+            width: 70px;  
+            height: 70px; 
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -359,6 +420,21 @@
             gap: 15px;
         }
 
+        .check-btn {
+            width: 95px;
+            height: 85px;
+            background-color: #B28DFF;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
         .confirm-btn {
             flex: 1;
             height: 85px;
@@ -384,29 +460,50 @@
     <div id="app-content" class="main-viewport">
         <div id="sticky-header" class="rect-6"></div>
         <div class="rect-2"></div>
+        <div class="fire-icon">🔥</div>
+        <div class="text-streak">連續學習 0 天</div>
+        <div class="ellipse" style="left: 81px;"></div>
+        <div class="ellipse" style="left: 121px;"></div>
+        <div class="ellipse" style="left: 161px;"></div>
+        <div class="ellipse" style="left: 201px;"></div>
+        <div class="ellipse" style="left: 241px;"></div>
+        <div class="ellipse" style="left: 281px;"></div>
+        <div class="ellipse" style="left: 321px;"></div>
+        <div class="day-label" style="left: 90px;">六</div>
+        <div class="day-label" style="left: 130px;">日</div>
+        <div class="day-label" style="left: 170px;">一</div>
+        <div class="day-label" style="left: 210px;">二</div>
+        <div class="day-label" style="left: 250px;">三</div>
+        <div class="day-label" style="left: 290px;">四</div>
+        <div class="day-label" style="left: 330px;">五</div>
+        <div class="rect-7"></div>
+        <div class="rect-8"></div>
+        <div class="rect-9"></div>
+        <div class="rect-10"></div>
         <div class="rect-3"></div>
         <div id="btn-today" class="rect-4"></div>
         <div class="text-today">今日單字</div>
+        <div class="rect-5"></div>
         
         <div class="rect-1">
             <div class="nav-item active">
-                <div class="custom-icon"><div class="icon-shape icon-home"></div></div>
+                <div class="nav-icon">🏠</div>
                 <div class="nav-text">主頁面</div>
             </div>
             <div class="nav-item">
-                <div class="custom-icon"><div class="icon-shape icon-stats"></div></div>
+                <div class="nav-icon">📊</div>
                 <div class="nav-text">統計</div>
             </div>
             <div class="nav-item">
-                <div class="custom-icon"><div class="icon-shape icon-book"></div></div>
+                <div class="nav-icon">📚</div>
                 <div class="nav-text">題庫</div>
             </div>
             <div class="nav-item">
-                <div class="custom-icon"><div class="icon-shape icon-medal"></div></div>
+                <div class="nav-icon">🏅</div>
                 <div class="nav-text">成就</div>
             </div>
             <div class="nav-item">
-                <div class="custom-icon"><div class="icon-shape icon-settings"></div></div>
+                <div class="nav-icon">⚙️</div>
                 <div class="nav-text">設定</div>
             </div>
         </div>
@@ -416,17 +513,17 @@
         <div class="stage-nav">
             <div class="back-arrow" onclick="goBack()">〈</div>
             <div class="trophy-bar-bg">
+                <div class="trophy-icon">🏆</div>
                 <div class="trophy-bar-fill" id="progress-bar"></div>
                 <div class="progress-badge" id="progress-text">0/5</div>
             </div>
+            <div class="heart-container"><span>❤️</span><span>5</span></div>
         </div>
         <div class="question-card">
             <div id="chinese-text" class="chinese-text">載入中...</div>
             <div id="answer-area" class="answer-area">
                 <div class="mic-btn-container" onclick="startSpeechRecognition()">
-                    <div class="mic-icon-svg">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-                    </div>
+                    <div class="mic-icon">🎙️</div>
                     <div class="beta-tag">BETA</div>
                 </div>
             </div>
@@ -435,6 +532,10 @@
             <div id="word-pool" class="word-pool"></div>
         </div>
         <div class="bottom-actions">
+            <div class="check-btn" onclick="showAnswer()">
+                <span style="font-size: 24px;">👁️</span>
+                <span>觀看答案</span>
+            </div>
             <div class="confirm-btn" onclick="checkFinal()">確認</div>
         </div>
     </div>
@@ -456,7 +557,52 @@
             { q: "天氣今天很好。", a: ["The", "weather", "is", "nice", "today"] },
             { q: "我喜歡學習新事物。", a: ["I", "like", "learning", "new", "things"] },
             { q: "他在這家公司工作。", a: ["He", "works", "at", "this", "company"] },
-            { q: "這本書非常有趣。", a: ["This", "book", "is", "very", "interesting"] }
+            { q: "這本書非常有趣。", a: ["This", "book", "is", "very", "interesting"] },
+            { q: "我們明天去公園吧。", a: ["Let's", "go", "to", "the", "park", "tomorrow"] },
+            { q: "妳想要喝咖啡嗎？", a: ["Do", "you", "want", "to", "drink", "coffee"] },
+            { q: "我迷路了。", a: ["I", "am", "lost"] },
+            { q: "請幫我一下。", a: ["Please", "help", "me"] },
+            { q: "我很高興見到你。", a: ["I", "am", "glad", "to", "see", "you"] },
+            { q: "他跑得很快。", a: ["He", "runs", "very", "fast"] },
+            { q: "現在幾點了？", a: ["What", "time", "is", "it", "now"] },
+            { q: "這份沙拉很好吃。", a: ["This", "salad", "tastes", "good"] },
+            { q: "你家在哪裡？", a: ["Where", "is", "your", "house"] },
+            { q: "我忘記帶鑰匙了。", a: ["I", "forgot", "to", "bring", "keys"] },
+            { q: "這是一支新手機。", a: ["This", "is", "a", "new", "phone"] },
+            { q: "天快黑了。", a: ["It", "is", "getting", "dark"] },
+            { q: "這是我第一次來這裡。", a: ["This", "is", "my", "first", "time", "here"] },
+            { q: "音樂很大聲。", a: ["The", "music", "is", "very", "loud"] },
+            { q: "我需要多點時間。", a: ["I", "need", "more", "time"] },
+            { q: "這是一個秘密。", a: ["This", "is", "a", "secret"] },
+            { q: "你準備好了嗎？", a: ["Are", "you", "ready"] },
+            { q: "這條路通往哪裡？", a: ["Where", "does", "this", "road", "lead"] },
+            { q: "門是鎖著的。", a: ["The", "door", "is", "locked"] },
+            { q: "他在睡覺。", a: ["He", "is", "sleeping"] },
+            { q: "我有一隻貓。", a: ["I", "have", "a", "cat"] },
+            { q: "電影快開始了。", a: ["The", "movie", "is", "starting", "soon"] },
+            { q: "蘋果是紅色的。", a: ["Apples", "are", "red"] },
+            { q: "你在做什麼？", a: ["What", "are", "you", "doing"] },
+            { q: "謝謝你的幫忙。", a: ["Thank", "you", "for", "your", "help"] },
+            { q: "這件衣服很適合你。", a: ["This", "outfit", "suits", "you", "well"] },
+            { q: "明天會下雨。", a: ["It", "will", "rain", "tomorrow"] },
+            { q: "我正在吃午飯。", a: ["I", "am", "having", "lunch"] },
+            { q: "那隻狗在叫。", a: ["That", "dog", "is", "barking"] },
+            { q: "我很累。", a: ["I", "am", "very", "tired"] },
+            { q: "太陽升起來了。", a: ["The", "sun", "is", "rising"] },
+            { q: "這雙鞋太小了。", a: ["These", "shoes", "are", "too", "small"] },
+            { q: "請關掉燈。", a: ["Please", "turn", "off", "the", "light"] },
+            { q: "她在彈鋼琴。", a: ["She", "is", "playing", "the", "piano"] },
+            { q: "我不明白。", a: ["I", "do", "not", "understand"] },
+            { q: "這是一個好主意。", a: ["That", "is", "a", "good", "idea"] },
+            { q: "別擔心。", a: ["Do", "not", "worry"] },
+            { q: "水很涼快。", a: ["The", "water", "is", "cool"] },
+            { q: "他在學校。", a: ["He", "is", "at", "school"] },
+            { q: "你想去哪裡？", a: ["Where", "do", "you", "want", "to", "go"] },
+            { q: "這花很香。", a: ["This", "flower", "smells", "sweet"] },
+            { q: "我感冒了。", a: ["I", "have", "a", "cold"] },
+            { q: "火車站很遠。", a: ["The", "train", "station", "is", "far"] },
+            { q: "那是我的朋友。", a: ["That", "is", "my", "friend"] },
+            { q: "今天是星期一。", a: ["Today", "is", "Monday"] }
         ];
 
         let currentSessionQuestions = [];
@@ -470,31 +616,52 @@
             }
         });
 
+        function preventDefault(e) { e.preventDefault(); }
+        function disableScroll() {
+            window.addEventListener('wheel', preventDefault, { passive: false });
+            window.addEventListener('touchmove', preventDefault, { passive: false });
+        }
+        function enableScroll() {
+            window.removeEventListener('wheel', preventDefault);
+            window.removeEventListener('touchmove', preventDefault);
+        }
+
         const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
         if (isStandalone) {
             mask.style.display = 'none';
             app.style.display = 'block';
         }
 
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
         function loadQuestion() {
             const currentData = currentSessionQuestions[currentIndex];
             chineseLabel.innerText = currentData.q;
+            
             poolContainer.innerHTML = '';
             const mic = answerArea.querySelector('.mic-btn-container');
             answerArea.innerHTML = '';
             answerArea.appendChild(mic);
 
-            const shuffledWords = [...currentData.a].sort(() => Math.random() - 0.5);
+            const shuffledWords = shuffle([...currentData.a]);
             shuffledWords.forEach(function(word, index) {
                 const tile = document.createElement('div');
                 tile.className = 'word-tile';
                 tile.innerText = word;
+                tile.dataset.id = 'pool-' + index;
                 tile.onclick = function() {
                     createAnswerTile(word, tile);
                     tile.classList.add('used');
                 };
                 poolContainer.appendChild(tile);
             });
+
             updateProgressUI();
         }
 
@@ -516,25 +683,69 @@
         }
 
         btnToday.addEventListener('click', function() {
-            currentSessionQuestions = database.slice(0, 5);
+            window.scrollTo(0, 0);
+            currentSessionQuestions = shuffle([...database]).slice(0, 5);
             currentIndex = 0;
             app.style.display = 'none';
             stage.style.display = 'block';
+            disableScroll();
             loadQuestion();
         });
 
         function goBack() {
+            enableScroll();
             stage.style.display = 'none';
             app.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showAnswer() {
+            alert("正確答案：" + currentSessionQuestions[currentIndex].a.join(" "));
+        }
+
+        function startSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert("此瀏覽器不支援語音功能");
+                return;
+            }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.onresult = function(event) {
+                const result = event.results[0][0].transcript.toLowerCase().replace(/[.,!?;:]/g, "");
+                const target = currentSessionQuestions[currentIndex].a.join(" ").toLowerCase();
+                if (result === target) {
+                    alert("語音辨識成功！答案正確！");
+                    nextQuestion();
+                } else {
+                    alert("辨識結果：" + result + "\n再試一次！");
+                }
+            };
+            recognition.start();
         }
 
         function checkFinal() {
-            const current = Array.from(answerArea.querySelectorAll('.word-tile')).map(t => t.innerText);
-            if (current.join(" ") === currentSessionQuestions[currentIndex].a.join(" ")) {
-                currentIndex++;
-                if (currentIndex < 5) loadQuestion();
-                else { alert("完成！"); goBack(); }
-            } else { alert("再試一次"); }
+            const current = Array.from(answerArea.querySelectorAll('.word-tile')).map(function(t) {
+                return t.innerText;
+            });
+            const target = currentSessionQuestions[currentIndex].a;
+            if (current.join(" ") === target.join(" ")) {
+                nextQuestion();
+            } else {
+                alert("順序有誤！");
+            }
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < 5) {
+                loadQuestion();
+            } else {
+                progressBar.style.width = '100%';
+                progressText.innerText = '5/5';
+                alert("恭喜完成今日 5 題練習！");
+                goBack();
+            }
         }
     </script>
 </body>
