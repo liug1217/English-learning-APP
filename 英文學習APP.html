@@ -61,11 +61,10 @@
             width: 440px;
             height: 110px;
             margin-left: -220px;
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: #FFFFFF;
             border-bottom: 1px solid #D9D9D9;
             z-index: 3000;
             display: none;
-            transition: opacity 0.2s;
         }
 
         .rect-2 {
@@ -233,7 +232,7 @@
         }
 
         .trophy-bar-fill {
-            width: 10%;
+            width: 0%;
             height: 100%;
             background-color: #FFFFFF;
             border-radius: 14px;
@@ -464,12 +463,12 @@
             <div class="trophy-bar-bg">
                 <div class="trophy-icon">🏆</div>
                 <div class="trophy-bar-fill" id="progress-bar"></div>
-                <div class="progress-badge" id="progress-text">0/1</div>
+                <div class="progress-badge" id="progress-text">0/5</div>
             </div>
             <div class="heart-container"><span>❤️</span><span>5</span></div>
         </div>
         <div class="question-card">
-            <div class="chinese-text">我對這份工作感興趣。</div>
+            <div id="chinese-text" class="chinese-text">載入中...</div>
             <div id="answer-area" class="answer-area">
                 <div class="mic-btn-container" onclick="startSpeechRecognition()">
                     <div class="mic-icon">🎙️</div>
@@ -498,11 +497,65 @@
         const answerArea = document.getElementById('answer-area');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
+        const chineseLabel = document.getElementById('chinese-text');
         const header = document.getElementById('sticky-header');
-        
-        const correctWords = ["I", "am", "interested", "in", "this", "job"];
-        const poolWords = ["interested", "I", "am", "this", "in", "job"];
-        
+
+        const database = [
+            { q: "我對這份工作感興趣。", a: ["I", "am", "interested", "in", "this", "job"] },
+            { q: "天氣今天很好。", a: ["The", "weather", "is", "nice", "today"] },
+            { q: "我喜歡學習新事物。", a: ["I", "like", "learning", "new", "things"] },
+            { q: "他在這家公司工作。", a: ["He", "works", "at", "this", "company"] },
+            { q: "這本書非常有趣。", a: ["This", "book", "is", "very", "interesting"] },
+            { q: "我們明天去公園吧。", a: ["Let's", "go", "to", "the", "park", "tomorrow"] },
+            { q: "妳想要喝咖啡嗎？", a: ["Do", "you", "want", "to", "drink", "coffee"] },
+            { q: "我迷路了。", a: ["I", "am", "lost"] },
+            { q: "請幫我一下。", a: ["Please", "help", "me"] },
+            { q: "我很高興見到你。", a: ["I", "am", "glad", "to", "see", "you"] },
+            { q: "他跑得很快。", a: ["He", "runs", "very", "fast"] },
+            { q: "現在幾點了？", a: ["What", "time", "is", "it", "now"] },
+            { q: "這份沙拉很好吃。", a: ["This", "salad", "tastes", "good"] },
+            { q: "你家在哪裡？", a: ["Where", "is", "your", "house"] },
+            { q: "我忘記帶鑰匙了。", a: ["I", "forgot", "to", "bring", "keys"] },
+            { q: "這是一支新手機。", a: ["This", "is", "a", "new", "phone"] },
+            { q: "天快黑了。", a: ["It", "is", "getting", "dark"] },
+            { q: "這是我第一次來這裡。", a: ["This", "is", "my", "first", "time", "here"] },
+            { q: "音樂很大聲。", a: ["The", "music", "is", "very", "loud"] },
+            { q: "我需要多點時間。", a: ["I", "need", "more", "time"] },
+            { q: "這是一個秘密。", a: ["This", "is", "a", "secret"] },
+            { q: "你準備好了嗎？", a: ["Are", "you", "ready"] },
+            { q: "這條路通往哪裡？", a: ["Where", "does", "this", "road", "lead"] },
+            { q: "門是鎖著的。", a: ["The", "door", "is", "locked"] },
+            { q: "他在睡覺。", a: ["He", "is", "sleeping"] },
+            { q: "我有一隻貓。", a: ["I", "have", "a", "cat"] },
+            { q: "電影快開始了。", a: ["The", "movie", "is", "starting", "soon"] },
+            { q: "蘋果是紅色的。", a: ["Apples", "are", "red"] },
+            { q: "你在做什麼？", a: ["What", "are", "you", "doing"] },
+            { q: "謝謝你的幫忙。", a: ["Thank", "you", "for", "your", "help"] },
+            { q: "這件衣服很適合你。", a: ["This", "outfit", "suits", "you", "well"] },
+            { q: "明天會下雨。", a: ["It", "will", "rain", "tomorrow"] },
+            { q: "我正在吃午飯。", a: ["I", "am", "having", "lunch"] },
+            { q: "那隻狗在叫。", a: ["That", "dog", "is", "barking"] },
+            { q: "我很累。", a: ["I", "am", "very", "tired"] },
+            { q: "太陽升起來了。", a: ["The", "sun", "is", "rising"] },
+            { q: "這雙鞋太小了。", a: ["These", "shoes", "are", "too", "small"] },
+            { q: "請關掉燈。", a: ["Please", "turn", "off", "the", "light"] },
+            { q: "她在彈鋼琴。", a: ["She", "is", "playing", "the", "piano"] },
+            { q: "我不明白。", a: ["I", "do", "not", "understand"] },
+            { q: "這是一個好主意。", a: ["That", "is", "a", "good", "idea"] },
+            { q: "別擔心。", a: ["Do", "not", "worry"] },
+            { q: "水很涼快。", a: ["The", "water", "is", "cool"] },
+            { q: "他在學校。", a: ["He", "is", "at", "school"] },
+            { q: "你想去哪裡？", a: ["Where", "do", "you", "want", "to", "go"] },
+            { q: "這花很香。", a: ["This", "flower", "smells", "sweet"] },
+            { q: "我感冒了。", a: ["I", "have", "a", "cold"] },
+            { q: "火車站很遠。", a: ["The", "train", "station", "is", "far"] },
+            { q: "那是我的朋友。", a: ["That", "is", "my", "friend"] },
+            { q: "今天是星期一。", a: ["Today", "is", "Monday"] }
+        ];
+
+        let currentSessionQuestions = [];
+        let currentIndex = 0;
+
         window.addEventListener('scroll', function() {
             if (window.scrollY > 0) {
                 header.style.display = 'block';
@@ -511,15 +564,11 @@
             }
         });
 
-        function preventDefault(e) {
-            e.preventDefault();
-        }
-
+        function preventDefault(e) { e.preventDefault(); }
         function disableScroll() {
             window.addEventListener('wheel', preventDefault, { passive: false });
             window.addEventListener('touchmove', preventDefault, { passive: false });
         }
-
         function enableScroll() {
             window.removeEventListener('wheel', preventDefault);
             window.removeEventListener('touchmove', preventDefault);
@@ -531,41 +580,64 @@
             app.style.display = 'block';
         }
 
-        function initStage() {
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function loadQuestion() {
+            const currentData = currentSessionQuestions[currentIndex];
+            chineseLabel.innerText = currentData.q;
+            
             poolContainer.innerHTML = '';
             const mic = answerArea.querySelector('.mic-btn-container');
             answerArea.innerHTML = '';
             answerArea.appendChild(mic);
-            poolWords.forEach(function(word, index) {
+
+            const shuffledWords = shuffle([...currentData.a]);
+            shuffledWords.forEach(function(word, index) {
                 const tile = document.createElement('div');
                 tile.className = 'word-tile';
                 tile.innerText = word;
-                tile.id = 'pool-word-' + index;
+                tile.dataset.id = 'pool-' + index;
                 tile.onclick = function() {
-                    createAnswerTile(word, tile.id);
+                    createAnswerTile(word, tile);
                     tile.classList.add('used');
                 };
                 poolContainer.appendChild(tile);
             });
+
+            updateProgressUI();
         }
 
-        function createAnswerTile(word, poolId) {
+        function createAnswerTile(word, originalTile) {
             const answerTile = document.createElement('div');
             answerTile.className = 'word-tile';
             answerTile.innerText = word;
             answerTile.onclick = function() {
                 answerTile.remove();
-                document.getElementById(poolId).classList.remove('used');
+                originalTile.classList.remove('used');
             };
             answerArea.insertBefore(answerTile, answerArea.querySelector('.mic-btn-container'));
         }
 
+        function updateProgressUI() {
+            const percent = (currentIndex / 5) * 100;
+            progressBar.style.width = percent + '%';
+            progressText.innerText = currentIndex + '/5';
+        }
+
         btnToday.addEventListener('click', function() {
             window.scrollTo(0, 0);
+            currentSessionQuestions = shuffle([...database]).slice(0, 5);
+            currentIndex = 0;
             app.style.display = 'none';
             stage.style.display = 'block';
             disableScroll();
-            initStage();
+            loadQuestion();
         });
 
         function goBack() {
@@ -576,7 +648,7 @@
         }
 
         function showAnswer() {
-            alert("正確答案：" + correctWords.join(" "));
+            alert("正確答案：" + currentSessionQuestions[currentIndex].a.join(" "));
         }
 
         function startSpeechRecognition() {
@@ -589,10 +661,10 @@
             recognition.lang = 'en-US';
             recognition.onresult = function(event) {
                 const result = event.results[0][0].transcript.toLowerCase().replace(/[.,!?;:]/g, "");
-                const target = correctWords.join(" ").toLowerCase();
+                const target = currentSessionQuestions[currentIndex].a.join(" ").toLowerCase();
                 if (result === target) {
-                    alert("辨識成功！答案正確！");
-                    checkFinal(true);
+                    alert("語音辨識成功！答案正確！");
+                    nextQuestion();
                 } else {
                     alert("辨識結果：" + result + "\n再試一次！");
                 }
@@ -600,17 +672,27 @@
             recognition.start();
         }
 
-        function checkFinal(isVoice) {
+        function checkFinal() {
             const current = Array.from(answerArea.querySelectorAll('.word-tile')).map(function(t) {
                 return t.innerText;
             });
-            if (isVoice || current.join(" ") === correctWords.join(" ")) {
-                progressBar.style.width = "100%";
-                progressText.innerText = "1/1";
-                alert("恭喜答對！");
-                goBack();
+            const target = currentSessionQuestions[currentIndex].a;
+            if (current.join(" ") === target.join(" ")) {
+                nextQuestion();
             } else {
                 alert("順序有誤！");
+            }
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < 5) {
+                loadQuestion();
+            } else {
+                progressBar.style.width = '100%';
+                progressText.innerText = '5/5';
+                alert("恭喜完成今日 5 題練習！");
+                goBack();
             }
         }
     </script>
