@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=440, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=440, height=956, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#AED7FF">
@@ -20,18 +20,14 @@
         body {
             margin: 0;
             padding: 0;
-            width: 100%;
+            width: 440px;
+            height: 956px;
             background-color: #AED7FF;
             font-family: var(--main-font);
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            overflow: hidden;
             -webkit-tap-highlight-color: transparent;
         }
 
-        ::-webkit-scrollbar {
-            display: none;
-        }
-        
         #web-only-mask {
             position: fixed;
             top: 0;
@@ -50,22 +46,9 @@
             display: none;
             position: relative;
             width: 440px;
-            height: 1231px;
+            height: 956px;
             margin: 0 auto;
-        }
-
-        .rect-6 {
-            box-sizing: border-box;
-            position: fixed;
-            top: 0;
-            left: 50%;
-            width: 440px;
-            height: 110px;
-            margin-left: -220px;
-            background-color: #FFFFFF;
-            border-bottom: 1px solid #D9D9D9;
-            z-index: 3000;
-            display: none;
+            overflow: hidden;
         }
 
         .rect-2 {
@@ -73,7 +56,7 @@
             width: 420px;
             height: 100px;
             left: 10px;
-            top: 110px;
+            top: 60px;
             background-color: #FFFFFF;
             border-radius: 30px;
         }
@@ -81,7 +64,7 @@
         .fire-icon {
             position: absolute;
             left: 25px;
-            top: 140px;
+            top: 90px;
             font-weight: 900;
             font-size: 45px;
             z-index: 11;
@@ -91,7 +74,7 @@
             position: absolute;
             width: 150px;
             left: 80px;
-            top: 130px;
+            top: 80px;
             font-weight: 800;
             font-size: 15px;
             z-index: 10;
@@ -101,7 +84,7 @@
             position: absolute;
             width: 30px;
             height: 30px;
-            top: 155px;
+            top: 105px;
             background-color: #D9D9D9;
             border-radius: 50%;
             z-index: 10;
@@ -110,34 +93,19 @@
         .day-label {
             position: absolute;
             width: 12px;
-            top: 162px;
+            top: 112px;
             font-size: 12px;
             color: #9A9A9A;
             z-index: 11;
             font-weight: 600;
         }
 
-        .rect-7, .rect-8, .rect-9, .rect-10 {
-            position: absolute;
-            width: 70px;
-            height: 90px;
-            left: 360px;
-            background-color: #FFFFFF;
-            border-top-right-radius: 30px;
-            border-bottom-right-radius: 30px;
-        }
-
-        .rect-7 { top: 251px; }
-        .rect-8 { top: 341px; }
-        .rect-9 { top: 431px; }
-        .rect-10 { top: 521px; }
-        
         .rect-3 {
             position: absolute;
-            width: 381px;
+            width: 420px;
             height: 400px;
             left: 10px;
-            top: 251px;
+            top: 180px;
             background-color: #FFFFFF;
             border-radius: 30px;
         }
@@ -146,19 +114,20 @@
             position: absolute;
             width: 312px;
             height: 85px;
-            left: 30px;
-            top: 530px;
+            left: 64px;
+            top: 450px;
             background-color: #51A8FF;
             border-radius: 30px;
             z-index: 20;
             cursor: pointer;
+            box-shadow: 0 6px 0 #3A8CDD;
         }
 
         .text-today {
             position: absolute;
-            width: 120px;
-            left: 126px;
-            top: 555px;
+            width: 150px;
+            left: 155px;
+            top: 475px;
             font-weight: 900;
             font-size: 30px;
             color: #FFFFFF;
@@ -169,46 +138,137 @@
         .rect-5 {
             position: absolute;
             width: 420px;
-            height: 400px;
+            height: 200px;
             left: 10px;
-            top: 690px;
+            top: 600px;
             background-color: #FFFFFF;
             border-radius: 30px;
+        }
+
+        .sub-page {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 440px;
+            height: 835px;
+            background-color: #AED7FF;
+            padding: 60px 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-white {
+            background: #FFFFFF;
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-num {
+            font-size: 28px;
+            font-weight: 900;
+            color: #51A8FF;
+        }
+
+        .medal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .medal {
+            font-size: 40px;
+        }
+
+        .word-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .toggle {
+            width: 50px;
+            height: 26px;
+            background: #DDD;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .toggle.on {
+            background: #07C160;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+        }
+
+        .toggle.on::after {
+            left: 26px;
         }
 
         .rect-1 {
             position: fixed;
             width: 420px;
-            height: 110px;
+            height: 100px;
             left: 50%;
-            top: 835px;
+            bottom: 20px;
             margin-left: -210px;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 42px;
             z-index: 4000;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 0 10px;
-            box-sizing: border-box;
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             cursor: pointer;
             width: 70px;
         }
 
         .nav-icon {
-            font-size: 30px; /* 調整 Icon 大小 */
-            margin-bottom: 4px;
+            font-size: 30px;
             color: #333333;
         }
 
@@ -218,38 +278,25 @@
             color: #333333;
         }
 
-        .nav-item.active .nav-icon, 
-        .nav-item.active .nav-text {
+        .nav-item.active .nav-icon, .nav-item.active .nav-text {
             color: #51A8FF;
         }
 
         #stage-screen {
             display: none;
-            position: relative;
+            position: absolute;
             width: 440px;
             height: 956px;
-            margin: 0 auto;
             background-color: #AED7FF;
+            z-index: 5000;
             overflow: hidden;
         }
 
         .stage-nav {
-            position: absolute;
-            width: 440px;
-            height: 100px;
-            top: 40px;
+            padding: 50px 20px;
             display: flex;
             align-items: center;
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
-
-        .back-arrow {
-            font-size: 30px;
-            color: #FFFFFF;
-            font-weight: 800;
-            cursor: pointer;
-            padding: 10px;
+            justify-content: space-between;
         }
 
         .trophy-bar-bg {
@@ -259,8 +306,6 @@
             border-radius: 14px;
             margin: 0 15px;
             position: relative;
-            display: flex;
-            align-items: center;
         }
 
         .trophy-bar-fill {
@@ -271,126 +316,22 @@
             transition: width 0.3s;
         }
 
-        .trophy-icon {
-            position: absolute;
-            left: -10px;
-            top: -8px;
-            width: 44px;
-            height: 44px;
-            background-color: #FFFFFF;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .progress-badge {
-            position: absolute;
-            right: 6px;
-            padding: 2px 10px;
-            background-color: rgba(81, 168, 255, 0.2);
-            border: 1.5px solid #51A8FF;
-            border-radius: 10px;
-            color: #FFFFFF;
-            font-weight: 800;
-            font-size: 13px;
-        }
-
-        .heart-container {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #FFFFFF;
-            font-size: 22px;
-            font-weight: 800;
-        }
-        
         .question-card {
-            position: absolute;
             width: 400px;
             height: 420px;
-            left: 20px;
-            top: 130px;
+            margin: 20px;
             background-color: #FFFFFF;
             border-radius: 40px;
             padding: 40px;
             box-sizing: border-box;
         }
 
-        .chinese-text {
-            font-weight: 700;
-            font-size: 28px;
-            color: #333333;
-            margin-bottom: 40px;
-        }
-
-        .answer-area {
-            width: 100%;
-            height: 150px;
-            border-bottom: 2px solid #E0E0E0;
-            display: flex;
-            flex-wrap: wrap;
-            align-content: flex-start;
-            gap: 10px;
-            position: relative;
-        }
-
-        .mic-btn-container {
-            position: absolute;
-            right: 0;
-            bottom: -85px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .mic-icon {
-            font-size: 40px; 
-            background: #f8f8f8;
-            width: 70px;  
-            height: 70px; 
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border: 2px solid #E0E0E0;
-        }
-
-        .beta-tag {
-            font-size: 11px;
-            color: #51A8FF;
-            font-weight: 900;
-            margin-top: 5px;
-        }
-
-        .word-pool-container {
-            position: absolute;
-            width: 440px;
-            height: 400px;
-            left: 0;
-            top: 580px;
-            background-color: #FFFFFF;
-            border-top-left-radius: 40px;
-            border-top-right-radius: 40px;
-        }
-
         .word-pool {
-            position: absolute;
-            width: 440px;
-            height: 250px;
-            left: 0;
-            top: 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-content: center;
             gap: 12px;
-            padding: 30px;
-            box-sizing: border-box;
+            padding: 20px;
         }
 
         .word-tile {
@@ -399,354 +340,252 @@
             border-radius: 18px;
             padding: 10px 20px;
             font-weight: 600;
-            font-size: 19px;
-            color: #333333;
-            box-shadow: 0 4px 0px #E0E0E0;
             cursor: pointer;
+            box-shadow: 0 4px 0px #E0E0E0;
             user-select: none;
         }
 
-        .word-tile.used {
-            visibility: hidden;
-            pointer-events: none;
-        }
-        
-        .bottom-actions {
+        .confirm-btn {
             position: absolute;
             bottom: 40px;
-            width: 440px;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            box-sizing: border-box;
-            gap: 15px;
-        }
-
-        .check-btn {
-            width: 95px;
-            height: 85px;
-            background-color: #B28DFF;
-            border-radius: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #FFFFFF;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .confirm-btn {
-            flex: 1;
+            left: 20px;
+            width: 400px;
             height: 85px;
             background-color: #51A8FF;
             border-radius: 25px;
+            color: #FFFFFF;
+            font-size: 26px;
+            font-weight: 800;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #FFFFFF;
-            font-weight: 800;
-            font-size: 26px;
             cursor: pointer;
-            box-shadow: 0 6px 0px #3A8CDD;
+            box-shadow: 0 6px 0 #3A8CDD;
+        }
+
+        #page-register {
+            display: flex;
+            position: absolute;
+            inset: 0;
+            background: #AED7FF;
+            z-index: 6000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .reg-card {
+            background: white;
+            width: 100%;
+            padding: 30px;
+            border-radius: 30px;
+            text-align: center;
+        }
+
+        .reg-input {
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0;
+            border: 2px solid #EEE;
+            border-radius: 15px;
+            font-size: 18px;
+            outline: none;
         }
     </style>
 </head>
 <body>
     <div id="web-only-mask">
         <h2>請安裝 APP 使用</h2>
-        <p>點擊分享按鈕並選擇「加入主畫面」</p>
+        <p>點擊分享並選擇「加入主畫面」</p>
+    </div>
+
+    <div id="page-register">
+        <div class="reg-card">
+            <h2 style="color: #51A8FF;">Core Learning</h2>
+            <input type="text" id="reg-name" class="reg-input" placeholder="請輸入使用者名稱">
+            <button onclick="handleRegister()" style="width: 100%; padding: 15px; background: #51A8FF; color: white; border: none; border-radius: 15px; font-weight: bold; font-size: 18px;">開始學習</button>
+        </div>
     </div>
 
     <div id="app-content" class="main-viewport">
-        <div id="sticky-header" class="rect-6"></div>
-        <div class="rect-2"></div>
-        <div class="fire-icon">🔥</div>
-        <div class="text-streak">連續學習 0 天</div>
-        <div class="ellipse" style="left: 81px;"></div>
-        <div class="ellipse" style="left: 121px;"></div>
-        <div class="ellipse" style="left: 161px;"></div>
-        <div class="ellipse" style="left: 201px;"></div>
-        <div class="ellipse" style="left: 241px;"></div>
-        <div class="ellipse" style="left: 281px;"></div>
-        <div class="ellipse" style="left: 321px;"></div>
-        <div class="day-label" style="left: 90px;">六</div>
-        <div class="day-label" style="left: 130px;">日</div>
-        <div class="day-label" style="left: 170px;">一</div>
-        <div class="day-label" style="left: 210px;">二</div>
-        <div class="day-label" style="left: 250px;">三</div>
-        <div class="day-label" style="left: 290px;">四</div>
-        <div class="day-label" style="left: 330px;">五</div>
-        <div class="rect-7"></div>
-        <div class="rect-8"></div>
-        <div class="rect-9"></div>
-        <div class="rect-10"></div>
-        <div class="rect-3"></div>
-        <div id="btn-today" class="rect-4"></div>
-        <div class="text-today">今日單字</div>
-        <div class="rect-5"></div>
-        
+        <div id="home-content">
+            <div class="rect-2"></div>
+            <div class="fire-icon">🔥</div>
+            <div class="text-streak">連續學習 0 天</div>
+            <div class="ellipse" style="left: 81px;"></div>
+            <div class="ellipse" style="left: 121px;"></div>
+            <div class="ellipse" style="left: 161px;"></div>
+            <div class="ellipse" style="left: 201px;"></div>
+            <div class="ellipse" style="left: 241px;"></div>
+            <div class="ellipse" style="left: 281px;"></div>
+            <div class="ellipse" style="left: 321px;"></div>
+            <div class="day-label" style="left: 90px;">六</div>
+            <div class="day-label" style="left: 130px;">日</div>
+            <div class="day-label" style="left: 170px;">一</div>
+            <div class="day-label" style="left: 210px;">二</div>
+            <div class="day-label" style="left: 250px;">三</div>
+            <div class="day-label" style="left: 290px;">四</div>
+            <div class="day-label" style="left: 330px;">五</div>
+            <div class="rect-3"></div>
+            <div id="btn-today" class="rect-4"></div>
+            <div class="text-today">今日單字</div>
+            <div class="rect-5"></div>
+        </div>
+
+        <div id="page-stats" class="sub-page">
+            <div class="page-title"><i class="material-icons">insert_chart</i>學習統計</div>
+            <div class="card-white">
+                <div class="stat-grid">
+                    <div style="text-align:center"><div class="stat-num">125</div><div>已學單字</div></div>
+                    <div style="text-align:center"><div class="stat-num">85%</div><div>正確率</div></div>
+                </div>
+            </div>
+            <div class="card-white" style="text-align:center; color:#999; height: 150px; display: flex; align-items: center; justify-content: center; border: 2px dashed #EEE;">圖表功能維護中</div>
+        </div>
+
+        <div id="page-library" class="sub-page">
+            <div class="page-title"><i class="material-icons">import_contacts</i>單字題庫</div>
+            <div class="card-white">
+                <div class="word-item"><div>Interested</div><div style="color: #51A8FF">感興趣的</div></div>
+                <div class="word-item"><div>Weather</div><div style="color: #51A8FF">天氣</div></div>
+                <div class="word-item"><div>Company</div><div style="color: #51A8FF">公司</div></div>
+                <div class="word-item"><div>Secretary</div><div style="color: #51A8FF">秘密</div></div>
+            </div>
+        </div>
+
+        <div id="page-achieve" class="sub-page">
+            <div class="page-title"><i class="material-icons">military_tech</i>成就成就</div>
+            <div class="card-white medal-grid">
+                <div><div class="medal">🔥</div><div style="font-size: 12px">初學者</div></div>
+                <div><div class="medal">⭐</div><div style="font-size: 12px">五星學員</div></div>
+                <div><div class="medal" style="opacity:0.2">🏆</div><div style="font-size: 12px">大師</div></div>
+            </div>
+        </div>
+
+        <div id="page-settings" class="sub-page">
+            <div class="page-title"><i class="material-icons">settings</i>設定</div>
+            <div class="card-white">
+                <div class="setting-row"><div>深色模式</div><div class="toggle"></div></div>
+                <div class="setting-row"><div>通知提醒</div><div class="toggle on"></div></div>
+                <div class="setting-row"><div>音效</div><div class="toggle on"></div></div>
+            </div>
+            <div class="card-white" style="text-align:center; color:red; font-weight: bold; cursor: pointer" onclick="location.reload()">登出帳號</div>
+        </div>
+
         <div class="rect-1">
-            <div class="nav-item active">
-                <i class="material-icons nav-icon">home</i>
-                <div class="nav-text">主頁面</div>
-            </div>
-            <div class="nav-item">
-                <i class="material-icons nav-icon">insert_chart</i>
-                <div class="nav-text">統計</div>
-            </div>
-            <div class="nav-item">
-                <i class="material-icons nav-icon">import_contacts</i>
-                <div class="nav-text">題庫</div>
-            </div>
-            <div class="nav-item">
-                <i class="material-icons nav-icon">military_tech</i>
-                <div class="nav-text">成就</div>
-            </div>
-            <div class="nav-item">
-                <i class="material-icons nav-icon">settings</i>
-                <div class="nav-text">設定</div>
-            </div>
+            <div class="nav-item active"><i class="material-icons nav-icon">home</i><div class="nav-text">主頁面</div></div>
+            <div class="nav-item"><i class="material-icons nav-icon">insert_chart</i><div class="nav-text">統計</div></div>
+            <div class="nav-item"><i class="material-icons nav-icon">import_contacts</i><div class="nav-text">題庫</div></div>
+            <div class="nav-item"><i class="material-icons nav-icon">military_tech</i><div class="nav-text">成就</div></div>
+            <div class="nav-item"><i class="material-icons nav-icon">settings</i><div class="nav-text">設定</div></div>
         </div>
     </div>
 
     <div id="stage-screen">
         <div class="stage-nav">
-            <div class="back-arrow" onclick="goBack()">〈</div>
-            <div class="trophy-bar-bg">
-                <div class="trophy-icon">🏆</div>
-                <div class="trophy-bar-fill" id="progress-bar"></div>
-                <div class="progress-badge" id="progress-text">0/5</div>
-            </div>
-            <div class="heart-container"><span>❤️</span><span>5</span></div>
+            <div onclick="exitStage()" style="color:white; font-size:30px; cursor:pointer; padding: 10px;">〈</div>
+            <div class="trophy-bar-bg"><div id="p-bar" class="trophy-bar-fill"></div></div>
+            <div style="color:white; font-weight:800; font-size: 20px;">❤️ 5</div>
         </div>
         <div class="question-card">
-            <div id="chinese-text" class="chinese-text">載入中...</div>
-            <div id="answer-area" class="answer-area">
-                <div class="mic-btn-container" onclick="startSpeechRecognition()">
-                    <div class="mic-icon">🎙️</div>
-                    <div class="beta-tag">BETA</div>
-                </div>
-            </div>
+            <div id="q-text" style="font-size:28px; font-weight:700; margin-bottom:40px; color: #333;"></div>
+            <div id="a-area" style="min-height:100px; border-bottom:2px solid #EEE; display:flex; flex-wrap:wrap; gap:10px; padding-bottom: 10px;"></div>
         </div>
-        <div class="word-pool-container">
-            <div id="word-pool" class="word-pool"></div>
-        </div>
-        <div class="bottom-actions">
-            <div class="check-btn" onclick="showAnswer()">
-                <span style="font-size: 24px;">👁️</span>
-                <span>觀看答案</span>
-            </div>
-            <div class="confirm-btn" onclick="checkFinal()">確認</div>
-        </div>
+        <div id="p-word" class="word-pool"></div>
+        <div class="confirm-btn" onclick="checkAnswer()">確認答案</div>
     </div>
 
     <script>
-        const mask = document.getElementById('web-only-mask');
-        const app = document.getElementById('app-content');
-        const stage = document.getElementById('stage-screen');
-        const btnToday = document.getElementById('btn-today');
-        const poolContainer = document.getElementById('word-pool');
-        const answerArea = document.getElementById('answer-area');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const chineseLabel = document.getElementById('chinese-text');
-        const header = document.getElementById('sticky-header');
-
-        const database = [
-            { q: "我對這份工作感興趣。", a: ["I", "am", "interested", "in", "this", "job"] },
-            { q: "天氣今天很好。", a: ["The", "weather", "is", "nice", "today"] },
-            { q: "我喜歡學習新事物。", a: ["I", "like", "learning", "new", "things"] },
-            { q: "他在這家公司工作。", a: ["He", "works", "at", "this", "company"] },
-            { q: "這本書非常有趣。", a: ["This", "book", "is", "very", "interesting"] },
-            { q: "我們明天去公園吧。", a: ["Let's", "go", "to", "the", "park", "tomorrow"] },
-            { q: "妳想要喝咖啡嗎？", a: ["Do", "you", "want", "to", "drink", "coffee"] },
-            { q: "我迷路了。", a: ["I", "am", "lost"] },
-            { q: "請幫我一下。", a: ["Please", "help", "me"] },
-            { q: "我很高興見到你。", a: ["I", "am", "glad", "to", "see", "you"] },
-            { q: "他跑得很快。", a: ["He", "runs", "very", "fast"] },
-            { q: "現在幾點了？", a: ["What", "time", "is", "it", "now"] },
-            { q: "這份沙拉很好吃。", a: ["This", "salad", "tastes", "good"] },
-            { q: "你家在哪裡？", a: ["Where", "is", "your", "house"] },
-            { q: "我忘記帶鑰匙了。", a: ["I", "forgot", "to", "bring", "keys"] },
-            { q: "這是一支新手機。", a: ["This", "is", "a", "new", "phone"] },
-            { q: "天快黑了。", a: ["It", "is", "getting", "dark"] },
-            { q: "這是我第一次來這裡。", a: ["This", "is", "my", "first", "time", "here"] },
-            { q: "音樂很大聲。", a: ["The", "music", "is", "very", "loud"] },
-            { q: "我需要多點時間。", a: ["I", "need", "more", "time"] },
-            { q: "這是一個秘密。", a: ["This", "is", "a", "secret"] },
-            { q: "你準備好了嗎？", a: ["Are", "you", "ready"] },
-            { q: "這條路通往哪裡？", a: ["Where", "does", "this", "road", "lead"] },
-            { q: "門是鎖著的。", a: ["The", "door", "is", "locked"] },
-            { q: "他在睡覺。", a: ["He", "is", "sleeping"] },
-            { q: "我有一隻貓。", a: ["I", "have", "a", "cat"] },
-            { q: "電影快開始了。", a: ["The", "movie", "is", "starting", "soon"] },
-            { q: "蘋果是紅色的。", a: ["Apples", "are", "red"] },
-            { q: "你在做什麼？", a: ["What", "are", "you", "doing"] },
-            { q: "謝謝你的幫忙。", a: ["Thank", "you", "for", "your", "help"] },
-            { q: "這件衣服很適合你。", a: ["This", "outfit", "suits", "you", "well"] },
-            { q: "明天會下雨。", a: ["It", "will", "rain", "tomorrow"] },
-            { q: "我正在吃午飯。", a: ["I", "am", "having", "lunch"] },
-            { q: "那隻狗在叫。", a: ["That", "dog", "is", "barking"] },
-            { q: "我很累。", a: ["I", "am", "very", "tired"] },
-            { q: "太陽升起來了。", a: ["The", "sun", "is", "rising"] },
-            { q: "這雙鞋太小了。", a: ["These", "shoes", "are", "too", "small"] },
-            { q: "請關掉燈。", a: ["Please", "turn", "off", "the", "light"] },
-            { q: "她在彈鋼琴。", a: ["She", "is", "playing", "the", "piano"] },
-            { q: "我不明白。", a: ["I", "do", "not", "understand"] },
-            { q: "這是一個好主意。", a: ["That", "is", "a", "good", "idea"] },
-            { q: "別擔心。", a: ["Do", "not", "worry"] },
-            { q: "水很涼快。", a: ["The", "water", "is", "cool"] },
-            { q: "他在學校。", a: ["He", "is", "at", "school"] },
-            { q: "你想去哪裡？", a: ["Where", "do", "you", "want", "to", "go"] },
-            { q: "這花很香。", a: ["This", "flower", "smells", "sweet"] },
-            { q: "我感冒了。", a: ["I", "have", "a", "cold"] },
-            { q: "火車站很遠。", a: ["The", "train", "station", "is", "far"] },
-            { q: "那是我的朋友。", a: ["That", "is", "my", "friend"] },
-            { q: "今天是星期一。", a: ["Today", "is", "Monday"] }
+        const navItems = document.querySelectorAll('.nav-item');
+        const pageIds = ['home-content', 'page-stats', 'page-library', 'page-achieve', 'page-settings'];
+        const quizData = [
+            {q: "我對這份工作感興趣。", a: ["I", "am", "interested", "in", "this", "job"]},
+            {q: "天氣今天很好。", a: ["The", "weather", "is", "nice", "today"]}
         ];
+        let currentQuizIndex = 0;
 
-        let currentSessionQuestions = [];
-        let currentIndex = 0;
+        function handleRegister() {
+            const name = document.getElementById('reg-name').value;
+            if(!name) { alert('請輸入暱稱'); return; }
+            document.getElementById('page-register').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+        }
 
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 0) {
-                header.style.display = 'block';
-            } else {
-                header.style.display = 'none';
-            }
+        if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+            document.getElementById('web-only-mask').style.display = 'none';
+        }
+
+        navItems.forEach((item, index) => {
+            item.onclick = () => {
+                navItems.forEach(n => n.classList.remove('active'));
+                item.classList.add('active');
+                pageIds.forEach(id => document.getElementById(id).style.display = 'none');
+                document.getElementById(pageIds[index]).style.display = 'block';
+            };
         });
 
-        function preventDefault(e) { e.preventDefault(); }
-        function disableScroll() {
-            window.addEventListener('wheel', preventDefault, { passive: false });
-            window.addEventListener('touchmove', preventDefault, { passive: false });
-        }
-        function enableScroll() {
-            window.removeEventListener('wheel', preventDefault);
-            window.removeEventListener('touchmove', preventDefault);
+        document.querySelectorAll('.toggle').forEach(t => {
+            t.onclick = () => t.classList.toggle('on');
+        });
+
+        document.getElementById('btn-today').onclick = () => {
+            document.getElementById('app-content').style.display = 'none';
+            document.getElementById('stage-screen').style.display = 'block';
+            currentQuizIndex = 0;
+            loadStage();
+        };
+
+        function exitStage() {
+            document.getElementById('stage-screen').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
         }
 
-        const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-        if (isStandalone) {
-            mask.style.display = 'none';
-            app.style.display = 'block';
-        }
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        function loadQuestion() {
-            const currentData = currentSessionQuestions[currentIndex];
-            chineseLabel.innerText = currentData.q;
+        function loadStage() {
+            const data = quizData[currentQuizIndex];
+            document.getElementById('q-text').innerText = data.q;
+            document.getElementById('a-area').innerHTML = '';
+            document.getElementById('p-bar').style.width = (currentQuizIndex / quizData.length * 100) + '%';
             
-            poolContainer.innerHTML = '';
-            const mic = answerArea.querySelector('.mic-btn-container');
-            answerArea.innerHTML = '';
-            answerArea.appendChild(mic);
-
-            const shuffledWords = shuffle([...currentData.a]);
-            shuffledWords.forEach(function(word, index) {
+            const pool = document.getElementById('p-word');
+            pool.innerHTML = '';
+            
+            let shuffled = [...data.a].sort(() => Math.random() - 0.5);
+            shuffled.forEach(word => {
                 const tile = document.createElement('div');
                 tile.className = 'word-tile';
                 tile.innerText = word;
-                tile.dataset.id = 'pool-' + index;
-                tile.onclick = function() {
-                    createAnswerTile(word, tile);
-                    tile.classList.add('used');
+                tile.onclick = () => {
+                    if(tile.style.visibility === 'hidden') return;
+                    const ansTile = document.createElement('div');
+                    ansTile.className = 'word-tile';
+                    ansTile.innerText = word;
+                    ansTile.onclick = () => {
+                        ansTile.remove();
+                        tile.style.visibility = 'visible';
+                    };
+                    document.getElementById('a-area').appendChild(ansTile);
+                    tile.style.visibility = 'hidden';
                 };
-                poolContainer.appendChild(tile);
+                pool.appendChild(tile);
             });
-
-            updateProgressUI();
         }
 
-        function createAnswerTile(word, originalTile) {
-            const answerTile = document.createElement('div');
-            answerTile.className = 'word-tile';
-            answerTile.innerText = word;
-            answerTile.onclick = function() {
-                answerTile.remove();
-                originalTile.classList.remove('used');
-            };
-            answerArea.insertBefore(answerTile, answerArea.querySelector('.mic-btn-container'));
-        }
-
-        function updateProgressUI() {
-            const percent = (currentIndex / 5) * 100;
-            progressBar.style.width = percent + '%';
-            progressText.innerText = currentIndex + '/5';
-        }
-
-        btnToday.addEventListener('click', function() {
-            window.scrollTo(0, 0);
-            currentSessionQuestions = shuffle([...database]).slice(0, 5);
-            currentIndex = 0;
-            app.style.display = 'none';
-            stage.style.display = 'block';
-            disableScroll();
-            loadQuestion();
-        });
-
-        function goBack() {
-            enableScroll();
-            stage.style.display = 'none';
-            app.style.display = 'block';
-            window.scrollTo(0, 0);
-        }
-
-        function showAnswer() {
-            alert("正確答案：" + currentSessionQuestions[currentIndex].a.join(" "));
-        }
-
-        function startSpeechRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                alert("此瀏覽器不支援語音功能");
-                return;
-            }
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'en-US';
-            recognition.onresult = function(event) {
-                const result = event.results[0][0].transcript.toLowerCase().replace(/[.,!?;:]/g, "");
-                const target = currentSessionQuestions[currentIndex].a.join(" ").toLowerCase();
-                if (result === target) {
-                    alert("語音辨識成功！答案正確！");
-                    nextQuestion();
+        function checkAnswer() {
+            const userAnswer = Array.from(document.getElementById('a-area').children).map(e => e.innerText).join(' ');
+            const correctAnswer = quizData[currentQuizIndex].a.join(' ');
+            
+            if(userAnswer === correctAnswer) {
+                currentQuizIndex++;
+                if(currentQuizIndex < quizData.length) {
+                    loadStage();
                 } else {
-                    alert("辨識結果：" + result + "\n再試一次！");
+                    document.getElementById('p-bar').style.width = '100%';
+                    alert('恭喜完成今日練習！');
+                    exitStage();
                 }
-            };
-            recognition.start();
-        }
-
-        function checkFinal() {
-            const current = Array.from(answerArea.querySelectorAll('.word-tile')).map(function(t) {
-                return t.innerText;
-            });
-            const target = currentSessionQuestions[currentIndex].a;
-            if (current.join(" ") === target.join(" ")) {
-                nextQuestion();
             } else {
-                alert("順序有誤！");
-            }
-        }
-
-        function nextQuestion() {
-            currentIndex++;
-            if (currentIndex < 5) {
-                loadQuestion();
-            } else {
-                progressBar.style.width = '100%';
-                progressText.innerText = '5/5';
-                alert("恭喜完成今日 5 題練習！");
-                goBack();
+                alert('順序不正確，再試試看！');
             }
         }
     </script>
