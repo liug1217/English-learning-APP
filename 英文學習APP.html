@@ -30,7 +30,6 @@
 
         ::-webkit-scrollbar { display: none; }
         
-        /* 網頁版遮罩 - 預設隱藏以方便電腦查看 */
         #web-only-mask {
             position: fixed;
             top: 0;
@@ -39,13 +38,12 @@
             height: 100%;
             background-color: #AED7FF;
             z-index: 9999;
-            display: none; /* 修改：預設不顯示 */
+            display: none; 
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
-        /* --- 新增：登入與註冊樣式 --- */
         #auth-screen {
             position: fixed;
             top: 0;
@@ -54,7 +52,7 @@
             height: 100%;
             background-color: #AED7FF;
             z-index: 5000;
-            display: flex; /* 初始顯示登入 */
+            display: flex; 
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -104,7 +102,6 @@
             cursor: pointer;
             text-decoration: underline;
         }
-        /* --- 登入樣式結束 --- */
 
         .main-viewport {
             display: none;
@@ -176,7 +173,6 @@
             overflow: hidden;
         }
 
-        /* 遊戲畫面相關樣式保持不變... */
         .stage-nav { position: absolute; width: 440px; height: 100px; top: 40px; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
         .back-arrow { font-size: 30px; color: #FFFFFF; font-weight: 800; cursor: pointer; padding: 10px; }
         .trophy-bar-bg { flex: 1; height: 28px; background-color: rgba(255, 255, 255, 0.4); border-radius: 14px; margin: 0 15px; position: relative; display: flex; align-items: center; }
@@ -302,19 +298,16 @@
         const chineseLabel = document.getElementById('chinese-text');
         const header = document.getElementById('sticky-header');
 
-        // --- 登入註冊邏輯 ---
         function toggleAuth(showLogin) {
             document.getElementById('login-form').style.display = showLogin ? 'block' : 'none';
             document.getElementById('register-form').style.display = showLogin ? 'none' : 'block';
         }
 
         function handleAuth() {
-            // 點擊登入後，隱藏登入層，顯示主程式
             authScreen.style.display = 'none';
             app.style.display = 'block';
         }
 
-        // --- 原始資料與邏輯保持不變 ---
         const database = [
             { q: "我對這份工作感興趣。", a: ["I", "am", "interested", "in", "this", "job"] },
             { q: "天氣今天很好。", a: ["The", "weather", "is", "nice", "today"] },
