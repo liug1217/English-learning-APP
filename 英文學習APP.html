@@ -44,6 +44,40 @@
             justify-content: center;
         }
 
+        #ios-install-prompt {
+            position: fixed;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            background-color: #51A8FF;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 6000;
+            display: none;
+            text-align: center;
+            animation: bounce 2s infinite;
+        }
+
+        #ios-install-prompt::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: #51A8FF transparent transparent;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
         #auth-screen {
             position: fixed;
             top: 0;
@@ -196,6 +230,10 @@
     </style>
 </head>
 <body>
+    <div id="ios-install-prompt" onclick="this.style.display='none'">
+        點擊下方 <i class="material-icons" style="font-size: 18px; vertical-align: middle;">ios_share</i> 然後選擇<br><strong>「加入主畫面」</strong>以安裝 APP
+    </div>
+
     <div id="web-only-mask">
         <h2>請安裝 APP 使用</h2>
         <p>點擊分享按鈕並選擇「加入主畫面」</p>
@@ -297,6 +335,21 @@
         const progressText = document.getElementById('progress-text');
         const chineseLabel = document.getElementById('chinese-text');
         const header = document.getElementById('sticky-header');
+
+        function isIos() {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /iphone|ipad|ipod/.test(userAgent);
+        }
+
+        function isInStandaloneMode() {
+            return ('standalone' in window.navigator) && (window.navigator.standalone);
+        }
+
+        window.onload = function() {
+            if (isIos() && !isInStandaloneMode()) {
+                document.getElementById('ios-install-prompt').style.display = 'block';
+            }
+        };
 
         function toggleAuth(showLogin) {
             document.getElementById('login-form').style.display = showLogin ? 'block' : 'none';
