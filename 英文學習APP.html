@@ -1,133 +1,533 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=440, user-scalable=no, viewport-fit=cover">
-<title>英文學習APP</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<style>
-/* ===== 你的原本CSS全部保留 ===== */
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=440, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#AED7FF">
+    <title>英文學習APP</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --main-font: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        html {
+            background-color: #AED7FF;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background-color: #AED7FF;
+            font-family: var(--main-font);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        ::-webkit-scrollbar { display: none; }
+        
+        #web-only-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #AED7FF;
+            z-index: 9999;
+            display: none; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #ios-install-prompt {
+            position: fixed;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            background-color: #51A8FF;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 6000;
+            display: none;
+            text-align: center;
+            animation: bounce 2s infinite;
+        }
+
+        #ios-install-prompt::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: #51A8FF transparent transparent;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
+        #auth-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #AED7FF;
+            z-index: 5000;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-card {
+            width: 350px;
+            background: white;
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .auth-card h2 { margin-top: 0; color: #333; font-size: 28px; }
+
+        .auth-input {
+            width: 100%;
+            height: 50px;
+            margin: 10px 0;
+            border: 2px solid #E0E0E0;
+            border-radius: 15px;
+            padding: 0 15px;
+            box-sizing: border-box;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .auth-btn {
+            width: 100%;
+            height: 55px;
+            background-color: #51A8FF;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 800;
+            margin-top: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #3A8CDD;
+        }
+
+        .auth-switch {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .main-viewport {
+            display: none;
+            position: relative;
+            width: 440px;
+            height: 1231px;
+            margin: 0 auto;
+        }
+
+        .rect-6 {
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            width: 440px;
+            height: 110px;
+            margin-left: -220px;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #D9D9D9;
+            z-index: 3000;
+            display: none;
+        }
+
+        .rect-2 { position: absolute; width: 420px; height: 100px; left: 10px; top: 110px; background-color: #FFFFFF; border-radius: 30px; }
+        .fire-icon { position: absolute; left: 25px; top: 140px; font-weight: 900; font-size: 45px; z-index: 11; }
+        .text-streak { position: absolute; width: 150px; left: 80px; top: 130px; font-weight: 800; font-size: 15px; z-index: 10; }
+        .ellipse { position: absolute; width: 30px; height: 30px; top: 155px; background-color: #D9D9D9; border-radius: 50%; z-index: 10; }
+        .day-label { position: absolute; width: 12px; top: 162px; font-size: 12px; color: #9A9A9A; z-index: 11; font-weight: 600; }
+        .rect-7, .rect-8, .rect-9, .rect-10 { position: absolute; width: 70px; height: 90px; left: 360px; background-color: #FFFFFF; border-top-right-radius: 30px; border-bottom-right-radius: 30px; }
+        .rect-7 { top: 251px; } .rect-8 { top: 341px; } .rect-9 { top: 431px; } .rect-10 { top: 521px; }
+        .rect-3 { position: absolute; width: 381px; height: 400px; left: 10px; top: 251px; background-color: #FFFFFF; border-radius: 30px; }
+        .rect-4 { position: absolute; width: 312px; height: 85px; left: 30px; top: 530px; background-color: #51A8FF; border-radius: 30px; z-index: 20; cursor: pointer; }
+        .text-today { position: absolute; width: 120px; left: 126px; top: 555px; font-weight: 900; font-size: 30px; color: #FFFFFF; z-index: 21; pointer-events: none; }
+        .rect-5 { position: absolute; width: 420px; height: 400px; left: 10px; top: 690px; background-color: #FFFFFF; border-radius: 30px; }
+        
+        .rect-1 {
+            position: fixed;
+            width: 420px;
+            height: 110px;
+            left: 50%;
+            top: 835px;
+            margin-left: -210px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 42px;
+            z-index: 4000;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; width: 70px; }
+        .nav-icon { font-size: 30px; margin-bottom: 4px; color: #333333; }
+        .nav-text { font-size: 11px; font-weight: 800; color: #333333; }
+        .nav-item.active .nav-icon, .nav-item.active .nav-text { color: #51A8FF; }
+
+        #stage-screen {
+            display: none;
+            position: relative;
+            width: 440px;
+            height: 956px;
+            margin: 0 auto;
+            background-color: #AED7FF;
+            overflow: hidden;
+        }
+
+        .stage-nav { position: absolute; width: 440px; height: 100px; top: 40px; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
+        .back-arrow { font-size: 30px; color: #FFFFFF; font-weight: 800; cursor: pointer; padding: 10px; }
+        .trophy-bar-bg { flex: 1; height: 28px; background-color: rgba(255, 255, 255, 0.4); border-radius: 14px; margin: 0 15px; position: relative; display: flex; align-items: center; }
+        .trophy-bar-fill { width: 0%; height: 100%; background-color: #FFFFFF; border-radius: 14px; transition: width 0.3s; }
+        .trophy-icon { position: absolute; left: -10px; top: -8px; width: 44px; height: 44px; background-color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .progress-badge { position: absolute; right: 6px; padding: 2px 10px; background-color: rgba(81, 168, 255, 0.2); border: 1.5px solid #51A8FF; border-radius: 10px; color: #FFFFFF; font-weight: 800; font-size: 13px; }
+        .heart-container { display: flex; align-items: center; gap: 5px; color: #FFFFFF; font-size: 22px; font-weight: 800; }
+        .question-card { position: absolute; width: 400px; height: 420px; left: 20px; top: 130px; background-color: #FFFFFF; border-radius: 40px; padding: 40px; box-sizing: border-box; }
+        .chinese-text { font-weight: 700; font-size: 28px; color: #333333; margin-bottom: 40px; }
+        .answer-area { width: 100%; height: 150px; border-bottom: 2px solid #E0E0E0; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; position: relative; }
+        .mic-btn-container { position: absolute; right: 0; bottom: -85px; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .mic-icon { font-size: 40px; background: #f8f8f8; width: 70px; height: 70px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid #E0E0E0; }
+        .beta-tag { font-size: 11px; color: #51A8FF; font-weight: 900; margin-top: 5px; }
+        .word-pool-container { position: absolute; width: 440px; height: 400px; left: 0; top: 580px; background-color: #FFFFFF; border-top-left-radius: 40px; border-top-right-radius: 40px; }
+        .word-pool { position: absolute; width: 440px; height: 250px; left: 0; top: 0; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 12px; padding: 30px; box-sizing: border-box; }
+        .word-tile { background-color: #FFFFFF; border: 1px solid #E0E0E0; border-radius: 18px; padding: 10px 20px; font-weight: 600; font-size: 19px; color: #333333; box-shadow: 0 4px 0px #E0E0E0; cursor: pointer; user-select: none; }
+        .word-tile.used { visibility: hidden; pointer-events: none; }
+        .bottom-actions { position: absolute; bottom: 40px; width: 440px; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; gap: 15px; }
+        .check-btn { width: 95px; height: 85px; background-color: #B28DFF; border-radius: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 700; font-size: 13px; cursor: pointer; }
+        .confirm-btn { flex: 1; height: 85px; background-color: #51A8FF; border-radius: 25px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 800; font-size: 26px; cursor: pointer; box-shadow: 0 6px 0px #3A8CDD; }
+    </style>
 </head>
 <body>
+    <div id="ios-install-prompt" onclick="this.style.display='none'">
+        點擊下方 <i class="material-icons" style="font-size: 18px; vertical-align: middle;">ios_share</i> 然後選擇<br><strong>「加入主畫面」</strong>以安裝 APP
+    </div>
 
-<!-- ===== 你的原本HTML畫面全部保留 ===== -->
+    <div id="web-only-mask">
+        <h2>請安裝 APP 使用</h2>
+        <p>點擊分享按鈕並選擇「加入主畫面」</p>
+    </div>
 
-<script>
-const authScreen = document.getElementById('auth-screen');
-const app = document.getElementById('app-content');
-const stage = document.getElementById('stage-screen');
-const btnToday = document.getElementById('btn-today');
-const poolContainer = document.getElementById('word-pool');
-const answerArea = document.getElementById('answer-area');
-const progressBar = document.getElementById('progress-bar');
-const progressText = document.getElementById('progress-text');
-const chineseLabel = document.getElementById('chinese-text');
-const header = document.getElementById('sticky-header');
+    <div id="auth-screen">
+        <div class="auth-card" id="login-form">
+            <h2>登入學習</h2>
+            <input type="text" class="auth-input" placeholder="帳號 / 信箱">
+            <input type="password" class="auth-input" placeholder="密碼">
+            <button class="auth-btn" onclick="handleAuth()">登入</button>
+            <div class="auth-switch" onclick="toggleAuth(false)">新朋友？立即註冊</div>
+        </div>
+        <div class="auth-card" id="register-form" style="display:none;">
+            <h2>註冊帳號</h2>
+            <input type="text" class="auth-input" placeholder="使用者名稱">
+            <input type="email" class="auth-input" placeholder="信箱">
+            <input type="password" class="auth-input" placeholder="密碼">
+            <button class="auth-btn" onclick="handleAuth()">註冊</button>
+            <div class="auth-switch" onclick="toggleAuth(true)">已有帳號？返回登入</div>
+        </div>
+    </div>
 
+    <div id="app-content" class="main-viewport">
+        <div id="sticky-header" class="rect-6"></div>
+        <div class="rect-2"></div>
+        <div class="fire-icon">🔥</div>
+        <div class="text-streak">連續學習 0 天</div>
+        <div class="ellipse" style="left: 81px;"></div>
+        <div class="ellipse" style="left: 121px;"></div>
+        <div class="ellipse" style="left: 161px;"></div>
+        <div class="ellipse" style="left: 201px;"></div>
+        <div class="ellipse" style="left: 241px;"></div>
+        <div class="ellipse" style="left: 281px;"></div>
+        <div class="ellipse" style="left: 321px;"></div>
+        <div class="day-label" style="left: 90px;">六</div>
+        <div class="day-label" style="left: 130px;">日</div>
+        <div class="day-label" style="left: 170px;">一</div>
+        <div class="day-label" style="left: 210px;">二</div>
+        <div class="day-label" style="left: 250px;">三</div>
+        <div class="day-label" style="left: 290px;">四</div>
+        <div class="day-label" style="left: 330px;">五</div>
+        <div class="rect-7"></div>
+        <div class="rect-8"></div>
+        <div class="rect-9"></div>
+        <div class="rect-10"></div>
+        <div class="rect-3"></div>
+        <div id="btn-today" class="rect-4"></div>
+        <div class="text-today">今日單字</div>
+        <div class="rect-5"></div>
+        
+        <div class="rect-1">
+            <div class="nav-item active"><i class="material-icons nav-icon">home</i><div class="nav-text">主頁面</div></div>
+            <div class="nav-item"><i class="material-icons nav-icon">insert_chart</i><div class="nav-text">統計</div></div>
+            <div class="nav-item"><i class="material-icons nav-icon">import_contacts</i><div class="nav-text">題庫</div></div>
+            <div class="nav-item"><i class="material-icons nav-icon">military_tech</i><div class="nav-text">成就</div></div>
+            <div class="nav-item"><i class="material-icons nav-icon">settings</i><div class="nav-text">設定</div></div>
+        </div>
+    </div>
 
-// 🔥 改成從 Python 讀取題庫
-let database = [];
+    <div id="stage-screen">
+        <div class="stage-nav">
+            <div class="back-arrow" onclick="goBack()">〈</div>
+            <div class="trophy-bar-bg">
+                <div class="trophy-icon">🏆</div>
+                <div class="trophy-bar-fill" id="progress-bar"></div>
+                <div class="progress-badge" id="progress-text">0/5</div>
+            </div>
+            <div class="heart-container"><span>❤️</span><span>5</span></div>
+        </div>
+        <div class="question-card">
+            <div id="chinese-text" class="chinese-text">載入中...</div>
+            <div id="answer-area" class="answer-area">
+                <div class="mic-btn-container" onclick="startSpeechRecognition()">
+                    <div class="mic-icon">🎙️</div>
+                    <div class="beta-tag">BETA</div>
+                </div>
+            </div>
+        </div>
+        <div class="word-pool-container">
+            <div id="word-pool" class="word-pool"></div>
+        </div>
+        <div class="bottom-actions">
+            <div class="check-btn" onclick="showAnswer()">
+                <span style="font-size: 24px;">👁️</span><span>觀看答案</span>
+            </div>
+            <div class="confirm-btn" onclick="checkFinal()">確認</div>
+        </div>
+    </div>
 
-async function loadDatabase() {
-    try {
-        const response = await fetch("/api/questions");
-        database = await response.json();
-        console.log("題庫載入成功", database);
-    } catch (error) {
-        console.error("題庫載入失敗", error);
-        alert("無法載入題庫");
-    }
-}
+    <script>
+        const authScreen = document.getElementById('auth-screen');
+        const app = document.getElementById('app-content');
+        const stage = document.getElementById('stage-screen');
+        const btnToday = document.getElementById('btn-today');
+        const poolContainer = document.getElementById('word-pool');
+        const answerArea = document.getElementById('answer-area');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const chineseLabel = document.getElementById('chinese-text');
+        const header = document.getElementById('sticky-header');
 
-window.onload = function () {
-    loadDatabase();  // 🔥 啟動時先讀取 Python 題庫
-};
+        function isIos() {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /iphone|ipad|ipod/.test(userAgent);
+        }
 
-let currentSessionQuestions = [];
-let currentIndex = 0;
+        function isInStandaloneMode() {
+            return ('standalone' in window.navigator) && (window.navigator.standalone);
+        }
 
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-function loadQuestion() {
-    const currentData = currentSessionQuestions[currentIndex];
-    chineseLabel.innerText = currentData.q;
-    poolContainer.innerHTML = '';
-
-    const shuffledWords = shuffle([...currentData.a]);
-    shuffledWords.forEach(function(word) {
-        const tile = document.createElement('div');
-        tile.className = 'word-tile';
-        tile.innerText = word;
-        tile.onclick = function() {
-            createAnswerTile(word, tile);
-            tile.classList.add('used');
+        window.onload = function() {
+            if (isIos() && !isInStandaloneMode()) {
+                document.getElementById('ios-install-prompt').style.display = 'block';
+            }
         };
-        poolContainer.appendChild(tile);
-    });
 
-    updateProgressUI();
-}
+        function toggleAuth(showLogin) {
+            document.getElementById('login-form').style.display = showLogin ? 'block' : 'none';
+            document.getElementById('register-form').style.display = showLogin ? 'none' : 'block';
+        }
 
-function createAnswerTile(word, originalTile) {
-    const answerTile = document.createElement('div');
-    answerTile.className = 'word-tile';
-    answerTile.innerText = word;
-    answerTile.onclick = function() {
-        answerTile.remove();
-        originalTile.classList.remove('used');
-    };
-    answerArea.appendChild(answerTile);
-}
+        function handleAuth() {
+            authScreen.style.display = 'none';
+            app.style.display = 'block';
+        }
 
-function updateProgressUI() {
-    const percent = (currentIndex / 5) * 100;
-    progressBar.style.width = percent + '%';
-    progressText.innerText = currentIndex + '/5';
-}
+        const database = [
+            { q: "我對這份工作感興趣。", a: ["I", "am", "interested", "in", "this", "job"] },
+            { q: "天氣今天很好。", a: ["The", "weather", "is", "nice", "today"] },
+            { q: "我喜歡學習新事物。", a: ["I", "like", "learning", "new", "things"] },
+            { q: "他在這家公司工作。", a: ["He", "works", "at", "this", "company"] },
+            { q: "這本書非常有趣。", a: ["This", "book", "is", "very", "interesting"] },
+            { q: "我們明天去公園吧。", a: ["Let's", "go", "to", "the", "park", "tomorrow"] },
+            { q: "妳想要喝咖啡嗎？", a: ["Do", "you", "want", "to", "drink", "coffee"] },
+            { q: "我迷路了。", a: ["I", "am", "lost"] },
+            { q: "請幫我一下。", a: ["Please", "help", "me"] },
+            { q: "我很高興見到你。", a: ["I", "am", "glad", "to", "see", "you"] },
+            { q: "他跑得很快。", a: ["He", "runs", "very", "fast"] },
+            { q: "現在幾點了？", a: ["What", "time", "is", "it", "now"] },
+            { q: "這份沙拉很好吃。", a: ["This", "salad", "tastes", "good"] },
+            { q: "你家在哪裡？", a: ["Where", "is", "your", "house"] },
+            { q: "我忘記帶鑰匙了。", a: ["I", "forgot", "to", "bring", "keys"] },
+            { q: "這是一支新手機。", a: ["This", "is", "a", "new", "phone"] },
+            { q: "天快黑了。", a: ["It", "is", "getting", "dark"] },
+            { q: "這是我第一次來這裡。", a: ["This", "is", "my", "first", "time", "here"] },
+            { q: "音樂很大聲。", a: ["The", "music", "is", "very", "loud"] },
+            { q: "我需要多點時間。", a: ["I", "need", "more", "time"] },
+            { q: "這是一個秘密。", a: ["This", "is", "a", "secret"] },
+            { q: "你準備好了嗎？", a: ["Are", "you", "ready"] },
+            { q: "這條路通往哪裡？", a: ["Where", "does", "this", "road", "lead"] },
+            { q: "門是鎖著的。", a: ["The", "door", "is", "locked"] },
+            { q: "他在睡覺。", a: ["He", "is", "sleeping"] },
+            { q: "我有一隻貓。", a: ["I", "have", "a", "cat"] },
+            { q: "電影快開始了。", a: ["The", "movie", "is", "starting", "soon"] },
+            { q: "蘋果是紅色的。", a: ["Apples", "are", "red"] },
+            { q: "你在做什麼？", a: ["What", "are", "you", "doing"] },
+            { q: "謝謝你的幫忙。", a: ["Thank", "you", "for", "your", "help"] },
+            { q: "這件衣服很適合你。", a: ["This", "outfit", "suits", "you", "well"] },
+            { q: "明天會下雨。", a: ["It", "will", "rain", "tomorrow"] },
+            { q: "我正在吃午飯。", a: ["I", "am", "having", "lunch"] },
+            { q: "那隻 dog 在叫。", a: ["That", "dog", "is", "barking"] },
+            { q: "我很累。", a: ["I", "am", "very", "tired"] },
+            { q: "太陽升起來了。", a: ["The", "sun", "is", "rising"] },
+            { q: "這雙鞋太小了。", a: ["These", "shoes", "are", "too", "small"] },
+            { q: "請關掉燈。", a: ["Please", "turn", "off", "the", "light"] },
+            { q: "她在彈鋼琴。", a: ["She", "is", "playing", "the", "piano"] },
+            { q: "我不明白。", a: ["I", "do", "not", "understand"] },
+            { q: "這是一個好主意。", a: ["That", "is", "a", "good", "idea"] },
+            { q: "別擔心。", a: ["Do", "not", "worry"] },
+            { q: "水很涼快。", a: ["The", "water", "is", "cool"] },
+            { q: "他在學校。", a: ["He", "is", "at", "school"] },
+            { q: "你想去哪裡？", a: ["Where", "do", "you", "want", "to", "go"] },
+            { q: "這花很香。", a: ["This", "flower", "smells", "sweet"] },
+            { q: "我感冒了。", a: ["I", "have", "a", "cold"] },
+            { q: "火車站很遠。", a: ["The", "train", "station", "is", "far"] },
+            { q: "那是我的朋友。", a: ["That", "is", "my", "friend"] },
+            { q: "今天是星期一。", a: ["Today", "is", "Monday"] }
+        ];
 
-btnToday.addEventListener('click', function() {
-    if (database.length === 0) {
-        alert("題庫尚未載入完成");
-        return;
-    }
+        let currentSessionQuestions = [];
+        let currentIndex = 0;
 
-    currentSessionQuestions = shuffle([...database]).slice(0, 5);
-    currentIndex = 0;
-    app.style.display = 'none';
-    stage.style.display = 'block';
-    loadQuestion();
-});
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 0) header.style.display = 'block';
+            else header.style.display = 'none';
+        });
 
-function nextQuestion() {
-    currentIndex++;
-    if (currentIndex < 5) loadQuestion();
-    else {
-        progressBar.style.width = '100%';
-        progressText.innerText = '5/5';
-        alert("恭喜完成今日 5 題練習！");
-        stage.style.display = 'none';
-        app.style.display = 'block';
-    }
-}
+        function preventDefault(e) { e.preventDefault(); }
+        function disableScroll() {
+            window.addEventListener('wheel', preventDefault, { passive: false });
+            window.addEventListener('touchmove', preventDefault, { passive: false });
+        }
+        function enableScroll() {
+            window.removeEventListener('wheel', preventDefault);
+            window.removeEventListener('touchmove', preventDefault);
+        }
 
-function checkFinal() {
-    const current = Array.from(answerArea.querySelectorAll('.word-tile')).map(t => t.innerText);
-    const target = currentSessionQuestions[currentIndex].a;
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
-    if (current.join(" ") === target.join(" ")) {
-        nextQuestion();
-    } else {
-        alert("順序有誤！");
-    }
-}
+        function loadQuestion() {
+            const currentData = currentSessionQuestions[currentIndex];
+            chineseLabel.innerText = currentData.q;
+            poolContainer.innerHTML = '';
+            const mic = answerArea.querySelector('.mic-btn-container');
+            answerArea.innerHTML = '';
+            answerArea.appendChild(mic);
+            const shuffledWords = shuffle([...currentData.a]);
+            shuffledWords.forEach(function(word, index) {
+                const tile = document.createElement('div');
+                tile.className = 'word-tile';
+                tile.innerText = word;
+                tile.onclick = function() {
+                    createAnswerTile(word, tile);
+                    tile.classList.add('used');
+                };
+                poolContainer.appendChild(tile);
+            });
+            updateProgressUI();
+        }
 
-</script>
+        function createAnswerTile(word, originalTile) {
+            const answerTile = document.createElement('div');
+            answerTile.className = 'word-tile';
+            answerTile.innerText = word;
+            answerTile.onclick = function() {
+                answerTile.remove();
+                originalTile.classList.remove('used');
+            };
+            answerArea.insertBefore(answerTile, answerArea.querySelector('.mic-btn-container'));
+        }
+
+        function updateProgressUI() {
+            const percent = (currentIndex / 5) * 100;
+            progressBar.style.width = percent + '%';
+            progressText.innerText = currentIndex + '/5';
+        }
+
+        btnToday.addEventListener('click', function() {
+            window.scrollTo(0, 0);
+            currentSessionQuestions = shuffle([...database]).slice(0, 5);
+            currentIndex = 0;
+            app.style.display = 'none';
+            stage.style.display = 'block';
+            disableScroll();
+            loadQuestion();
+        });
+
+        function goBack() {
+            enableScroll();
+            stage.style.display = 'none';
+            app.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showAnswer() { alert("正確答案：" + currentSessionQuestions[currentIndex].a.join(" ")); }
+
+        function startSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) { alert("此瀏覽器不支援語音功能"); return; }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.onresult = function(event) {
+                const result = event.results[0][0].transcript.toLowerCase().replace(/[.,!?;:]/g, "");
+                const target = currentSessionQuestions[currentIndex].a.join(" ").toLowerCase();
+                if (result === target) { alert("語音辨識成功！答案正確！"); nextQuestion(); }
+                else { alert("辨識結果：" + result + "\n再試一次！"); }
+            };
+            recognition.start();
+        }
+
+        function checkFinal() {
+            const current = Array.from(answerArea.querySelectorAll('.word-tile')).map(t => t.innerText);
+            const target = currentSessionQuestions[currentIndex].a;
+            if (current.join(" ") === target.join(" ")) nextQuestion();
+            else alert("順序有誤！");
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < 5) loadQuestion();
+            else {
+                progressBar.style.width = '100%';
+                progressText.innerText = '5/5';
+                alert("恭喜完成今日 5 題練習！");
+                goBack();
+            }
+        }
+    </script>
 </body>
 </html>
